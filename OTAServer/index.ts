@@ -8,10 +8,6 @@ const upload = multer({})
 
 let updateTimestamp = 0
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "./main.html"))
-})
-
 app.get("/timestamp", (req, res) => {
   res.send(updateTimestamp)
 })
@@ -21,7 +17,7 @@ app.get("/download", (req, res) => {
 })
 
 app.post("/upload", upload.single("file"), (req, res) => {
-  fs.writeFileSync(path.join(__dirname, "./program"), req.file.buffer)
+  fs.writeFileSync(path.join(__dirname, "./firmwares/program"), req.file.buffer)
   updateTimestamp = Date.now()
   res.end()
 })
