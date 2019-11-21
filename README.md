@@ -1,0 +1,2 @@
+# Diplomarbeit
+Monorepo für Diplomarbeit
