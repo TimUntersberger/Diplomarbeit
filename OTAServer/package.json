@@ -1,0 +1,21 @@
+{
+  "name": "Server",
+  "version": "1.0.0",
+  "description": "https://stackoverflow.com/questions/8169999/how-can-i-create-a-self-signed-cert-for-localhost#32169444",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "koa": "^2.8.2",
+    "koa-body": "^4.1.1",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^7.4.0",
+    "multer": "^1.4.2",
+    "nodemon": "^1.19.3"
+  }
+}
