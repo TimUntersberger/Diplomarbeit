@@ -1,12 +1,18 @@
 import dayjs from "dayjs";
+import { Firmware } from "lib/entity/Firmware";
+import * as FirmwareService from "lib/services/firmware";
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import useInput from "react-use-input";
 import styled from "styled-components";
 import { Button, IconButton } from "./Base/Button";
+import { Dropzone } from "./Base/Dropzone";
+import { Input as BaseInput } from "./Base/Input";
+import { Modal as BaseModal, ModalActions, ModalContent } from "./Base/Modal";
 import {
   Table as BaseTable,
+  TableActions,
   TableBody,
   TableData,
   TableHead,
@@ -38,57 +44,11 @@ const Table = styled(BaseTable)`
   width: 100%;
 `;
 
-const TableActions = styled.div`
-  display: flex;
-  width: 100%;
-  margin-top: 10px;
-  padding-bottom: 10px;
-  justify-content: flex-end;
-`;
-
-const BaseModal = styled.div<{ visible?: boolean }>`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 100;
-
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  border-radius: 4px;
-  background-color: white;
-  min-width: 300px;
-  min-height: 100px;
-
-  ${({ visible }) => (visible ? "display: flex;" : "display: none;")}
-`;
-
 const Modal = styled(BaseModal)`
   justify-content: center;
   align-items: center;
   padding: 15px 30px;
   padding-top: 30px;
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ModalActions = styled.div`
-  display: flex;
-  margin-top: 10px;
-  justify-content: flex-end;
-`;
-
-const Dropzone = styled.div`
-  color: grey;
-  padding: 10px 15px;
-  border: 2px dashed grey;
-`;
-
-const BaseInput = styled.input`
-  border: 1px solid grey;
-  padding: 10px 15px;
-  border-radius: 3px;
 `;
 
 const Input = styled(BaseInput)`
@@ -98,50 +58,17 @@ const Input = styled(BaseInput)`
 const timestampToDateString = (timestamp: number): String =>
   dayjs.unix(timestamp).format("DD.MM.YYYY HH:mm:ss");
 
-type Firmware = {
-  [key: string]: any;
-
-  name: string;
-  updatedAt: number;
-  createdAt: number;
-  // in bytes
-  fileSize: number;
-  fileName: string;
-};
-
 const tableHeaders = [
   { name: "Name", sortable: false },
   { name: "File Name", sortable: true },
-  { name: "File Size", sortable: true },
+  { name: "File Size", sortable: true, alignRight: true },
   { name: "Created At", sortable: true },
   { name: "Updated At", sortable: true },
   { name: "", sortable: false }
 ];
 
 const App = () => {
-  const [firmwares, setFirmwares] = useState<Firmware[]>([
-    {
-      name: "Test 1",
-      createdAt: 1574678937,
-      updatedAt: 1574678937,
-      fileSize: 200,
-      fileName: "test.txt"
-    },
-    {
-      name: "Test 2",
-      createdAt: 1574678965,
-      updatedAt: 1574678965,
-      fileSize: 200,
-      fileName: "test.txt"
-    },
-    {
-      name: "Test 3",
-      createdAt: 1574678975,
-      updatedAt: 1574678975,
-      fileSize: 200,
-      fileName: "test.txt"
-    }
-  ]);
+  const [firmwares, setFirmwares] = useState<Firmware[]>([]);
 
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     multiple: false
@@ -151,12 +78,10 @@ const App = () => {
   const [isSortReversed, setIsSortReversed] = useState(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const [firmwareName, setFirmwareName] = useInput("");
-
-  const addFirmware = () => {
-    setIsModalOpen(true);
-  };
+  const [firmwareName, setFirmwareName, setFirmwareNameValue] = useInput("");
+  const [firmware, setFirmware] = useState<Firmware | null>(null);
 
   const toggleSort = (index: number): void => {
     setSortedBy(index);
@@ -186,30 +111,98 @@ const App = () => {
     setFirmwares(sortedFirmwares);
   }, [sortedBy, isSortReversed]);
 
+  useEffect(() => {
+    fetchFirmwares();
+  }, []);
+
   const onCancel = () => {
     setIsModalOpen(false);
-    setFirmwareName("");
+    setFirmwareNameValue("");
     acceptedFiles.pop();
   };
 
-  const onUpload = () => {
+  const onCancelUpdate = () => {
+    setIsUpdateModalOpen(false);
+    setFirmwareNameValue("");
+    setFirmware(null);
+    acceptedFiles.pop();
+  };
+
+  const fetchFirmwares = async () => {
+    const firmwares = await FirmwareService.getFirmwares();
+    setFirmwares(firmwares);
+  };
+
+  const onUpdate = async () => {
+    const file = acceptedFiles[0];
+
+    const now = Date.now() / 1000;
+    const newFirmware: Firmware = {
+      ...firmware,
+      updatedAt: now,
+      fileName: file.name,
+      fileSize: file.size
+    } as any;
+
+    const res = await FirmwareService.updateFirmware(newFirmware);
+    FirmwareService.uploadFirmware(newFirmware.id, file);
+
+    fetchFirmwares();
+
+    onCancelUpdate();
+  };
+
+  const onEditFirmware = (fw: Firmware) => {
+    setFirmwareNameValue(fw.name);
+    setIsUpdateModalOpen(true);
+    setFirmware(fw);
+  };
+
+  const onUpload = async () => {
     const file = acceptedFiles[0];
     const now = Date.now() / 1000;
-    setFirmwares([
-      ...firmwares,
-      {
-        createdAt: now,
-        updatedAt: now,
-        fileName: file.name,
-        fileSize: file.size,
-        name: firmwareName
-      }
-    ]);
+    const newFirmware = {
+      id: -1,
+      createdAt: now,
+      updatedAt: now,
+      fileName: file.name,
+      fileSize: file.size,
+      name: firmwareName
+    };
+
+    const res = await FirmwareService.addFirmware(newFirmware);
+    FirmwareService.uploadFirmware(res.id, file);
+
+    fetchFirmwares();
+
     onCancel();
   };
 
   return (
     <Container>
+      <Modal visible={isUpdateModalOpen}>
+        <ModalContent>
+          <Input type="text" disabled value={firmwareName} />
+          <Dropzone {...getRootProps()}>
+            <input {...getInputProps()} />
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          </Dropzone>
+          {acceptedFiles[0] && (
+            <div>
+              <p>Filename: {acceptedFiles[0].name}</p>
+              <p>Filesize: {acceptedFiles[0].size} Bytes</p>
+            </div>
+          )}
+          <ModalActions>
+            <Button flat onClick={onCancel}>
+              Cancel
+            </Button>
+            <Button onClick={onUpdate} disabled={!acceptedFiles[0]}>
+              Upload
+            </Button>
+          </ModalActions>
+        </ModalContent>
+      </Modal>
       <Modal visible={isModalOpen}>
         <ModalContent>
           <Input type="text" value={firmwareName} onChange={setFirmwareName} />
@@ -237,7 +230,7 @@ const App = () => {
         </ModalContent>
       </Modal>
       <TableActions>
-        <Button onClick={addFirmware}>Add Firmware</Button>
+        <Button onClick={() => setIsModalOpen(true)}>Add Firmware</Button>
       </TableActions>
       <Table>
         <TableHead>
@@ -246,6 +239,7 @@ const App = () => {
               <TableHeader
                 key={i}
                 sortable={header.sortable}
+                alignRight={header.alignRight}
                 onClick={header.sortable ? () => toggleSort(i) : () => {}}
               >
                 {header.name}
@@ -274,11 +268,11 @@ const App = () => {
             <TableRow key={i}>
               <TableData>{fw.name}</TableData>
               <TableData>{fw.fileName}</TableData>
-              <TableData>{fw.fileSize} B</TableData>
+              <TableData isNumber>{fw.fileSize} B</TableData>
               <TableData>{timestampToDateString(fw.createdAt)}</TableData>
               <TableData>{timestampToDateString(fw.updatedAt)}</TableData>
               <TableData actions>
-                <IconButton>
+                <IconButton onClick={() => onEditFirmware(fw)}>
                   <FaArrowUp></FaArrowUp>
                 </IconButton>
               </TableData>

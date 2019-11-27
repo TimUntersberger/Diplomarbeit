@@ -1,3 +1,6 @@
 node_modules
 .vscode
 firmwares/*
+yarn-error.log
+dist
+pgdata
