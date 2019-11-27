@@ -150,7 +150,7 @@ const App = () => {
   const [sortedBy, setSortedBy] = useState<number | null>(null);
   const [isSortReversed, setIsSortReversed] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [firmwareName, setFirmwareName] = useInput("");
 
