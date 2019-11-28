@@ -3,4 +3,5 @@ node_modules
 firmwares/*
 yarn-error.log
 dist
-pgdata
+docker/postgres/pgdata
+.vscode

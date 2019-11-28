@@ -4,7 +4,7 @@
   "description": "https://stackoverflow.com/questions/8169999/how-can-i-create-a-self-signed-cert-for-localhost#32169444",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --mode=production",
     "build-watch": "webpack --watch",
     "start": "nodemon dist/main.js",
     "dev": "yarn build && run-p build-watch start"
