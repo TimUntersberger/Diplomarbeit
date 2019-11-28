@@ -71,8 +71,8 @@ app.post("/firmware/:id/upload", upload.single("file"), (req, res) => {
     return;
   }
 
-  const dirPath = "./firmwares/" + firmware.id;
-  const filePath = dirPath + "/" + firmware.fileName;
+  const dirPath = path.join(__dirname, "..", "firmwares", firmware.id.toString());
+  const filePath = path.join(dirPath, firmware.fileName);
   if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath);
   fs.writeFileSync(filePath, req.file.buffer);
 
