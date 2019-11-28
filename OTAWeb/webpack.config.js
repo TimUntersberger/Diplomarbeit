@@ -1,6 +1,7 @@
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const CleanTerminalPlugin = require("clean-terminal-webpack-plugin");
 const HtmlPlugin = require("html-webpack-plugin");
+const DotEnvPlugin = require("dotenv-webpack");
 
 module.exports = {
   mode: "development",
@@ -15,7 +16,8 @@ module.exports = {
     }),
     new HtmlPlugin({
         template: "src/index.html"
-    })
+    }),
+    new DotEnvPlugin()
   ],
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
