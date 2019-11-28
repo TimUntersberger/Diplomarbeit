@@ -1,7 +1,7 @@
+.vscode
 node_modules
-.vscode
 firmwares/*
-yarn-error.log
+pgdata
 dist
-docker/postgres/pgdata
-.vscode
+.env
+yarn-error.log

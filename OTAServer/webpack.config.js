@@ -10,10 +10,13 @@ module.exports = {
   output: {
     filename: "main.js"
   },
+  externals: {
+    knex: 'commonjs knex'
+  },
   plugins: [
     new CleanTerminalPlugin({
       message: "successfully compiled."
-    })
+    }),
   ],
   resolve: {
     extensions: [".ts", ".tsx", ".js"],

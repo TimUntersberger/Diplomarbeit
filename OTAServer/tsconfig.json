@@ -2,8 +2,9 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "esModuleInterop": true,
-    "strict": true,
     "target": "es5",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "module": "commonjs"
   }

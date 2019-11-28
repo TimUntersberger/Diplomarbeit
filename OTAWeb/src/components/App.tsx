@@ -136,7 +136,7 @@ const App = () => {
   const onUpdate = async () => {
     const file = acceptedFiles[0];
 
-    const now = Date.now() / 1000;
+    const now = Math.round(Date.now() / 1000);
     const newFirmware: Firmware = {
       ...firmware,
       updatedAt: now,
@@ -160,7 +160,7 @@ const App = () => {
 
   const onUpload = async () => {
     const file = acceptedFiles[0];
-    const now = Date.now() / 1000;
+    const now = Math.round(Date.now() / 1000);
     const newFirmware = {
       id: -1,
       createdAt: now,
@@ -240,7 +240,7 @@ const App = () => {
                 key={i}
                 sortable={header.sortable}
                 alignRight={header.alignRight}
-                onClick={header.sortable ? () => toggleSort(i) : () => {}}
+                onClick={header.sortable ? () => toggleSort(i) : () => { }}
               >
                 {header.name}
                 <FaArrowUp
