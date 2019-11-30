@@ -6,12 +6,21 @@
 #include <EspAp.h>
 #include <EspConfig.h>
 #include <HttpServer.h>
+#include <HttpClient.h>
 #include <EspWifiManager.h>
 #include <esp_https_ota.h>
 #include <esp_log.h>
 
 // extern const uint8_t cert_pem_start[] asm("_binary_src_cert_pem_start");
 // extern const uint8_t cert_pem_end[] asm("_binary_src_cert_pem_end");
+
+char* appName;
+char* thingName;
+int updatedAt;
+
+char* firmwareUrl = "https://ota.baaka.io/api/firmware/";
+char* updatedAtUrl;
+
 const char *CERT_PEM = "-----BEGIN CERTIFICATE-----\n"
                        "MIIDSjCCAjKgAwIBAgIQRK+wgNajJ7qJMDmGLvhAazANBgkqhkiG9w0BAQUFADA/"
                        "MSQwIgYDVQQKExtEaWdpdGFsIFNpZ25hdHVyZSBUcnVzdCBDby4xFzAVBgNVBAMT"
@@ -42,15 +51,23 @@ esp_http_client_config_t config = {};
 
 void setupOtaConfig()
 {
-  config.url = "https://ota.baaka.io/download";
+  char* temp = strcat(firmwareUrl, appName);
+  config.url = strcat(temp, "/donwload");
+
+  updatedAtUrl = strcat(temp,"/updatedAt");
+  char* response;
+  HttpClient.get(updatedAtUrl, response, 123); //need to fix response-length
+  updatedAt = (int)response;
   // config.cert_pem = (char *)cert_pem_start;
   config.cert_pem = (char *)CERT_PEM;
 }
 
 void app_main()
 {
-
   EspConfig.init();
+  EspConfig.getNvsStringValue("appName", appName);
+  thingName = EspConfig.getThingName();
+
   setupOtaConfig();
   EspWifiManager.startWifi();
 
@@ -74,5 +91,14 @@ void app_main()
       vTaskDelay(1 / portTICK_PERIOD_MS);
     }
     HttpServer.init();
+  }
+}
+
+void checkOtaVersion(){
+  char* response;
+  HttpClient.get(updatedAtUrl, response, 123);  //need to fix response-length
+  int newUpdatedAt = (int) response;
+  if(newUpdatedAt > updatedAt){
+    updatedAt = newUpdatedAt;
   }
 }
