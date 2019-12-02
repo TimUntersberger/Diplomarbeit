@@ -80,7 +80,7 @@ const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
-  const [firmwareName, setFirmwareName, setFirmwareNameValue] = useInput("");
+  const [firmwareName, firmwareNameOnChange, setFirmwareName] = useInput("");
   const [firmware, setFirmware] = useState<Firmware | null>(null);
 
   const toggleSort = (index: number): void => {
@@ -117,13 +117,13 @@ const App = () => {
 
   const onCancel = () => {
     setIsModalOpen(false);
-    setFirmwareNameValue("");
+    setFirmwareName("");
     acceptedFiles.pop();
   };
 
   const onCancelUpdate = () => {
     setIsUpdateModalOpen(false);
-    setFirmwareNameValue("");
+    setFirmwareName("");
     setFirmware(null);
     acceptedFiles.pop();
   };
@@ -153,7 +153,7 @@ const App = () => {
   };
 
   const onEditFirmware = (fw: Firmware) => {
-    setFirmwareNameValue(fw.name);
+    setFirmwareName(fw.name);
     setIsUpdateModalOpen(true);
     setFirmware(fw);
   };
@@ -205,7 +205,7 @@ const App = () => {
       </Modal>
       <Modal visible={isModalOpen}>
         <ModalContent>
-          <Input type="text" value={firmwareName} onChange={setFirmwareName} />
+          <Input type="text" value={firmwareName} onChange={firmwareNameOnChange} />
           <Dropzone {...getRootProps()}>
             <input {...getInputProps()} />
             <p>Drag 'n' drop some files here, or click to select files</p>
