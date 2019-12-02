@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow
 } from "./Base/Table";
+import { HTTPError } from "ky";
 
 export const Container = styled.div`
   --primary-color-one: #2d8632;
@@ -145,7 +146,9 @@ const App = () => {
     } as any;
 
     const res = await FirmwareService.updateFirmware(newFirmware);
-    FirmwareService.uploadFirmware(newFirmware.id, file);
+    FirmwareService.uploadFirmware(newFirmware.id, file).catch(body => {
+      console.log(body);
+    });
 
     fetchFirmwares();
 
@@ -170,12 +173,18 @@ const App = () => {
       name: firmwareName
     };
 
-    const res = await FirmwareService.addFirmware(newFirmware);
-    FirmwareService.uploadFirmware(res.id, file);
+    try {
+      const res = await FirmwareService.addFirmware(newFirmware);
+      FirmwareService.uploadFirmware(res.id, file);
 
-    fetchFirmwares();
+      fetchFirmwares();
 
-    onCancel();
+      onCancel();
+    } catch (err) {
+      const body = await err.response.json();
+      if (body.type === "FIRMWARE_NAME_UNIQUE_VIOLATED") {
+      }
+    }
   };
 
   return (
@@ -240,7 +249,7 @@ const App = () => {
                 key={i}
                 sortable={header.sortable}
                 alignRight={header.alignRight}
-                onClick={header.sortable ? () => toggleSort(i) : () => { }}
+                onClick={header.sortable ? () => toggleSort(i) : () => {}}
               >
                 {header.name}
                 <FaArrowUp

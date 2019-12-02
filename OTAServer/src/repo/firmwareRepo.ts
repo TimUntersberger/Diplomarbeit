@@ -30,6 +30,34 @@ export function findById(id: number): Promise<Firmware> {
   );
 }
 
+export function findByName(
+  name: string,
+  options?: {
+    caseInsensitive: boolean;
+  }
+): Promise<Firmware> {
+  if (options && options.caseInsensitive) {
+    return queryToPromise(
+      knex
+        .select("*")
+        .from<Firmware>("firmware")
+        .whereRaw(`name ilike '${name}'`)
+        .limit(1),
+      true
+    );
+  }
+  return queryToPromise(
+    knex
+      .select("*")
+      .from<Firmware>("firmware")
+      .where({
+        name
+      })
+      .limit(1),
+    true
+  );
+}
+
 export function update(
   id: number,
   firmware: Firmware

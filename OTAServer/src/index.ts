@@ -12,5 +12,4 @@ app.use(bodyParser());
 
 app.use(FirmwareRouter);
 
-
 app.listen(Config.getPort(), () => console.log("running"));
