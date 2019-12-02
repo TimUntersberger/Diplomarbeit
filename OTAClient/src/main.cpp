@@ -10,16 +10,20 @@
 #include <EspWifiManager.h>
 #include <esp_https_ota.h>
 #include <esp_log.h>
+#include <Logger.h>
+#include <LoggerTarget.h>
+#include <SerialLoggerTarget.h>
 
 // extern const uint8_t cert_pem_start[] asm("_binary_src_cert_pem_start");
 // extern const uint8_t cert_pem_end[] asm("_binary_src_cert_pem_end");
 
-char* appName;
-char* thingName;
+//TODO: Set max length in ui to 20
+char appName[20];
+char *thingName;
 int updatedAt;
 
-char* firmwareUrl = "https://ota.baaka.io/api/firmware/";
-char* updatedAtUrl;
+char *firmwareUrl = "ota.baaka.io/api/firmware/";
+char updatedAtUrl[256];
 
 const char *CERT_PEM = "-----BEGIN CERTIFICATE-----\n"
                        "MIIDSjCCAjKgAwIBAgIQRK+wgNajJ7qJMDmGLvhAazANBgkqhkiG9w0BAQUFADA/"
@@ -51,26 +55,71 @@ esp_http_client_config_t config = {};
 
 void setupOtaConfig()
 {
-  char* temp = strcat(firmwareUrl, appName);
-  config.url = strcat(temp, "/donwload");
-
-  updatedAtUrl = strcat(temp,"/updatedAt");
-  char* response;
-  HttpClient.get(updatedAtUrl, response, 123); //need to fix response-length
-  updatedAt = (int)response;
+  printf("before ota config get thing name\n");
+  thingName = EspConfig.getThingName();
+  printf("before ota config get app name\n");
+  EspConfig.getNvsStringValue("app_name", appName);
+  printf("before ota config temp\n");
+  char temp[256];
+  strcpy(temp, firmwareUrl);
+  strcat(temp, appName);
+  printf("before ota config /download\n");
+  config.url = (char *)malloc(256 * sizeof(char));
+  strcpy((char *)config.url, temp);
+  strcat((char *)config.url, "/download");
+  printf("before ota config /updatedAt\n");
+  strcpy(updatedAtUrl, temp);
+  strcat(updatedAtUrl, "/updatedAt");
   // config.cert_pem = (char *)cert_pem_start;
   config.cert_pem = (char *)CERT_PEM;
 }
 
+void checkOtaVersion()
+{
+  char response[11];
+  //response is a unix timestamp (seconds) which is 10 digits long
+  printf("before httpclient get\n");
+  HttpClient.get(updatedAtUrl, response, 11, true); //need to fix response-length
+  int newestUpdatedAt = atoi(response);
+  if (newestUpdatedAt > updatedAt)
+  {
+    updatedAt = newestUpdatedAt;
+    EspConfig.setNvsIntValue("updated_at", updatedAt);
+    printf("%d\n", updatedAt);
+    esp_https_ota(&config);
+    esp_restart();
+  }
+  else
+  {
+    printf("is already newest version\n");
+  }
+}
+
+void checkOtaVersionTask(void *pvParam)
+{
+  while (true)
+  {
+    vTaskDelay(10 * 1000 / portTICK_PERIOD_MS);
+    checkOtaVersion();
+  }
+}
+
 void app_main()
 {
+  printf("before everything\n");
   EspConfig.init();
-  EspConfig.getNvsStringValue("appName", appName);
-  thingName = EspConfig.getThingName();
-
+  Logger.init("OTAClient");
+  SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_INFO);
+  Logger.addLoggerTarget(serialLoggerTarget);
+  //TODO: Optimize startup by avoiding unnecessary ota updates
+  //TODO: Why do we need to specify content-length
+  EspConfig.setNvsStringValue("app_name", "test");
+  updatedAt = EspConfig.getNvsIntValue("updated_at");
+  printf("before setup ota config\n");
   setupOtaConfig();
+  printf("before start wifi\n");
   EspWifiManager.startWifi();
-
+  printf("before is connecting loop\n");
   while (EspWifiManager.getIsConnecting())
   {
     vTaskDelay(1 / portTICK_PERIOD_MS);
@@ -78,9 +127,8 @@ void app_main()
 
   if (EspWifiManager.getIsConnected())
   {
-    printf("\nconnected\n\n");
-    esp_https_ota(&config);
-    esp_restart();
+    printf("before is check ota version\n");
+    checkOtaVersion();
   }
   else
   {
@@ -92,13 +140,6 @@ void app_main()
     }
     HttpServer.init();
   }
-}
 
-void checkOtaVersion(){
-  char* response;
-  HttpClient.get(updatedAtUrl, response, 123);  //need to fix response-length
-  int newUpdatedAt = (int) response;
-  if(newUpdatedAt > updatedAt){
-    updatedAt = newUpdatedAt;
-  }
+  xTaskCreate(&checkOtaVersionTask, "check_ota_version", 4096, NULL, 5, NULL);
 }
