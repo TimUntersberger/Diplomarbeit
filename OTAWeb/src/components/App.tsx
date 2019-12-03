@@ -75,6 +75,8 @@ const App = () => {
     multiple: false
   });
 
+  const [errors, setErrors] = useState<any>([]);
+
   const [sortedBy, setSortedBy] = useState<number | null>(null);
   const [isSortReversed, setIsSortReversed] = useState(false);
 
@@ -119,6 +121,7 @@ const App = () => {
   const onCancel = () => {
     setIsModalOpen(false);
     setFirmwareNameValue("");
+    setErrors([]);
     acceptedFiles.pop();
   };
 
@@ -145,10 +148,8 @@ const App = () => {
       fileSize: file.size
     } as any;
 
-    const res = await FirmwareService.updateFirmware(newFirmware);
-    FirmwareService.uploadFirmware(newFirmware.id, file).catch(body => {
-      console.log(body);
-    });
+    await FirmwareService.updateFirmware(newFirmware);
+    FirmwareService.uploadFirmware(newFirmware.id, file);
 
     fetchFirmwares();
 
@@ -183,6 +184,7 @@ const App = () => {
     } catch (err) {
       const body = await err.response.json();
       if (body.type === "FIRMWARE_NAME_UNIQUE_VIOLATED") {
+        setErrors([body.error]);
       }
     }
   };
@@ -215,6 +217,11 @@ const App = () => {
       <Modal visible={isModalOpen}>
         <ModalContent>
           <Input type="text" value={firmwareName} onChange={setFirmwareName} />
+          <div>
+            {errors.map((err: any) => (
+              <p>ERROR: {err}</p>
+            ))}
+          </div>
           <Dropzone {...getRootProps()}>
             <input {...getInputProps()} />
             <p>Drag 'n' drop some files here, or click to select files</p>
