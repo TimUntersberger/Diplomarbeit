@@ -1,5 +1,9 @@
 # OTAClient
 
+## How to update the firmware
+
+To update the firmware upload the compiled firmware.elf file in .pio/build/lolin32 to the desired firmware on the website.
+
 ## Usecases
 
 ### Fresh out the box
