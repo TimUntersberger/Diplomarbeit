@@ -14,6 +14,6 @@
 
 ### Getting new Firmware
 
-1. Esp32 will check if the firmware version in its storage is different then the one online
+1. Esp32 will check periodically if the firmware version in its storage is different then the one online
 2. Update the firmware on the website
 3. Esp32 will restart with new downloaded firmware
