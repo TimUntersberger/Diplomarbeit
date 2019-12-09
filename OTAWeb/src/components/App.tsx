@@ -205,7 +205,7 @@ const App = () => {
             </div>
           )}
           <ModalActions>
-            <Button flat onClick={onCancel}>
+            <Button flat onClick={onCancelUpdate}>
               Cancel
             </Button>
             <Button onClick={onUpdate} disabled={!acceptedFiles[0]}>
