@@ -8,7 +8,7 @@
     "build": "webpack",
     "typeorm": "ts-node ./node_modules/typeorm/cli -f ./ormconfig.ts",
     "build-watch": "webpack --watch",
-    "start": "nodemon dist/main.js",
+    "start": "nodemon --inspect dist/main.js",
     "dev": "yarn build && run-p build-watch start"
   },
   "keywords": [],
@@ -24,7 +24,6 @@
     "multer": "^1.4.2",
     "nodemon": "^1.19.3",
     "pg": "^7.14.0",
-    "pg-native": "^3.0.0",
     "ramda": "^0.26.1",
     "reflect-metadata": "^0.1.13",
     "ts-loader": "^6.2.1",

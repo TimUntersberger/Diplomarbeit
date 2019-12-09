@@ -19,6 +19,7 @@ import {
   TableHeader,
   TableRow
 } from "./Base/Table";
+import { HTTPError } from "ky";
 
 export const Container = styled.div`
   --primary-color-one: #2d8632;
@@ -74,6 +75,8 @@ const App = () => {
     multiple: false
   });
 
+  const [errors, setErrors] = useState<any>([]);
+
   const [sortedBy, setSortedBy] = useState<number | null>(null);
   const [isSortReversed, setIsSortReversed] = useState(false);
 
@@ -118,6 +121,7 @@ const App = () => {
   const onCancel = () => {
     setIsModalOpen(false);
     setFirmwareNameValue("");
+    setErrors([]);
     acceptedFiles.pop();
   };
 
@@ -144,7 +148,7 @@ const App = () => {
       fileSize: file.size
     } as any;
 
-    const res = await FirmwareService.updateFirmware(newFirmware);
+    await FirmwareService.updateFirmware(newFirmware);
     FirmwareService.uploadFirmware(newFirmware.id, file);
 
     fetchFirmwares();
@@ -170,12 +174,19 @@ const App = () => {
       name: firmwareName
     };
 
-    const res = await FirmwareService.addFirmware(newFirmware);
-    FirmwareService.uploadFirmware(res.id, file);
+    try {
+      const res = await FirmwareService.addFirmware(newFirmware);
+      FirmwareService.uploadFirmware(res.id, file);
 
-    fetchFirmwares();
+      fetchFirmwares();
 
-    onCancel();
+      onCancel();
+    } catch (err) {
+      const body = await err.response.json();
+      if (body.type === "FIRMWARE_NAME_UNIQUE_VIOLATED") {
+        setErrors([body.error]);
+      }
+    }
   };
 
   return (
@@ -194,7 +205,7 @@ const App = () => {
             </div>
           )}
           <ModalActions>
-            <Button flat onClick={onCancel}>
+            <Button flat onClick={onCancelUpdate}>
               Cancel
             </Button>
             <Button onClick={onUpdate} disabled={!acceptedFiles[0]}>
@@ -206,6 +217,11 @@ const App = () => {
       <Modal visible={isModalOpen}>
         <ModalContent>
           <Input type="text" value={firmwareName} onChange={setFirmwareName} />
+          <div>
+            {errors.map((err: any) => (
+              <p>ERROR: {err}</p>
+            ))}
+          </div>
           <Dropzone {...getRootProps()}>
             <input {...getInputProps()} />
             <p>Drag 'n' drop some files here, or click to select files</p>
@@ -240,7 +256,7 @@ const App = () => {
                 key={i}
                 sortable={header.sortable}
                 alignRight={header.alignRight}
-                onClick={header.sortable ? () => toggleSort(i) : () => { }}
+                onClick={header.sortable ? () => toggleSort(i) : () => {}}
               >
                 {header.name}
                 <FaArrowUp
