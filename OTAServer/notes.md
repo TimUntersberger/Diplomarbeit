@@ -20,3 +20,14 @@ https://docs.platformio.org/en/latest/platforms/espressif32.html#partition-table
 
 how to get certificate into file (was in code before)
 http://docs.platformio.org/en/latest/platforms/espressif32.html#embedding-binary-data
+
+infos to partitiontables
+https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/partition-tables.html
+specific for ota
+https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/ota.html3
+info to phy_init
+https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/kconfig.html#config-partition-table-type
+https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/kconfig.html#config-esp32-phy-init-data-in-partition
+info to phy
+https://en.m.wikipedia.org/wiki/PHY_%28chip%29
+https://en.m.wikipedia.org/wiki/Physical_layer
