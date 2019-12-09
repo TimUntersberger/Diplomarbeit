@@ -65,7 +65,8 @@ void setupOtaConfig()
   strcat(temp, appName);
   printf("before ota config /download\n");
   config.url = (char *)malloc(256 * sizeof(char));
-  strcpy((char *)config.url, temp);
+  strcpy((char *)config.url, "https://");
+  strcat((char *)config.url, temp);
   strcat((char *)config.url, "/download");
   printf("before ota config /updatedAt\n");
   strcpy(updatedAtUrl, temp);
@@ -120,15 +121,18 @@ void app_main()
   printf("before start wifi\n");
   EspWifiManager.startWifi();
   printf("before is connecting loop\n");
-  while (EspWifiManager.getIsConnecting())
+  int timeout = 100;
+  while (EspWifiManager.getIsConnecting()&& timeout != 0)
   {
-    vTaskDelay(1 / portTICK_PERIOD_MS);
+    vTaskDelay(100 / portTICK_PERIOD_MS);
+    timeout--;
   }
 
   if (EspWifiManager.getIsConnected())
   {
     printf("before is check ota version\n");
     checkOtaVersion();
+    xTaskCreate(&checkOtaVersionTask, "check_ota_version", 4096, NULL, 5, NULL);
   }
   else
   {
@@ -141,5 +145,4 @@ void app_main()
     HttpServer.init();
   }
 
-  xTaskCreate(&checkOtaVersionTask, "check_ota_version", 4096, NULL, 5, NULL);
 }
