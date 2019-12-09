@@ -34,3 +34,7 @@ https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/kconfig.html
 info to phy
 https://en.m.wikipedia.org/wiki/PHY_%28chip%29
 https://en.m.wikipedia.org/wiki/Physical_layer
+
+Notes for Theorie
+ELF vs bin
+linken (exe kompilieren)
