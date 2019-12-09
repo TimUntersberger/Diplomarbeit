@@ -14,6 +14,8 @@
 #include <LoggerTarget.h>
 #include <SerialLoggerTarget.h>
 
+#define LOG_TAG "OTA"
+
 // extern const uint8_t cert_pem_start[] asm("_binary_src_cert_pem_start");
 // extern const uint8_t cert_pem_end[] asm("_binary_src_cert_pem_end");
 
@@ -52,6 +54,7 @@ extern "C"
 }
 
 esp_http_client_config_t config = {};
+SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_INFO);
 
 void setupOtaConfig()
 {
@@ -79,20 +82,20 @@ void checkOtaVersion()
 {
   char response[11];
   //response is a unix timestamp (seconds) which is 10 digits long
-  printf("before httpclient get\n");
+  Logger.debug(LOG_TAG, "starting GET request to updatedAtUrl endpoint");
   HttpClient.get(updatedAtUrl, response, 11, true); //need to fix response-length
   int newestUpdatedAt = atoi(response);
   if (newestUpdatedAt > updatedAt)
   {
+    Logger.info(LOG_TAG, "newer version is available");
     updatedAt = newestUpdatedAt;
     EspConfig.setNvsIntValue("updated_at", updatedAt);
-    printf("%d\n", updatedAt);
     esp_https_ota(&config);
     esp_restart();
   }
   else
   {
-    printf("is already newest version\n");
+    Logger.info(LOG_TAG, "is already newest version");
   }
 }
 
@@ -107,36 +110,34 @@ void checkOtaVersionTask(void *pvParam)
 
 void app_main()
 {
-  printf("before everything\n");
+  Logger.debug(LOG_TAG, "entered app_main");
   EspConfig.init();
   Logger.init("OTAClient");
-  SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_INFO);
+
   Logger.addLoggerTarget(serialLoggerTarget);
   //TODO: Optimize startup by avoiding unnecessary ota updates
   //TODO: Why do we need to specify content-length
   EspConfig.setNvsStringValue("app_name", "test");
   updatedAt = EspConfig.getNvsIntValue("updated_at");
-  printf("before setup ota config\n");
   setupOtaConfig();
-  printf("before start wifi\n");
+  Logger.debug(LOG_TAG, "ota config setup complete");
   EspWifiManager.startWifi();
-  printf("before is connecting loop\n");
+  Logger.debug(LOG_TAG, "wifi started");
   int timeout = 100;
-  while (EspWifiManager.getIsConnecting()&& timeout != 0)
+  while (EspWifiManager.getIsConnecting() && timeout != 0)
   {
     vTaskDelay(100 / portTICK_PERIOD_MS);
     timeout--;
   }
-
   if (EspWifiManager.getIsConnected())
   {
-    printf("before is check ota version\n");
+    Logger.info(LOG_TAG, "connected to wifi");
     checkOtaVersion();
     xTaskCreate(&checkOtaVersionTask, "check_ota_version", 4096, NULL, 5, NULL);
   }
   else
   {
-    printf("not connected\n");
+    Logger.info(LOG_TAG, "couldn't connect to wifi");
     EspAp.init();
     while (!EspAp.isApStarted())
     {
@@ -144,5 +145,4 @@ void app_main()
     }
     HttpServer.init();
   }
-
 }
