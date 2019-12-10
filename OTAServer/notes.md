@@ -38,3 +38,6 @@ https://en.m.wikipedia.org/wiki/Physical_layer
 Notes for Theorie
 ELF vs bin
 linken (exe kompilieren)
+
+basic debugger tutorial
+https://www.youtube.com/watch?v=psMqilqlrRQ
