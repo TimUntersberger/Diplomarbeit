@@ -41,3 +41,6 @@ linken (exe kompilieren)
 
 basic debugger tutorial
 https://www.youtube.com/watch?v=psMqilqlrRQ
+
+debugging info about our esp
+http://docs.platformio.org/en/latest/boards/espressif32/esp32doit-devkit-v1.html#debugging
