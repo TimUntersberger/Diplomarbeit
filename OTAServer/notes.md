@@ -44,3 +44,6 @@ https://www.youtube.com/watch?v=psMqilqlrRQ
 
 debugging info about our esp
 http://docs.platformio.org/en/latest/boards/espressif32/esp32doit-devkit-v1.html#debugging
+
+ubuntu driver for debugging
+http://docs.platformio.org/en/latest/faq.html#faq-udev-rules
