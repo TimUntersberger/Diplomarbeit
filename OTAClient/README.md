@@ -13,7 +13,7 @@ To update the firmware upload the compiled firmware.bin file in .pio/build/lolin
 3. Upload the OtaClient arrow pointing to the right in the bottom left corner (don't unplug the esp32)
    ![](images/uploadbutton.png)
    
-   If you get an error erase the flash before uploading again
+   #### If you get an error erase the flash before uploading again
    ![](images/eraseflash.png)
 
 4. Connect to the new Hotspot from the esp32
