@@ -54,28 +54,32 @@ extern "C"
 }
 
 esp_http_client_config_t config = {};
-SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_INFO);
+SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_ERROR);
 
 void setupOtaConfig()
 {
-  printf("before ota config get thing name\n");
+  char message[20];
   thingName = EspConfig.getThingName();
-  printf("before ota config get app name\n");
+  sprintf(message, "Loaded thingname: %s", thingName);
+  Logger.info(LOG_TAG, message);
   EspConfig.getNvsStringValue("app_name", appName);
-  printf("before ota config temp\n");
+  sprintf(message, "Loaded appname: %s", appName);
+  Logger.info(LOG_TAG, message);
   char temp[256];
   strcpy(temp, firmwareUrl);
   strcat(temp, appName);
-  printf("before ota config /download\n");
+  Logger.debug(LOG_TAG, "Initialized firmware url with appName");
   config.url = (char *)malloc(256 * sizeof(char));
   strcpy((char *)config.url, "https://");
   strcat((char *)config.url, temp);
   strcat((char *)config.url, "/download");
-  printf("before ota config /updatedAt\n");
+  Logger.debug(LOG_TAG, "Initialized ota config url");
   strcpy(updatedAtUrl, temp);
   strcat(updatedAtUrl, "/updatedAt");
   // config.cert_pem = (char *)cert_pem_start;
+  Logger.debug(LOG_TAG, "Initialized updatedAt url");
   config.cert_pem = (char *)CERT_PEM;
+  Logger.debug(LOG_TAG, "Initialized ota config certificate");
 }
 
 void checkOtaVersion()
