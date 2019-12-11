@@ -47,3 +47,7 @@ http://docs.platformio.org/en/latest/boards/espressif32/esp32doit-devkit-v1.html
 
 ubuntu driver for debugging
 http://docs.platformio.org/en/latest/faq.html#faq-udev-rules
+
+make erase flash
+https://www.esp32.com/viewtopic.php?t=3809
+https://github.com/espressif/esp-idf/issues/898
