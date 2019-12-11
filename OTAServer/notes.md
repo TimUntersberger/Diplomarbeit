@@ -51,3 +51,6 @@ http://docs.platformio.org/en/latest/faq.html#faq-udev-rules
 make erase flash
 https://www.esp32.com/viewtopic.php?t=3809
 https://github.com/espressif/esp-idf/issues/898
+
+how to erase flash
+https://docs.platformio.org/en/latest/platforms/espressif32.html#erase-flash
