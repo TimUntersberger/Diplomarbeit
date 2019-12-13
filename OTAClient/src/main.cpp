@@ -13,6 +13,7 @@
 #include <Logger.h>
 #include <LoggerTarget.h>
 #include <SerialLoggerTarget.h>
+//#include <OTA.h>
 
 #define LOG_TAG "OTA"
 #define DISABLE_OTA 0
@@ -60,21 +61,25 @@ SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL
 void setupUpdatedAtUrl()
 {
   char message[20];
+  char temp[256];
+
   thingName = EspConfig.getThingName();
   sprintf(message, "Loaded thingname: %s", thingName);
   Logger.info(LOG_TAG, message);
   EspConfig.getNvsStringValue("appname", appName);
   sprintf(message, "Loaded appname: %s", appName);
   Logger.info(LOG_TAG, message);
-  char temp[256];
+
   strcpy(temp, firmwareUrl);
   strcat(temp, appName);
   Logger.debug(LOG_TAG, "Initialized firmware url with appname");
+
   config.url = (char *)malloc(256 * sizeof(char));
   strcpy((char *)config.url, "https://");
   strcat((char *)config.url, temp);
   strcat((char *)config.url, "/download");
   Logger.debug(LOG_TAG, "Initialized ota config url");
+
   strcpy(updatedAtUrl, temp);
   strcat(updatedAtUrl, "/updatedAt");
   Logger.debug(LOG_TAG, "Initialized updatedAt url");
@@ -101,6 +106,8 @@ void checkOtaVersion()
   HttpClient.get(updatedAtUrl, response, 11, true); //need to fix response-length
   int newestUpdatedAt = atoi(response);
   EspConfig.getNvsStringValue("updateAppName", updateAppName);
+  printf("Appname: %s\n", appName);
+  printf("UpdateAppname: %s\n", updateAppName);
   if (strcmp(appName, updateAppName) != 0)
   {
     updatedAt = 0;
@@ -133,8 +140,8 @@ void app_main()
 {
   Logger.debug(LOG_TAG, "entered app_main");
   EspConfig.init();
+  //OTA.init(firmwareUrl, (char *)CERT_PEM);
   Logger.init("OTAClient");
-
   Logger.addLoggerTarget(serialLoggerTarget);
   // EspConfig.setNvsStringValue("appName", "test");
   updatedAt = EspConfig.getNvsIntValue("updatedAt");
