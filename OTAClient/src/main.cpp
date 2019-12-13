@@ -62,7 +62,7 @@ void setupOtaConfig()
   thingName = EspConfig.getThingName();
   sprintf(message, "Loaded thingname: %s", thingName);
   Logger.info(LOG_TAG, message);
-  EspConfig.getNvsStringValue("app_name", appName);
+  EspConfig.getNvsStringValue("appName", appName);
   sprintf(message, "Loaded appname: %s", appName);
   Logger.info(LOG_TAG, message);
   char temp[256];
@@ -86,14 +86,21 @@ void checkOtaVersion()
 {
   char response[11];
   //response is a unix timestamp (seconds) which is 10 digits long
+  char updateAppName[20];
   Logger.debug(LOG_TAG, "starting GET request to updatedAtUrl endpoint");
   HttpClient.get(updatedAtUrl, response, 11, true); //need to fix response-length
   int newestUpdatedAt = atoi(response);
+  EspConfig.getNvsStringValue("updateAppName", updateAppName);
+  if (strcmp(appName, updateAppName) != 0)
+  {
+    updatedAt = 0;
+  }
   if (newestUpdatedAt > updatedAt)
   {
     Logger.info(LOG_TAG, "newer version is available");
     updatedAt = newestUpdatedAt;
-    EspConfig.setNvsIntValue("updated_at", updatedAt);
+    EspConfig.setNvsStringValue("updateAppName", updateAppName);
+    EspConfig.setNvsIntValue("updatedAt", updatedAt);
     esp_https_ota(&config);
     esp_restart();
   }
@@ -121,8 +128,8 @@ void app_main()
   Logger.addLoggerTarget(serialLoggerTarget);
   //TODO: Optimize startup by avoiding unnecessary ota updates
   //TODO: Why do we need to specify content-length
-  EspConfig.setNvsStringValue("app_name", "test");
-  updatedAt = EspConfig.getNvsIntValue("updated_at");
+  EspConfig.setNvsStringValue("appName", "test");
+  updatedAt = EspConfig.getNvsIntValue("updatedAt");
   setupOtaConfig();
   Logger.debug(LOG_TAG, "ota config setup complete");
   EspWifiManager.startWifi();
