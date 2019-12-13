@@ -13,7 +13,6 @@
 #include <Logger.h>
 #include <LoggerTarget.h>
 #include <SerialLoggerTarget.h>
-//#include <OTA.h>
 
 #define LOG_TAG "OTA"
 #define DISABLE_OTA 0
@@ -116,7 +115,7 @@ void checkOtaVersion()
   {
     Logger.info(LOG_TAG, "newer version is available");
     updatedAt = newestUpdatedAt;
-    EspConfig.setNvsStringValue("updateAppName", updateAppName);
+    EspConfig.setNvsStringValue("updateAppName", appName);
     EspConfig.setNvsIntValue("updatedAt", updatedAt);
     esp_https_ota(&config);
     esp_restart();
@@ -140,7 +139,6 @@ void app_main()
 {
   Logger.debug(LOG_TAG, "entered app_main");
   EspConfig.init();
-  //OTA.init(firmwareUrl, (char *)CERT_PEM);
   Logger.init("OTAClient");
   Logger.addLoggerTarget(serialLoggerTarget);
   // EspConfig.setNvsStringValue("appName", "test");
