@@ -55,3 +55,6 @@
 
 ## how to erase flash
 - https://docs.platformio.org/en/latest/platforms/espressif32.html#erase-flash
+
+## how to fix stack overflow when using tasks
+- https://esp32.com/viewtopic.php?t=3692
