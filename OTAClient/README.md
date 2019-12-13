@@ -17,7 +17,7 @@ To update the firmware upload the compiled firmware.bin file in .pio/build/lolin
    ![](images/eraseflash.png)
 
 4. Connect to the new Hotspot from the esp32
-5. Enter the credentials of a 2.4 Ghz wlanrouter to `192.168.10.1/setconfig?ssid=\<ssid>&password=\<password>&app_name=\<app_name>&thingname=\<thing_name>`
+5. Enter the credentials of a 2.4 Ghz wlanrouter to `192.168.10.1/setconfig?ssid=\<ssid>&password=\<password>&appname=\<appname>&thingname=\<thingname>`
 6. Press the restart-button of the esp32
 
 ### Getting new Firmware
