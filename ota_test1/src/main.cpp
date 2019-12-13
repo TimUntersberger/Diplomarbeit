@@ -10,6 +10,10 @@
 #include <EspWifiManager.h>
 #include <esp_https_ota.h>
 #include <esp_log.h>
+#include <Logger.h>
+#include <LoggerTarget.h>
+#include <SerialLoggerTarget.h>
+//#include <OTA.h>
 
 #define LOG_TAG "OTA"
 #define DISABLE_OTA 0
@@ -49,6 +53,7 @@ extern "C"
 }
 
 esp_http_client_config_t config = {};
+SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_INFO);
 
 /**
  * Build updatedAtUrl with values from EspConfig
@@ -56,53 +61,69 @@ esp_http_client_config_t config = {};
 void setupUpdatedAtUrl()
 {
   char message[20];
+  char temp[256];
+
   thingName = EspConfig.getThingName();
   sprintf(message, "Loaded thingname: %s", thingName);
+  Logger.info(LOG_TAG, message);
   EspConfig.getNvsStringValue("appname", appName);
   sprintf(message, "Loaded appname: %s", appName);
-  char temp[256];
+  Logger.info(LOG_TAG, message);
+
   strcpy(temp, firmwareUrl);
   strcat(temp, appName);
+  Logger.debug(LOG_TAG, "Initialized firmware url with appname");
+
   config.url = (char *)malloc(256 * sizeof(char));
   strcpy((char *)config.url, "https://");
   strcat((char *)config.url, temp);
   strcat((char *)config.url, "/download");
+  Logger.debug(LOG_TAG, "Initialized ota config url");
+
   strcpy(updatedAtUrl, temp);
   strcat(updatedAtUrl, "/updatedAt");
+  Logger.debug(LOG_TAG, "Initialized updatedAt url");
 }
 
 void setupOtaConfig()
 {
   config.cert_pem = (char *)CERT_PEM;
+  Logger.debug(LOG_TAG, "Initialized ota config certificate");
 }
 
 void checkOtaVersion()
 {
   if (DISABLE_OTA)
   {
+    Logger.info(LOG_TAG, "aborting OTA since the programm is running in a dev environment");
     return;
   }
   char response[11];
   //response is a unix timestamp (seconds) which is 10 digits long
   char updateAppName[20];
   setupUpdatedAtUrl();
+  Logger.debug(LOG_TAG, "starting GET request to updatedAtUrl endpoint");
   HttpClient.get(updatedAtUrl, response, 11, true); //need to fix response-length
   int newestUpdatedAt = atoi(response);
   EspConfig.getNvsStringValue("updateAppName", updateAppName);
+  printf("Appname: %s\n", appName);
+  printf("UpdateAppname: %s\n", updateAppName);
   if (strcmp(appName, updateAppName) != 0)
   {
     updatedAt = 0;
   }
   if (newestUpdatedAt > updatedAt)
   {
+    Logger.info(LOG_TAG, "newer version is available");
     updatedAt = newestUpdatedAt;
-    EspConfig.setNvsStringValue("updateAppName", updateAppName);
+    EspConfig.setNvsStringValue("updateAppName", appName);
     EspConfig.setNvsIntValue("updatedAt", updatedAt);
     esp_https_ota(&config);
     esp_restart();
   }
   else
   {
+    Logger.info(LOG_TAG, "is already newest version");
   }
 }
 
@@ -118,13 +139,18 @@ void checkOtaVersionTask(void *pvParam)
 void app_main()
 {
   printf("Hallo IOT-Samstag!\n");
+  Logger.debug(LOG_TAG, "entered app_main");
   EspConfig.init();
-
+  //OTA.init(firmwareUrl, (char *)CERT_PEM);
+  Logger.init("OTAClient");
+  Logger.addLoggerTarget(serialLoggerTarget);
   // EspConfig.setNvsStringValue("appName", "test");
   updatedAt = EspConfig.getNvsIntValue("updatedAt");
   setupUpdatedAtUrl();
   setupOtaConfig();
+  Logger.debug(LOG_TAG, "ota config setup complete");
   EspWifiManager.startWifi();
+  Logger.debug(LOG_TAG, "wifi started");
   int timeout = 100;
   while (EspWifiManager.getIsConnecting() && timeout != 0)
   {
@@ -133,11 +159,13 @@ void app_main()
   }
   if (EspWifiManager.getIsConnected())
   {
+    Logger.info(LOG_TAG, "connected to wifi");
     checkOtaVersion();
     xTaskCreate(&checkOtaVersionTask, "check_ota_version", 8000, NULL, 5, NULL);
   }
   else
   {
+    Logger.info(LOG_TAG, "couldn't connect to wifi");
     EspAp.init();
     while (!EspAp.isApStarted())
     {
