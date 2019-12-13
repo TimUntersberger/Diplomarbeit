@@ -38,6 +38,7 @@ void EspConfigClass::getNvsStringValue(const char *key, char *value)
 	esp_err_t err = nvs_get_str(_nvsHandle, key, NULL, &stringSize);
 	if (err != ESP_OK || stringSize == 0)
 	{
+		printf("key not found\n");
 		value[0] = 0;
 	}
 	else

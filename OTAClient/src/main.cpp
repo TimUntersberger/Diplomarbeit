@@ -15,9 +15,7 @@
 #include <SerialLoggerTarget.h>
 
 #define LOG_TAG "OTA"
-
-// extern const uint8_t cert_pem_start[] asm("_binary_src_cert_pem_start");
-// extern const uint8_t cert_pem_end[] asm("_binary_src_cert_pem_end");
+#define DISABLE_OTA 0
 
 //TODO: Set max length in ui to 20
 char appName[20];
@@ -54,21 +52,24 @@ extern "C"
 }
 
 esp_http_client_config_t config = {};
-SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_ERROR);
+SerialLoggerTarget *serialLoggerTarget = new SerialLoggerTarget("ota", LOG_LEVEL_INFO);
 
-void setupOtaConfig()
+/**
+ * Build updatedAtUrl with values from EspConfig
+ */
+void setupUpdatedAtUrl()
 {
   char message[20];
   thingName = EspConfig.getThingName();
   sprintf(message, "Loaded thingname: %s", thingName);
   Logger.info(LOG_TAG, message);
-  EspConfig.getNvsStringValue("appName", appName);
+  EspConfig.getNvsStringValue("appname", appName);
   sprintf(message, "Loaded appname: %s", appName);
   Logger.info(LOG_TAG, message);
   char temp[256];
   strcpy(temp, firmwareUrl);
   strcat(temp, appName);
-  Logger.debug(LOG_TAG, "Initialized firmware url with appName");
+  Logger.debug(LOG_TAG, "Initialized firmware url with appname");
   config.url = (char *)malloc(256 * sizeof(char));
   strcpy((char *)config.url, "https://");
   strcat((char *)config.url, temp);
@@ -76,17 +77,26 @@ void setupOtaConfig()
   Logger.debug(LOG_TAG, "Initialized ota config url");
   strcpy(updatedAtUrl, temp);
   strcat(updatedAtUrl, "/updatedAt");
-  // config.cert_pem = (char *)cert_pem_start;
   Logger.debug(LOG_TAG, "Initialized updatedAt url");
+}
+
+void setupOtaConfig()
+{
   config.cert_pem = (char *)CERT_PEM;
   Logger.debug(LOG_TAG, "Initialized ota config certificate");
 }
 
 void checkOtaVersion()
 {
+  if (DISABLE_OTA)
+  {
+    Logger.info(LOG_TAG, "aborting OTA since the programm is running in a dev environment");
+    return;
+  }
   char response[11];
   //response is a unix timestamp (seconds) which is 10 digits long
   char updateAppName[20];
+  setupUpdatedAtUrl();
   Logger.debug(LOG_TAG, "starting GET request to updatedAtUrl endpoint");
   HttpClient.get(updatedAtUrl, response, 11, true); //need to fix response-length
   int newestUpdatedAt = atoi(response);
@@ -126,10 +136,9 @@ void app_main()
   Logger.init("OTAClient");
 
   Logger.addLoggerTarget(serialLoggerTarget);
-  //TODO: Optimize startup by avoiding unnecessary ota updates
-  //TODO: Why do we need to specify content-length
-  EspConfig.setNvsStringValue("appName", "test");
+  // EspConfig.setNvsStringValue("appName", "test");
   updatedAt = EspConfig.getNvsIntValue("updatedAt");
+  setupUpdatedAtUrl();
   setupOtaConfig();
   Logger.debug(LOG_TAG, "ota config setup complete");
   EspWifiManager.startWifi();
@@ -144,7 +153,7 @@ void app_main()
   {
     Logger.info(LOG_TAG, "connected to wifi");
     checkOtaVersion();
-    xTaskCreate(&checkOtaVersionTask, "check_ota_version", 4096, NULL, 5, NULL);
+    xTaskCreate(&checkOtaVersionTask, "check_ota_version", 8000, NULL, 5, NULL);
   }
   else
   {
@@ -154,6 +163,6 @@ void app_main()
     {
       vTaskDelay(1 / portTICK_PERIOD_MS);
     }
-    HttpServer.init();
   }
+  HttpServer.init();
 }
