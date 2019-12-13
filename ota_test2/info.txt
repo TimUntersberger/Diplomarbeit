@@ -1,0 +1,3 @@
+There is also a new “otadata” slot, which holds the data for OTA updates. 
+The bootloader consults this data in order to know which app to execute. 
+If “ota data” is empty, it will execute the factory app.
