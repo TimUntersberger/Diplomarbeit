@@ -1,0 +1,45 @@
+\documentclass[11pt]{report}
+\usepackage[english, german]{babel}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   % ... or a4paper or a5paper or ... 
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{xifthen}
+\usepackage{xstring}			% to check content of strings in xifthen
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{float}
+%\usepackage{natbib}
+\usepackage{url}
+
+\include{Globals} % Set basic data (author, title, etc.) of your thesis
+\include{00_FrontPageDefinitions} % This file should not really be touched
+
+\begin{document}
+\include{00_FrontPage} % Should not be necessary to touch this file
+\include{00_Start} % Declaration of Academic Honesty, Abstracts, Acknowledgments, 
+
+\tableofcontents
+
+\include{01_IstZustand}
+\include{02_SollZustand}
+\include{03_VerwendeteTechnologien}
+\include{04_AusgewaehlteAspekte}
+% create further tex files for all other chapters of your document
+\include{10_Summary}
+
+\bibliography{da_bibliography}{}
+\bibliographystyle{plainurl} % alternatives plainurl, alphaurl;  german alternative: dinat (but add package natbib)
+
+\listoffigures
+\listoftables
+\include{11_ProjectLogBook}
+
+\appendix
+\include{12_FirstAppendix}
+\include{13_IndividualGoals}
+\end{document}  
