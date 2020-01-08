@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.6.26)  7 JAN 2020 11:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.6.26)  8 JAN 2020 09:08
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -393,7 +393,7 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 26.
  (/usr/local/texlive/2019/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<images/Logo.png, id=36, 492.84125pt x 69.25874pt>
+<images/Logo.png, id=88, 492.84125pt x 69.25874pt>
 File: images/Logo.png Graphic file (type png)
 <use images/Logo.png>
 Package pdftex.def Info: images/Logo.png  used on input line 38.
@@ -487,7 +487,7 @@ Overfull \hbox (10.2556pt too wide) in paragraph at lines 11--13
 \OT1/cmr/m/n/10.95 passt. Die Standard-Partitionstabelle ist je nach Her-stel-ler an-ders. Um OTA zu erm[]oglichen
  []
 
-<images/ota-explanation.png, id=87, 886.31125pt x 474.77374pt>
+<images/ota-explanation.png, id=152, 886.31125pt x 474.77374pt>
 File: images/ota-explanation.png Graphic file (type png)
 <use images/ota-explanation.png>
 Package pdftex.def Info: images/ota-explanation.png  used on input line 21.
@@ -497,11 +497,11 @@ Overfull \hbox (24.90086pt too wide) in paragraph at lines 21--22
  [] 
  []
 
-) [5
+[5
 
 
 
-] [6pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) has been already used, duplicate ignored
+]) [6pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
@@ -580,22 +580,22 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 45.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 45.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 45.
 Package rerunfilecheck Info: File `Main.out' has not changed.
-(rerunfilecheck)             Checksum: 267ADF153CC62F1F1819A447BD8FC32B;423.
+(rerunfilecheck)             Checksum: F7B18E2A5AD1840F31F0310B994FC745;1218.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 45.
  ) 
 Here is how much of TeX's memory you used:
- 7857 strings out of 492616
- 119856 string characters out of 6129481
- 230799 words of memory out of 5000000
- 11515 multiletter control sequences out of 15000+600000
+ 7892 strings out of 492616
+ 120299 string characters out of 6129481
+ 232136 words of memory out of 5000000
+ 11537 multiletter control sequences out of 15000+600000
  11670 words of font info for 43 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  42i,16n,43p,487b,486s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on /Users/timuntersberger/Desktop/School/5BHIF/dpa/Diplomarbeit/Theorie/Main.pdf (18 pages, 143263 bytes).
+Output written on /Users/timuntersberger/Desktop/School/5BHIF/dpa/Diplomarbeit/Theorie/Main.pdf (18 pages, 149150 bytes).
 PDF statistics:
- 170 PDF objects out of 1000 (max. 8388607)
- 139 compressed objects within 2 object streams
- 36 named destinations out of 1000 (max. 500000)
- 75 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 241 PDF objects out of 1000 (max. 8388607)
+ 209 compressed objects within 3 object streams
+ 49 named destinations out of 1000 (max. 500000)
+ 179 words of extra memory for PDF output out of 10000 (max. 10000000)
 
