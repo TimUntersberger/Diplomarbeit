@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/CMakeFiles/bootloader
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/CMakeFiles/bootloader.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/CMakeFiles/bootloader-complete.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
