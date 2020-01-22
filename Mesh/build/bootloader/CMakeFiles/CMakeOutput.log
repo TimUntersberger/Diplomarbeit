@@ -1,0 +1,593 @@
+The target system is: Generic -  - 
+The host system is: Linux - 5.3.0-26-generic - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc 
+Build flags: -mlongcalls
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+
+The C compiler identification is GNU, found in "/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/3.13.4/CompilerIdC/CMakeCCompilerId.o"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++ 
+Build flags: -mlongcalls
+Id flags: -c 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+
+The CXX compiler identification is GNU, found in "/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/3.13.4/CompilerIdCXX/CMakeCXXCompilerId.o"
+
+Checking whether the ASM compiler is GNU using "--version" matched "(GNU assembler)|(GCC)|(Free Software Foundation)":
+xtensa-esp32-elf-gcc (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a) 5.2.0
+Copyright (C) 2015 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6530d/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_6530d.dir/build.make CMakeFiles/cmTC_6530d.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6530d.dir/testCCompiler.c.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc   -mlongcalls    -o CMakeFiles/cmTC_6530d.dir/testCCompiler.c.obj   -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_6530d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6530d.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc -mlongcalls   -nostdlib  CMakeFiles/cmTC_6530d.dir/testCCompiler.c.obj  -o cmTC_6530d 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400054
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_df987/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_df987.dir/build.make CMakeFiles/cmTC_df987.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc   -mlongcalls    -o CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj   -c /usr/share/cmake-3.13/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_df987
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_df987.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc -mlongcalls   -nostdlib -v CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj  -o cmTC_df987 
+Using built-in specs.
+COLLECT_GCC=/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc
+COLLECT_LTO_WRAPPER=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper
+Target: xtensa-esp32-elf
+Configured with: /builds/idf/crosstool-NG/.build/src/gcc-5.2.0/configure --build=x86_64-build_pc-linux-gnu --host=x86_64-build_pc-linux-gnu --target=xtensa-esp32-elf --prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf --with-local-prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-sysroot=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-newlib --enable-threads=no --disable-shared --with-pkgversion='crosstool-NG crosstool-ng-1.22.0-80-g6c4433a' --disable-__cxa_atexit --enable-cxx-flags='-fno-rtti -ffunction-sections' --with-gmp=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpfr=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpc=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-isl=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-cloog=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-libelf=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --enable-lto --enable-target-optspace --without-long-double-128 --disable-libgomp --disable-libmudflap --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-nls --enable-languages=c,c++ --disable-libstdcxx-verbose --enable-threads=posix --enable-gcov-custom-rtio
+Thread model: posix
+gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a) 
+COMPILER_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/
+LIBRARY_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/
+COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_df987'
+ /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2 -plugin /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin.so -plugin-opt=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWGxcq0.res --sysroot=/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot -o cmTC_df987 -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(xtensa-esp32-elf-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_df987/fast"]
+  ignore line: [make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_df987.dir/build.make CMakeFiles/cmTC_df987.dir/build]
+  ignore line: [make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj]
+  ignore line: [/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc   -mlongcalls    -o CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj   -c /usr/share/cmake-3.13/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_df987]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_df987.dir/link.txt --verbose=1]
+  ignore line: [/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc -mlongcalls   -nostdlib -v CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj  -o cmTC_df987 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper]
+  ignore line: [Target: xtensa-esp32-elf]
+  ignore line: [Configured with: /builds/idf/crosstool-NG/.build/src/gcc-5.2.0/configure --build=x86_64-build_pc-linux-gnu --host=x86_64-build_pc-linux-gnu --target=xtensa-esp32-elf --prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf --with-local-prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-sysroot=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-newlib --enable-threads=no --disable-shared --with-pkgversion='crosstool-NG crosstool-ng-1.22.0-80-g6c4433a' --disable-__cxa_atexit --enable-cxx-flags='-fno-rtti -ffunction-sections' --with-gmp=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpfr=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpc=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-isl=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-cloog=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-libelf=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --enable-lto --enable-target-optspace --without-long-double-128 --disable-libgomp --disable-libmudflap --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-nls --enable-languages=c,c++ --disable-libstdcxx-verbose --enable-threads=posix --enable-gcov-custom-rtio]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a) ]
+  ignore line: [COMPILER_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/]
+  ignore line: [LIBRARY_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_df987']
+  link line: [ /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2 -plugin /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin.so -plugin-opt=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccWGxcq0.res --sysroot=/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot -o cmTC_df987 -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj]
+    arg [/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccWGxcq0.res] ==> ignore
+    arg [--sysroot=/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_df987] ==> ignore
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib]
+    arg [CMakeFiles/cmTC_df987.dir/CMakeCCompilerABI.c.obj] ==> ignore
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> [/home/stefan/esp/xtensa-esp32-elf/lib/gcc/xtensa-esp32-elf/5.2.0]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc] ==> [/home/stefan/esp/xtensa-esp32-elf/lib/gcc]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> [/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/lib]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib] ==> [/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/lib]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib] ==> [/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/usr/lib]
+  implicit libs: []
+  implicit dirs: [/home/stefan/esp/xtensa-esp32-elf/lib/gcc/xtensa-esp32-elf/5.2.0;/home/stefan/esp/xtensa-esp32-elf/lib/gcc;/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/lib;/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/lib;/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_9f479/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_9f479.dir/build.make CMakeFiles/cmTC_9f479.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_9f479.dir/feature_tests.c.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc   -mlongcalls    -std=c11 -o CMakeFiles/cmTC_9f479.dir/feature_tests.c.obj   -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/feature_tests.c
+Linking C executable cmTC_9f479
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9f479.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc -mlongcalls   -nostdlib  CMakeFiles/cmTC_9f479.dir/feature_tests.c.obj  -o cmTC_9f479 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c3525/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_c3525.dir/build.make CMakeFiles/cmTC_c3525.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c3525.dir/feature_tests.c.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc   -mlongcalls    -std=c99 -o CMakeFiles/cmTC_c3525.dir/feature_tests.c.obj   -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/feature_tests.c
+Linking C executable cmTC_c3525
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3525.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc -mlongcalls   -nostdlib  CMakeFiles/cmTC_c3525.dir/feature_tests.c.obj  -o cmTC_c3525 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_545ce/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_545ce.dir/build.make CMakeFiles/cmTC_545ce.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_545ce.dir/feature_tests.c.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc   -mlongcalls    -std=c90 -o CMakeFiles/cmTC_545ce.dir/feature_tests.c.obj   -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/feature_tests.c
+Linking C executable cmTC_545ce
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_545ce.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc -mlongcalls   -nostdlib  CMakeFiles/cmTC_545ce.dir/feature_tests.c.obj  -o cmTC_545ce 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b1014/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_b1014.dir/build.make CMakeFiles/cmTC_b1014.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b1014.dir/testCXXCompiler.cxx.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++    -mlongcalls    -o CMakeFiles/cmTC_b1014.dir/testCXXCompiler.cxx.obj -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_b1014
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b1014.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++  -mlongcalls   -nostdlib  CMakeFiles/cmTC_b1014.dir/testCXXCompiler.cxx.obj  -o cmTC_b1014 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400054
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6be7e/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_6be7e.dir/build.make CMakeFiles/cmTC_6be7e.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++    -mlongcalls    -o CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake-3.13/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_6be7e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6be7e.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++  -mlongcalls   -nostdlib -v CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj  -o cmTC_6be7e 
+Using built-in specs.
+COLLECT_GCC=/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++
+COLLECT_LTO_WRAPPER=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper
+Target: xtensa-esp32-elf
+Configured with: /builds/idf/crosstool-NG/.build/src/gcc-5.2.0/configure --build=x86_64-build_pc-linux-gnu --host=x86_64-build_pc-linux-gnu --target=xtensa-esp32-elf --prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf --with-local-prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-sysroot=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-newlib --enable-threads=no --disable-shared --with-pkgversion='crosstool-NG crosstool-ng-1.22.0-80-g6c4433a' --disable-__cxa_atexit --enable-cxx-flags='-fno-rtti -ffunction-sections' --with-gmp=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpfr=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpc=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-isl=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-cloog=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-libelf=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --enable-lto --enable-target-optspace --without-long-double-128 --disable-libgomp --disable-libmudflap --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-nls --enable-languages=c,c++ --disable-libstdcxx-verbose --enable-threads=posix --enable-gcov-custom-rtio
+Thread model: posix
+gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a) 
+COMPILER_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/
+LIBRARY_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/
+COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_6be7e'
+ /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2 -plugin /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin.so -plugin-opt=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccdUBQsi.res --sysroot=/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot -o cmTC_6be7e -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(xtensa-esp32-elf-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_6be7e/fast"]
+  ignore line: [make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp']
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_6be7e.dir/build.make CMakeFiles/cmTC_6be7e.dir/build]
+  ignore line: [make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj]
+  ignore line: [/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++    -mlongcalls    -o CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake-3.13/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_6be7e]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6be7e.dir/link.txt --verbose=1]
+  ignore line: [/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++  -mlongcalls   -nostdlib -v CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj  -o cmTC_6be7e ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++]
+  ignore line: [COLLECT_LTO_WRAPPER=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper]
+  ignore line: [Target: xtensa-esp32-elf]
+  ignore line: [Configured with: /builds/idf/crosstool-NG/.build/src/gcc-5.2.0/configure --build=x86_64-build_pc-linux-gnu --host=x86_64-build_pc-linux-gnu --target=xtensa-esp32-elf --prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf --with-local-prefix=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-sysroot=/builds/idf/crosstool-NG/builds/xtensa-esp32-elf/xtensa-esp32-elf/sysroot --with-newlib --enable-threads=no --disable-shared --with-pkgversion='crosstool-NG crosstool-ng-1.22.0-80-g6c4433a' --disable-__cxa_atexit --enable-cxx-flags='-fno-rtti -ffunction-sections' --with-gmp=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpfr=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-mpc=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-isl=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-cloog=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --with-libelf=/builds/idf/crosstool-NG/.build/xtensa-esp32-elf/buildtools --enable-lto --enable-target-optspace --without-long-double-128 --disable-libgomp --disable-libmudflap --disable-libssp --disable-libquadmath --disable-libquadmath-support --disable-nls --enable-languages=c,c++ --disable-libstdcxx-verbose --enable-threads=posix --enable-gcov-custom-rtio]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.2.0 (crosstool-NG crosstool-ng-1.22.0-80-g6c4433a) ]
+  ignore line: [COMPILER_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/]
+  ignore line: [LIBRARY_PATH=/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/:/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib/:/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-mlongcalls' '-nostdlib' '-v' '-o' 'cmTC_6be7e']
+  link line: [ /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2 -plugin /home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin.so -plugin-opt=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccdUBQsi.res --sysroot=/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot -o cmTC_6be7e -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0 -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc -L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib -L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj]
+    arg [/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/home/stefan/esp/xtensa-esp32-elf/bin/../libexec/gcc/xtensa-esp32-elf/5.2.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccdUBQsi.res] ==> ignore
+    arg [--sysroot=/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_6be7e] ==> ignore
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib]
+    arg [-L/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib] ==> dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib]
+    arg [CMakeFiles/cmTC_6be7e.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0] ==> [/home/stefan/esp/xtensa-esp32-elf/lib/gcc/xtensa-esp32-elf/5.2.0]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc] ==> [/home/stefan/esp/xtensa-esp32-elf/lib/gcc]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/lib] ==> [/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/lib]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/lib] ==> [/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/lib]
+  collapse library dir [/home/stefan/esp/xtensa-esp32-elf/bin/../xtensa-esp32-elf/sysroot/usr/lib] ==> [/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/usr/lib]
+  implicit libs: []
+  implicit dirs: [/home/stefan/esp/xtensa-esp32-elf/lib/gcc/xtensa-esp32-elf/5.2.0;/home/stefan/esp/xtensa-esp32-elf/lib/gcc;/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/lib;/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/lib;/home/stefan/esp/xtensa-esp32-elf/xtensa-esp32-elf/sysroot/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_88d32/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_88d32.dir/build.make CMakeFiles/cmTC_88d32.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_88d32.dir/feature_tests.cxx.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++    -mlongcalls    -std=c++1z -o CMakeFiles/cmTC_88d32.dir/feature_tests.cxx.obj -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_88d32
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_88d32.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++  -mlongcalls   -nostdlib  CMakeFiles/cmTC_88d32.dir/feature_tests.cxx.obj  -o cmTC_88d32 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e949a/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_e949a.dir/build.make CMakeFiles/cmTC_e949a.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e949a.dir/feature_tests.cxx.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++    -mlongcalls    -std=c++14 -o CMakeFiles/cmTC_e949a.dir/feature_tests.cxx.obj -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_e949a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e949a.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++  -mlongcalls   -nostdlib  CMakeFiles/cmTC_e949a.dir/feature_tests.cxx.obj  -o cmTC_e949a 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8e524/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_8e524.dir/build.make CMakeFiles/cmTC_8e524.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_8e524.dir/feature_tests.cxx.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++    -mlongcalls    -std=c++11 -o CMakeFiles/cmTC_8e524.dir/feature_tests.cxx.obj -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_8e524
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8e524.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++  -mlongcalls   -nostdlib  CMakeFiles/cmTC_8e524.dir/feature_tests.cxx.obj  -o cmTC_8e524 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_c6adb/fast"
+make[3]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_c6adb.dir/build.make CMakeFiles/cmTC_c6adb.dir/build
+make[4]: Entering directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_c6adb.dir/feature_tests.cxx.obj
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++    -mlongcalls    -std=c++98 -o CMakeFiles/cmTC_c6adb.dir/feature_tests.cxx.obj -c /home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_c6adb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c6adb.dir/link.txt --verbose=1
+/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++  -mlongcalls   -nostdlib  CMakeFiles/cmTC_c6adb.dir/feature_tests.cxx.obj  -o cmTC_c6adb 
+/home/stefan/esp/xtensa-esp32-elf/bin/../lib/gcc/xtensa-esp32-elf/5.2.0/../../../../xtensa-esp32-elf/bin/ld: warning: cannot find entry symbol _start; defaulting to 0000000000400074
+make[4]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+make[3]: Leaving directory '/home/stefan/esp/esp-idf/examples/mesh/internal_communication/build/bootloader/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
