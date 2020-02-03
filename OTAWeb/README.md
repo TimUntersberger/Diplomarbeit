@@ -15,11 +15,11 @@
 ## Downloading a firmware in production
 
 ```bash
-curl https://ota.baaka.io/api/firmware/<id>/download
+curl https://ota.baaka.io/api/firmware/<name>/download
 ```
 
 ### Working example
 Downloads OTA
 ```bash
-curl https://ota.baaka.io/api/firmware/0/download
+curl https://ota.baaka.io/api/firmware/test/download
 ```
