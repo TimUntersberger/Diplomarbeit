@@ -1,2 +1,0 @@
-/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libunity.a  CMakeFiles/idf_component_unity.dir/unity/src/unity.c.obj CMakeFiles/idf_component_unity.dir/unity_port_esp32.c.obj CMakeFiles/idf_component_unity.dir/unity_runner.c.obj
-/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libunity.a

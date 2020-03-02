@@ -1,2 +1,0 @@
-/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ar qc libulp.a  CMakeFiles/idf_component_ulp.dir/ulp.c.obj CMakeFiles/idf_component_ulp.dir/ulp_macro.c.obj
-/home/stefan/esp/xtensa-esp32-elf/bin/xtensa-esp32-elf-ranlib libulp.a
