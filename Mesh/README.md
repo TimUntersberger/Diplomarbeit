@@ -13,6 +13,14 @@ It also starts the mesh network.
 
 THIS PROGRAM DOES NOT USE THE INTERAL LED. I REPEAT. IT DOES NOT USE THE INTERNAL LED.
 
+When the program first starts you can see that the mesh layer goes from 0 to either 2 or 1.
+
+0 in this case is just the initial layer (meaning it has no real meaning as far as I understood it).
+
+1 is a parent
+
+2 is a child
+
 ### mesh_event_handler
 
 This event handler is the heart of the program. It has a lot of different action events. All of them are explained below.

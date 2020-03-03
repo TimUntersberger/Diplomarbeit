@@ -27,9 +27,13 @@
 #define  MESH_TOKEN_VALUE    (0xbeef)
 #define  MESH_CONTROL_CMD    (0x2)
 
+#define  MESH_CMD_MQTT    (0x3)
+
 /*******************************************************
  *                Type Definitions
  *******************************************************/
+
+typedef uint8_t mesh_cmd_type_t;
 
 /*******************************************************
  *                Structures
@@ -40,6 +44,11 @@ typedef struct {
     uint8_t token_id;
     uint16_t token_value;
 } mesh_light_ctl_t;
+
+typedef struct {
+    mesh_cmd_type_t type;
+} mesh_cmd_t;
+
 
 /*******************************************************
  *                Variables Declarations
