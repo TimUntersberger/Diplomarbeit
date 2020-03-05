@@ -7,13 +7,13 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <string.h>
+#include "mesh_main.h"
 #include "esp_wifi.h"
 #include "esp_system.h"
 #include "esp_event.h"
 #include "esp_log.h"
 #include "esp_mesh.h"
 #include "esp_mesh_internal.h"
-#include "mesh_light.h"
 #include "nvs_flash.h"
 
 /*******************************************************
@@ -38,20 +38,6 @@ static bool is_mesh_connected = false;
 static mesh_addr_t mesh_parent_addr;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
-
-mesh_light_ctl_t light_on = {
-    .cmd = MESH_CONTROL_CMD,
-    .on = 1,
-    .token_id = MESH_TOKEN_ID,
-    .token_value = MESH_TOKEN_VALUE,
-};
-
-mesh_light_ctl_t light_off = {
-    .cmd = MESH_CONTROL_CMD,
-    .on = 0,
-    .token_id = MESH_TOKEN_ID,
-    .token_value = MESH_TOKEN_VALUE,
-};
 
 mesh_cmd_t mqtt_cmd = {
     .type = MESH_CMD_MQTT
@@ -129,6 +115,10 @@ void esp_mesh_p2p_tx_main(void *arg)
     vTaskDelete(NULL);
 }
 
+void on_cmd_receive(mesh_cmd_t* cmd, mesh_addr_t from){
+    ESP_LOGI(MESH_TAG, "Received command of type %s", cmd_to_string(cmd));
+}
+
 esp_err_t receive_cmd(mesh_cmd_t** cmd, mesh_addr_t* from){
     esp_err_t err = ESP_OK;
 
@@ -175,7 +165,7 @@ void esp_mesh_p2p_rx_main(void *arg)
         receive_cmd(&cmd, &from);
 
         if(!mac_addr_equal(from.addr, mac))
-            ESP_LOGI(MESH_TAG, "Received command of type %s", cmd_to_string(cmd));
+            on_cmd_receive(cmd, from);
     }
 
     vTaskDelete(NULL);
@@ -258,7 +248,6 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  esp_mesh_is_root() ? "<ROOT>" :
                  (mesh_layer == 2) ? "<layer2>" : "", MAC2STR(id.addr));
         last_layer = mesh_layer;
-        mesh_connected_indicator(mesh_layer);
         is_mesh_connected = true;
         if (esp_mesh_is_root()) {
             esp_netif_dhcpc_start(netif_sta);
@@ -272,7 +261,6 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  "<MESH_EVENT_PARENT_DISCONNECTED>reason:%d",
                  disconnected->reason);
         is_mesh_connected = false;
-        mesh_disconnected_indicator();
         mesh_layer = esp_mesh_get_layer();
     }
     break;
@@ -284,7 +272,6 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  esp_mesh_is_root() ? "<ROOT>" :
                  (mesh_layer == 2) ? "<layer2>" : "");
         last_layer = mesh_layer;
-        mesh_connected_indicator(mesh_layer);
     }
     break;
     case MESH_EVENT_ROOT_ADDRESS: {
@@ -390,7 +377,6 @@ void ip_event_handler(void *arg, esp_event_base_t event_base,
 
 void app_main(void)
 {
-    ESP_ERROR_CHECK(mesh_light_init());
     ESP_ERROR_CHECK(nvs_flash_init());
     /*  tcpip initialization */
     ESP_ERROR_CHECK(esp_netif_init());
