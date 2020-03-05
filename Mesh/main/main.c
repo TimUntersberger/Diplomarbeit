@@ -7,7 +7,7 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <string.h>
-#include "mesh_main.h"
+#include "main.h"
 #include "esp_wifi.h"
 #include "esp_system.h"
 #include "esp_event.h"
