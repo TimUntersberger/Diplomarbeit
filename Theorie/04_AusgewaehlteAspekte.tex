@@ -8,8 +8,21 @@
 
 \section{ELF vs Bin}
 
-\subsection{ELF}
+\subsection{Bin}
+Die Dateierweiterung .bin wird am häufigsten mit komprimierten Binärdateien verknüpft. Diese Dateien werden von vielen verschiedenen Computeranwendungen und für eine Vielzahl von Zwecken verwendet. Die Erweiterung .bin wird häufig für CD- und DVD-Backup-Image-Dateien verwendet.
 
+In einigen Fällen werden die BIN-Dateien im einfachen Binärformat gespeichert und können mit einem Texteditor geöffnet werden. Es gibt jedoch einige BIN-Dateien, die von bestimmten Computeranwendungen erstellt werden und mit der Software geöffnet werden müssen, mit der sie erstellt wurden, oder mit einer kompatiblen Softwareanwendung.\cite{file.org_bin}
+
+\subsection{Hintergrund}
+Grundsätzlich sind Binärdateien als solche daran erkennbar, dass der Dateiinhalt, mit einem üblichen Texteditor angezeigt, keine oder überwiegend keine lesbaren Zeichen enthält. Der Versuch, eine Binärdatei als Textdatei zu interpretieren (beispielsweise durch Öffnen mit einem Texteditor), ergibt dann unleserlichen bzw. unsinnigen Text. Für die meisten der heute verwendeten 8-Bit-Zeichensätze gilt: nicht lesbare Steuerzeichen umfassen Zeichen mit ASCII-Werten von 0 bis 31, lesbare Zeichen die mit Werten von 32 bis 126. Die Lesbarkeit von Zeichen mit Werten ab 127 ist abhängig vom verwendeten Zeichensatz. Textdateien können auch gewisse Steuerzeichen enthalten, ohne dass sie deshalb als Binärdatei gelten; dazu gehören Steuerzeichen für Zeilenvorschub, Wagenrücklauf, Seitenumbruch (Seitenvorschub) und Tabulatorzeichen.
+
+Weil Binärdateien alle möglichen Bit-Kombinationen nutzen, bieten sie eine höhere Informationsdichte als Textdateien. Deshalb benötigen sie meist weniger Speicherplatz auf Massenspeichern und lassen sich schneller laden und speichern. Ferner lassen sich darin verschiedene Objekttypen (beispielsweise Text mit Bildern) relativ einfach ablegen.
+
+Binärformate werden beim Austausch über verschiedene Plattformen hinweg (beispielsweise Windows, Macintosh, Linux) nicht beschädigt, da die jeweiligen Softwarekomponenten nicht versuchen, die Dateien für die Zielplattform zu konvertieren. Andererseits wird der systemübergreifende Datenaustausch erschwert, da Binärdateien häufig Daten in einem systemabhängigen Format enthalten. (Beispielsweise Zahlen im Big- oder Little-Endian-Format.) Die Spezifikation des Dateiformats einer Binärdatei legt fest, wie mit der Datei zu verfahren ist. Zum Lesen, Bearbeiten und Speichern binärer Datenformate benötigt man im Allgemeinen spezielle, auf das Dateiformat abgestimmte Editoren (beispielsweise Textverarbeitung für Office-Texte, ein Bildbearbeitungsprogramm für Fotos, regedit für die Windows-Registrierungsdatenbank).
+
+Zu beachten ist, dass man unter einer Binärdatei bzw. unter Binärformat nicht Daten versteht, die nur aus den (sichtbaren) Zeichen „0“ und „1“ aufgebaut sind – wie die Namensanalogie zu Hex(adezimal)datei nahelegen könnte. Binärdatei bedeutet auch nicht, dass die Daten nur aus binären „0“ und „1“ bestehen – weil das auch bei Text-Zeichensätzen der Fall ist. Auch ist eine Datei, die von einem Textverarbeitungsprogramm erzeugt wurde, meist (abhängig vom Dateiformat) keine reine Textdatei im engeren Sinn, sondern eine Binärdatei, in der zum Beispiel Formatangaben und andere Steuerzeichen nicht mit einem lesbaren Zeichensatz codiert sind. Solche Dateien, zum Beispiel im Rich-Text-Format, sind insofern eine Mischform aus Text- und Binärdatei.\cite{bin_wikipedia}
+
+\subsection{ELF}
 ELF ist die Abkürzung für Executable and Linkable Format und definiert die Struktur für Binärdateien, Bibliotheken und Core-Dateien. Die formale Spezifikation ermöglicht es dem Betriebssystem, die zugrunde liegenden Maschinenanweisungen korrekt zu interpretieren. ELF-Dateien sind normalerweise die Ausgabe eines Compilers oder Linkers und haben ein Binärformat.
 \newline
 \newline
@@ -102,3 +115,13 @@ Die Tools scanelf und execstack sind zwei Beispiele, um die stack-Details anzuze
         \caption{Beispiel GNU\_STACK \cite{example_gnustack}}
     \end{center}
 \end{figure}
+
+\subsection{Static vs. Daynamic binaries}
+Beim Umgang mit ELF-Binärdateien ist es gut zu wissen, dass es zwei Typen gibt und wie sie verknüpft sind. Der Typ ist entweder statisch oder dynamisch und bezieht sich auf die verwendeten Bibliotheken. Zu Optimierungszwecken stellen wir häufig fest, dass Binärdateien „dynamisch“ sind, was bedeutet, dass externe Komponenten für die ordnungsgemäße Ausführung erforderlich sind. Häufig handelt es sich bei diesen externen Komponenten um normale Bibliotheken, die allgemeine Funktionen wie das Öffnen von Dateien oder das Erstellen eines Netzwerk-Sockets enthalten. In statischen Binärdateien sind dagegen alle Bibliotheken enthalten. Dadurch werden sie größer und dennoch tragbarer (z. B. wenn sie auf einem anderen System verwendet werden).
+
+\subsection{Fazit}
+ELF-Dateien dienen zur Ausführung oder zum Verknüpfen. Abhängig vom primären Ziel enthält es die erforderlichen Segmente oder Abschnitte. Segmente werden vom Kernel angeschaut und auf den Speicher gemappt (mithilfe von mmap). Abschnitte werden vom Linker angeschaut, um ausführbaren Code oder freigegebene Objekte zu erstellen.
+
+Der ELF-Dateityp ist sehr flexibel und bietet Unterstützung für mehrere CPU-Typen, Maschinenarchitekturen und Betriebssysteme. Es ist auch sehr erweiterbar: Jede Datei ist je nach den erforderlichen Teilen unterschiedlich aufgebaut.
+
+Header bilden einen wichtigen Teil der Datei und beschreiben genau den Inhalt einer ELF-Datei. Mit den richtigen Tools erhalten Sie ein grundlegendes Verständnis des Zwecks der Datei. Von dort aus können Sie die Binärdateien weiter überprüfen. Dies kann durch Bestimmen der zugehörigen Funktionen oder der in der Datei gespeicherten Zeichenfolgen erfolgen.\cite{elf}
