@@ -136,9 +136,11 @@ void checkOtaVersionTask(void *pvParam)
   }
 }
 
+//http://192.168.1.143/setconfig?appname=iotsamstag1
+
 void app_main()
 {
-  printf("Hallo IOT-Samstag!\n");
+  printf("Hallo IOT-Samstag! 1\n");
   Logger.debug(LOG_TAG, "entered app_main");
   EspConfig.init();
   //OTA.init(firmwareUrl, (char *)CERT_PEM);

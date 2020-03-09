@@ -8,4 +8,6 @@
 *.lot
 *.out
 *.synectex.gz
+*.synctex.gz
 *.toc
+Main.pdf
