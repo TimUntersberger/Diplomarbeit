@@ -85,9 +85,29 @@ Zwischen jedem Durchlauf des Event Loops prüft Nodejs, ob es auf asynchrone I/O
 
 \section{Platform IO}\label{sec:platformio}
 
+\section{ESP IDF Toolchain}\label{sec:platformio}
+
 \section{Docker}\label{sec:docker}
 
 \section{Docker Compose}\label{sec:docker-compose}
+
+Docker-compose ist ein Tool zum Definieren und Ausführen von Docker-Anwendungen mit mehreren Containern. Mit Compose verwenden Sie eine YAML-Datei, um die Dienste Ihrer Anwendung zu konfigurieren. Anschließend erstellen und starten Sie mit einem einzigen Befehl alle Dienste in Ihrer Konfiguration. \cite{docker_compose_description}
+
+\subsection{Docker Compose Beispiel}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/docker_compose_example.png}
+        \caption{Docker Compose Beispiel}
+    \end{center}
+\end{figure}
+
+In der obigen Abbildung kann man das docker-compose.yml file von dem OTA Server sehen.
+
+Die Struktur eines docker-compose files ist im Normalfall immer gleich. Am Anfang definiert man welche Version des Standards man verwendet und anschließend die verschiedenen Dienste. Der OTA Server benötigt nur 2 Dienste:
+
+\begin{enumerate}
+\end{enumerate}
 
 \section{ESP IDF Utility lib}\label{sec:esp-idf-utility-lib}
 
