@@ -30,6 +30,7 @@ esp_err_t mesh_send_cmd(mesh_cmd_t* cmd){
                                CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
 
     for (int i = 0; i < route_table_size; i++) {
+        ESP_LOGI(TAG, "Sending to "MACSTR"", MAC2STR(route_table[i].addr));
         err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
         if (err) {
             ESP_LOGE(MESH_TAG,
@@ -66,7 +67,6 @@ void mesh_sender_task(void *arg)
                      esp_mesh_get_routing_table_size(),
                      (is_mesh_connected && esp_mesh_is_root()) ? "ROOT" : is_mesh_connected ? "NODE" : "DISCONNECT");
             vTaskDelay(10 * 1000 / portTICK_RATE_MS);
-            continue;
         }
 
         for(int i = 0; i < MESH_CMD_QUEUE_SIZE; i++){
@@ -111,13 +111,13 @@ esp_err_t receive_cmd(mesh_cmd_t** cmd, mesh_addr_t* from){
     err = esp_mesh_recv(from, &data, portMAX_DELAY, &flag, NULL, 0);
 
     if (err != ESP_OK || !data.size) {
-        ESP_LOGE(MESH_TAG, "err:0x%x, size:%d", err, data.size);
+        ESP_LOGI(MESH_TAG, "err:0x%x, size:%d", err, data.size);
         return err;
     }
 
     *cmd = (mesh_cmd_t*) data.data;
 
-    ESP_LOGW(MESH_TAG,
+    ESP_LOGI(MESH_TAG,
              "[#RX][L:%d] parent:"MACSTR", receive from "MACSTR", size:%d, heap:%d, flag:%d[err:0x%x, proto:%d, tos:%d]",
              mesh_layer,
              MAC2STR(mesh_parent_addr.addr), MAC2STR(from->addr),
@@ -143,6 +143,8 @@ void mesh_receiver_task(void *arg)
 
     while (is_running) {
         receive_cmd(&cmd, &from);
+
+        ESP_LOGI(MESH_TAG, "Received a command of type %d", cmd->type);
 
         if(!mac_addr_equal(from.addr, mac))
             on_cmd_receive(cmd, from);
