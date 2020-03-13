@@ -30,7 +30,7 @@ esp_err_t mesh_send_cmd(mesh_cmd_t* cmd){
                                CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
 
     for (int i = 0; i < route_table_size; i++) {
-        ESP_LOGI(TAG, "Sending to "MACSTR"", MAC2STR(route_table[i].addr));
+        ESP_LOGI(MESH_TAG, "Sending to "MACSTR"", MAC2STR(route_table[i].addr));
         err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
         if (err) {
             ESP_LOGE(MESH_TAG,
