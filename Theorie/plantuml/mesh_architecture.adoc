@@ -28,3 +28,4 @@ node4 -- node10
 root -- node11
 node11 -- node12
 @enduml
+https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/mesh.html
