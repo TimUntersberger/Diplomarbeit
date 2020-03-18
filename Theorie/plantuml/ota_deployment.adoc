@@ -1,0 +1,19 @@
+@startuml
+node "Digital Ocean Droplet" as droplet {
+  rectangle "OTA Web" as web {
+  }
+  rectangle "OTA Server" as server {
+  }
+  database "Postgres DB" as db {
+  }
+}
+
+node "Mikrocontroller" as mc {
+  rectangle "OTA Client" as client {
+  }
+}
+
+server <-- client : http
+db <-- server : local socket
+web --> server : http
+@enduml
