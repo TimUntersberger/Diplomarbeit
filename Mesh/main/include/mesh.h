@@ -29,6 +29,7 @@ const char* mesh_cmd_to_string(mesh_cmd_t* cmd);
 void mesh_create_network_interface();
 void mesh_queue_cmd(mesh_cmd_t* cmd);
 void mesh_on_cmd(mesh_cmd_cb);
+void mesh_set_cmd_payload(mesh_cmd_t* cmd, uint8_t *payload);
 void mesh_init();
 void mesh_start();
 

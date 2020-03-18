@@ -28,6 +28,12 @@ bool is_mac_initialized(uint8_t* mac){
     return false;
 }
 
+void mesh_set_cmd_payload(mesh_cmd_t* cmd, uint8_t* payload){
+    for(int i = 0; i < MESH_CMD_PAYLOAD_SIZE; i++){
+        cmd->payload[i] = payload[i];
+    }
+}
+
 esp_err_t mesh_send_cmd(mesh_cmd_t* cmd){
     esp_err_t err = ESP_OK;
 
