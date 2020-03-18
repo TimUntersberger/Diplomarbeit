@@ -1,0 +1,19 @@
+@startuml
+node "Speicher [4MB]" {
+  rectangle nvs {
+    rectangle 16KB
+  }
+  rectangle otadata {
+    rectangle 8KB
+  }
+  rectangle ota_0{
+    rectangle "1MB" as e1
+  }
+  rectangle ota_1{
+    rectangle "1MB" as e2
+  }
+  rectangle nvs_key{
+    rectangle 4KB
+  }
+}
+@enduml
