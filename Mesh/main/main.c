@@ -7,6 +7,11 @@ mesh_cmd_t mqtt_cmd = {
     .type = MESH_CMD_MQTT
 };
 
+typedef struct {
+    char topic[10];
+    char payload[100];
+} mqtt_msg_t;
+
 mesh_cmd_t http_cmd = {
     .type = MESH_CMD_HTTP
 };
@@ -32,13 +37,19 @@ const char* type_to_name(uint8_t type){
 void on_cmd(mesh_cmd_t* cmd){
     ESP_LOGI(TAG, "Received a %s command from "MACSTR"", type_to_name(cmd->type), MAC2STR(cmd->from));
 
-    if(cmd->type == MESH_CMD_MQTT){
-        ESP_LOGI(TAG, "Payload: %s", cmd->payload);
+    if(esp_mesh_is_root()){
+        if(cmd->type == MESH_CMD_MQTT && is_connected_to_router){
+            mqtt_msg_t *mqtt_msg = (mqtt_msg_t*) cmd->payload;
+            ESP_LOGI(TAG, "Payload: %s", mqtt_msg->payload);
+
+            ESP_LOGI(TAG, "size of mqtt msg payload: %d", strlen(mqtt_msg->payload));
+        }
+        else if(cmd->type == MESH_CMD_HTTP && is_connected_to_router){
+            http_request(HTTP_METHOD_GET, (const char*) cmd->payload);
+            ESP_LOGI(TAG, "RESPONSE: %s", http_get_response_body());
+        }
     }
-    else if(cmd->type == MESH_CMD_HTTP && is_connected_to_router){
-        http_request(HTTP_METHOD_GET, (const char*) cmd->payload);
-        ESP_LOGI(TAG, "RESPONSE: %s", http_get_response_body());
-    }
+    else {}
 }
 
 void wifi_init(){
@@ -57,10 +68,8 @@ void app_main(void)
     esp_log_level_set("example", ESP_LOG_INFO);
     ESP_ERROR_CHECK(nvs_flash_init());
     /*TODO: Research why netif is initialized before wifi, might be why we get the error */
-    /*TODO: mac addr comparison still doesn't work*/
     /*TODO: rewrite receive to always send to all nodes in iptable, since every node could have a subnode*/
     /*TODO: Try to create a subnetwork by moving some nodes out of range of the root node*/
-    /*TODO: Create util function for setting payload of mesh commands*/
 
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -73,12 +82,17 @@ void app_main(void)
     mesh_on_cmd(&on_cmd);
     mqtt_cmd.is_broadcasted = true;
 
-    snprintf((char*) http_cmd.payload, MESH_CMD_PAYLOAD_SIZE, "http://ota.baaka.io/api/firmware/test/updatedAt");
+    mqtt_msg_t mqtt_msg = {0};
 
-    snprintf((char*) mqtt_cmd.payload, MESH_CMD_PAYLOAD_SIZE, "HELLO WORLD");
-    
+    snprintf(mqtt_msg.topic, 10, "/");
+    snprintf(mqtt_msg.payload, 100, "HELLO WORLD!");
+
+    mesh_set_cmd_payload(&http_cmd, (void *)"http://ota.baaka.io/api/firmware/test/updatedAt");
+    mesh_set_cmd_payload(&mqtt_cmd, (void *)&mqtt_msg);
+
+    ESP_LOGI(TAG, "len of payload: %d", strlen(mqtt_msg.payload));
+
     mesh_start();
 
-    mesh_queue_cmd(&http_cmd);
     mesh_queue_cmd(&mqtt_cmd);
 }
