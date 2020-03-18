@@ -1,0 +1,12 @@
+@startuml
+node "Digital Ocean Droplet" as droplet {
+	rectangle "Mosquitto" as mqtt
+}
+node "Root Mikrocontroller" as root
+node "Mikrocontroller" as node {
+	node "DHT22" as dht
+}
+
+node --> root : Mesh
+root --> mqtt : http
+@enduml
