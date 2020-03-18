@@ -7,11 +7,6 @@ mesh_cmd_t mqtt_cmd = {
     .type = MESH_CMD_MQTT
 };
 
-typedef struct {
-    char topic[10];
-    char payload[100];
-} mqtt_msg_t;
-
 mesh_cmd_t http_cmd = {
     .type = MESH_CMD_HTTP
 };
@@ -24,6 +19,7 @@ void ip_event_handler(void *arg, esp_event_base_t event_base,
     ESP_LOGI(TAG, "SUCCESSFULLY CONNECTED TO ROUTER");
     ESP_LOGI(TAG, "MY IP:" IPSTR, IP2STR(&event->ip_info.ip));
     is_connected_to_router = true;
+    mqtt_start();
 }
 
 const char* type_to_name(uint8_t type){
@@ -32,6 +28,15 @@ const char* type_to_name(uint8_t type){
     else if(type == MESH_CMD_HTTP)
         return "HTTP";
     return "UNKNOWN";
+}
+
+void on_connected(bool is_root){
+    if(is_root){
+    }
+    else {
+        mesh_queue_cmd(&http_cmd);
+        mesh_queue_cmd(&mqtt_cmd);
+    }
 }
 
 void on_cmd(mesh_cmd_t* cmd){
@@ -43,6 +48,8 @@ void on_cmd(mesh_cmd_t* cmd){
             ESP_LOGI(TAG, "Payload: %s", mqtt_msg->payload);
 
             ESP_LOGI(TAG, "size of mqtt msg payload: %d", strlen(mqtt_msg->payload));
+
+            mqtt_publish_msg(mqtt_msg);
         }
         else if(cmd->type == MESH_CMD_HTTP && is_connected_to_router){
             http_request(HTTP_METHOD_GET, (const char*) cmd->payload);
@@ -63,11 +70,11 @@ void wifi_init(){
 void app_main(void)
 {
     esp_log_level_set("*", ESP_LOG_ERROR);
-//    esp_log_level_set("HTTP_CLIENT", ESP_LOG_INFO); 
- //   esp_log_level_set("mesh_main", ESP_LOG_INFO); 
+//  esp_log_level_set("HTTP_CLIENT", ESP_LOG_INFO); 
+//    esp_log_level_set("mesh_main", ESP_LOG_INFO); 
+//    esp_log_level_set("mqtt_client", ESP_LOG_INFO);
     esp_log_level_set("example", ESP_LOG_INFO);
     ESP_ERROR_CHECK(nvs_flash_init());
-    /*TODO: Research why netif is initialized before wifi, might be why we get the error */
     /*TODO: rewrite receive to always send to all nodes in iptable, since every node could have a subnode*/
     /*TODO: Try to create a subnetwork by moving some nodes out of range of the root node*/
 
@@ -80,6 +87,8 @@ void app_main(void)
     mesh_init();
 
     mesh_on_cmd(&on_cmd);
+    mesh_on_connected(&on_connected);
+
     mqtt_cmd.is_broadcasted = true;
 
     mqtt_msg_t mqtt_msg = {0};
@@ -90,9 +99,5 @@ void app_main(void)
     mesh_set_cmd_payload(&http_cmd, (void *)"http://ota.baaka.io/api/firmware/test/updatedAt");
     mesh_set_cmd_payload(&mqtt_cmd, (void *)&mqtt_msg);
 
-    ESP_LOGI(TAG, "len of payload: %d", strlen(mqtt_msg.payload));
-
     mesh_start();
-
-    mesh_queue_cmd(&mqtt_cmd);
 }

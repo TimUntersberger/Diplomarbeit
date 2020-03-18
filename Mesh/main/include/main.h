@@ -13,6 +13,7 @@
 
 #include "mesh.h"
 #include "http.h"
+#include "mqtt.h"
 
 #define  MESH_CMD_MQTT    (0x1)
 #define  MESH_CMD_HTTP    (0x2)

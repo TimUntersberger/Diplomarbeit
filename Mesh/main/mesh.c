@@ -12,6 +12,7 @@ static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
 static mesh_cmd_t* cmd_queue[MESH_CMD_QUEUE_SIZE] = {0};
 static mesh_cmd_cb cmd_cb;
+static mesh_connected_cb connected_cb;
 static uint8_t mac[6];
 
 bool mac_addr_equal(uint8_t* mac1, uint8_t* mac2){
@@ -141,8 +142,13 @@ void mesh_on_cmd(mesh_cmd_cb cb){
     cmd_cb = cb;
 }
 
+void mesh_on_connected(mesh_connected_cb cb){
+    connected_cb = cb;
+}
+
 void on_cmd_receive(mesh_cmd_t* cmd, mesh_addr_t from){
-    (*cmd_cb)(cmd);
+    if(cmd_cb != NULL)
+        (*cmd_cb)(cmd);
 }
 
 esp_err_t receive_cmd(mesh_cmd_t** cmd, mesh_addr_t* from){
@@ -270,6 +276,9 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
                  (mesh_layer == 2) ? "<layer2>" : "", MAC2STR(id.addr));
         last_layer = mesh_layer;
         is_mesh_connected = true;
+        if(connected_cb != NULL){
+            (*connected_cb)(esp_mesh_is_root());
+        }
         if (esp_mesh_is_root()) {
             esp_netif_dhcpc_start(netif_sta);
         }

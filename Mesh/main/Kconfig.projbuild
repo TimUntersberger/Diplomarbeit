@@ -70,5 +70,11 @@ menu "Example Configuration"
         default 50
         help
             The number of devices over the network(max: 300).
+
+    config MQTT_BROKER_URL
+        string "MQTT broker url"
+        default "mqtt://192.168.0.2"
+        help
+            Mqtt broker url.
 endmenu
 
