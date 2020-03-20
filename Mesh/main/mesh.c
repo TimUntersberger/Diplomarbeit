@@ -53,9 +53,6 @@ esp_err_t mesh_send_cmd(mesh_cmd_t* cmd){
         memcpy(cmd->from, mac, 6);
     }
 
-    ESP_LOGI(MESH_TAG, "Sending command from "MACSTR"", MAC2STR(cmd->from));
-    ESP_LOGI(MESH_TAG, "Size of cmd: %d", sizeof(mesh_cmd_t));
-
     memcpy(sender_buffer, (uint8_t *)cmd, sizeof(mesh_cmd_t));
 
     esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
@@ -179,6 +176,37 @@ esp_err_t receive_cmd(mesh_cmd_t** cmd, mesh_addr_t* from){
     return err;
 }
 
+void on_node_lost(uint8_t* mac){
+    mesh_cmd_t* cmd = (mesh_cmd_t*) calloc(1, sizeof(mesh_cmd_t));
+
+    cmd->type = MESH_CMD_REMOVE_NODE;
+    cmd->send_to_self = true;
+
+    mesh_node_info_t info = {0};
+
+    memcpy(info.mac, mac, 6);
+
+    mesh_set_cmd_payload(cmd, (void *)&info);
+
+    mesh_queue_cmd(cmd);
+}
+
+void on_node_connected(uint8_t* parent, uint8_t* mac){
+    mesh_cmd_t* cmd = (mesh_cmd_t*) calloc(1, sizeof(mesh_cmd_t));
+
+    cmd->type = MESH_CMD_ADD_NODE;
+    cmd->send_to_self = true;
+
+    mesh_node_info_t info = {0};
+
+    memcpy(info.parent, parent, 6);
+    memcpy(info.mac, mac, 6);
+
+    mesh_set_cmd_payload(cmd, (void *)&info);
+
+    mesh_queue_cmd(cmd);
+}
+
 void mesh_receiver_task(void *arg)
 {
     mesh_cmd_t* cmd;
@@ -231,6 +259,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     break;
     case MESH_EVENT_CHILD_CONNECTED: {
         mesh_event_child_connected_t *child_connected = (mesh_event_child_connected_t *)event_data;
+        on_node_connected(mac, child_connected->mac);
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_CHILD_CONNECTED>aid:%d, "MACSTR"",
                  child_connected->aid,
                  MAC2STR(child_connected->mac));
@@ -238,6 +267,7 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
     break;
     case MESH_EVENT_CHILD_DISCONNECTED: {
         mesh_event_child_disconnected_t *child_disconnected = (mesh_event_child_disconnected_t *)event_data;
+        on_node_lost(child_disconnected->mac);
         ESP_LOGI(MESH_TAG, "<MESH_EVENT_CHILD_DISCONNECTED>aid:%d, "MACSTR"",
                  child_disconnected->aid,
                  MAC2STR(child_disconnected->mac));
