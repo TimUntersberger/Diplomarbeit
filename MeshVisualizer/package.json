@@ -1,0 +1,21 @@
+{
+  "name": "MeshVisualizer",
+  "version": "1.0.0",
+  "description": "Maybe use cytoscape.js together with cytoscape.js-euler for displaying the network.",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cytoscape": "^3.14.1",
+    "cytoscape-dagre": "^2.2.2",
+    "mqtt": "^3.0.0"
+  },
+  "devDependencies": {
+    "parcel": "^1.12.4",
+    "typescript": "^3.8.3"
+  }
+}
