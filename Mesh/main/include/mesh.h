@@ -9,10 +9,10 @@
 #include "esp_mesh.h"
 #include "esp_mesh_internal.h"
 
-#define RECEIVE_BUFFER_SIZE          (1500)
+#define RECEIVE_BUFFER_SIZE         (1500)
 #define SENDER_BUFFER_SIZE          (1460)
-#define MESH_CMD_QUEUE_SIZE          (10)
-#define MESH_CMD_PAYLOAD_SIZE          (1000)
+#define MESH_CMD_QUEUE_SIZE         (10)
+#define MESH_CMD_PAYLOAD_SIZE       (300)
 
 typedef uint8_t mesh_cmd_type_t;
 
