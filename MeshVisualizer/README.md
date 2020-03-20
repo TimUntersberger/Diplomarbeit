@@ -1,1 +1,1 @@
-Maybe use cytoscape.js for displaying the network.
+Maybe use cytoscape.js together with cytoscape.js-euler for displaying the network.
