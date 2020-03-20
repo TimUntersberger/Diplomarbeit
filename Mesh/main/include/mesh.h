@@ -16,11 +16,13 @@
 
 #define MESH_CMD_ADD_NODE           (8)
 #define MESH_CMD_REMOVE_NODE           (9)
+
 typedef uint8_t mesh_cmd_type_t;
 
 typedef struct {
     mesh_cmd_type_t type;
     bool is_broadcasted;
+    bool send_to_self;
     uint8_t payload[MESH_CMD_PAYLOAD_SIZE];
     uint8_t from[6];
 } mesh_cmd_t;

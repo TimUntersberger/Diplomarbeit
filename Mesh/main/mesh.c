@@ -64,23 +64,42 @@ esp_err_t mesh_send_cmd(mesh_cmd_t* cmd){
     esp_mesh_get_routing_table((mesh_addr_t *) &route_table,
                                CONFIG_MESH_ROUTE_TABLE_SIZE * 6, &route_table_size);
 
-    if(esp_mesh_is_root()){
-        for (int i = 0; i < route_table_size; i++) {
-            if(mac_addr_equal(route_table[i].addr, cmd->from) || mac_addr_equal(route_table[i].addr, mac))
-                continue;
+    ESP_LOGI(MESH_TAG, "SELF: %d MAC: %d", cmd->send_to_self, mac_addr_equal(cmd->from, mac));
 
-            ESP_LOGI(MESH_TAG, "Sending to "MACSTR"", MAC2STR(route_table[i].addr));
-            err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
-            if (err) {
-                ESP_LOGE(MESH_TAG,
-                         "[ROOT-2-UNICAST][L:%d]parent:"MACSTR" to "MACSTR", heap:%d[err:0x%x, proto:%d, tos:%d]",
-                         mesh_layer, MAC2STR(mesh_parent_addr.addr),
-                         MAC2STR(route_table[i].addr), esp_get_free_heap_size(),
-                         err, data.proto, data.tos);
-            } 
-        }
-    } else {
-        ESP_LOGI(MESH_TAG, "Sending to "MACSTR"", MAC2STR(mesh_parent_addr.addr));
+    if(cmd->send_to_self == true && mac_addr_equal(cmd->from, mac)){
+        on_cmd_receive(cmd);
+    }
+
+    for (int i = 1; i < route_table_size; i++) {
+        if(mac_addr_equal(route_table[i].addr, cmd->from))
+            continue;
+
+        ESP_LOGI(
+            MESH_TAG, 
+            "Sending command of type %d from "MACSTR" to "MACSTR"", 
+            cmd->type,
+            MAC2STR(cmd->from), 
+            MAC2STR(route_table[i].addr)
+        );
+
+        err = esp_mesh_send(&route_table[i], &data, MESH_DATA_P2P, NULL, 0);
+        if (err) {
+            ESP_LOGE(MESH_TAG,
+                     "[ROOT-2-UNICAST][L:%d]parent:"MACSTR" to "MACSTR", heap:%d[err:0x%x, proto:%d, tos:%d]",
+                     mesh_layer, MAC2STR(mesh_parent_addr.addr),
+                     MAC2STR(route_table[i].addr), esp_get_free_heap_size(),
+                     err, data.proto, data.tos);
+        } 
+    }
+
+    if(!esp_mesh_is_root()){
+        ESP_LOGI(
+            MESH_TAG, 
+            "Sending command of type %d from "MACSTR" to "MACSTR"", 
+            cmd->type,
+            MAC2STR(cmd->from), 
+            MAC2STR(mesh_parent_addr.addr)
+        );
 
         err = esp_mesh_send(&mesh_parent_addr, &data, MESH_DATA_P2P, NULL, 0);
 
