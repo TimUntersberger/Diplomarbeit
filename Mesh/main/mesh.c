@@ -11,6 +11,7 @@ static mesh_event_root_address_t root_addr;
 static int mesh_layer = -1;
 static esp_netif_t *netif_sta = NULL;
 static mesh_cmd_t* cmd_queue[MESH_CMD_QUEUE_SIZE] = {0};
+static int cmd_queue_count = 0;
 static mesh_cmd_cb cmd_cb;
 static mesh_connected_cb connected_cb;
 static uint8_t mac[6];
@@ -33,6 +34,11 @@ void mesh_set_cmd_payload(mesh_cmd_t* cmd, uint8_t* payload){
     for(int i = 0; i < MESH_CMD_PAYLOAD_SIZE; i++){
         cmd->payload[i] = payload[i];
     }
+}
+
+void on_cmd_receive(mesh_cmd_t* cmd){
+    if(cmd_cb != NULL)
+        (*cmd_cb)(cmd);
 }
 
 esp_err_t mesh_send_cmd(mesh_cmd_t* cmd){
@@ -94,14 +100,12 @@ esp_err_t mesh_send_cmd(mesh_cmd_t* cmd){
  * Pls don't forget to malloc the command or make sure to keep the variable in scope
  * */
 void mesh_queue_cmd(mesh_cmd_t* cmd){
-    for(int i = MESH_CMD_QUEUE_SIZE - 1; i >= 0; i--){
-        if(cmd_queue[i] != NULL){
-            cmd_queue[i + 1] = cmd;
-            return;
-        }
-    }
+    ESP_LOGI(MESH_TAG, "Queued a command");
 
-    cmd_queue[0] = cmd;
+    cmd_queue[cmd_queue_count] = cmd;
+
+    cmd_queue_count++;
+
 }
 
 void mesh_sender_task(void *arg)
@@ -109,27 +113,18 @@ void mesh_sender_task(void *arg)
     is_running = true;
 
     while (is_running) {
-        ESP_LOGI(MESH_TAG, "layer:%d, rtableSize:%d, %s", mesh_layer,
+        ESP_LOGD(MESH_TAG, "layer:%d, rtableSize:%d, %s", mesh_layer,
                  esp_mesh_get_routing_table_size(),
                  (is_mesh_connected && esp_mesh_is_root()) ? "ROOT" : is_mesh_connected ? "NODE" : "DISCONNECT");
         vTaskDelay(10 * 1000 / portTICK_RATE_MS);
 
-        for(int i = 0; i < MESH_CMD_QUEUE_SIZE; i++){
+        for(int i = 0; i < cmd_queue_count; i++){
             mesh_cmd_t* cmd = cmd_queue[i];
 
-            if(cmd == NULL)
-                break;
-
-            ESP_LOGI(MESH_TAG, "Sending command of type %d", cmd->type);
-
             mesh_send_cmd(cmd);
-
-            cmd_queue[i] = NULL;
         }
 
-        if (esp_mesh_get_routing_table_size() < 10) {
-            vTaskDelay(1 * 1000 / portTICK_RATE_MS);
-        }
+        cmd_queue_count = 0;
     }
 
     vTaskDelete(NULL);
@@ -143,13 +138,9 @@ void mesh_on_connected(mesh_connected_cb cb){
     connected_cb = cb;
 }
 
-void on_cmd_receive(mesh_cmd_t* cmd, mesh_addr_t from){
-    if(cmd_cb != NULL)
-        (*cmd_cb)(cmd);
-}
-
-esp_err_t receive_cmd(mesh_cmd_t** cmd, mesh_addr_t* from){
+esp_err_t receive_cmd(mesh_cmd_t** cmd){
     esp_err_t err = ESP_OK;
+    mesh_addr_t from;
 
     int flag = 0;
 
@@ -157,7 +148,7 @@ esp_err_t receive_cmd(mesh_cmd_t** cmd, mesh_addr_t* from){
     data.data = receiver_buffer;
     data.size = RECEIVE_BUFFER_SIZE;
 
-    err = esp_mesh_recv(from, &data, portMAX_DELAY, &flag, NULL, 0);
+    err = esp_mesh_recv(&from, &data, portMAX_DELAY, &flag, NULL, 0);
 
     if (err != ESP_OK || !data.size) {
         ESP_LOGI(MESH_TAG, "err:0x%x, size:%d", err, data.size);
@@ -166,10 +157,10 @@ esp_err_t receive_cmd(mesh_cmd_t** cmd, mesh_addr_t* from){
 
     *cmd = (mesh_cmd_t*) data.data;
 
-    ESP_LOGI(MESH_TAG,
+    ESP_LOGD(MESH_TAG,
              "[#RX][L:%d] parent:"MACSTR", receive from "MACSTR", size:%d, heap:%d, flag:%d[err:0x%x, proto:%d, tos:%d]",
              mesh_layer,
-             MAC2STR(mesh_parent_addr.addr), MAC2STR(from->addr),
+             MAC2STR(mesh_parent_addr.addr), MAC2STR(from.addr),
              data.size, esp_get_free_heap_size(), flag, err, data.proto,
              data.tos);
 
@@ -210,17 +201,16 @@ void on_node_connected(uint8_t* parent, uint8_t* mac){
 void mesh_receiver_task(void *arg)
 {
     mesh_cmd_t* cmd;
-    mesh_addr_t from;
     is_running = true;
 
     while (is_running) {
-        receive_cmd(&cmd, &from);
+        receive_cmd(&cmd);
 
         if(esp_mesh_is_root() && cmd->is_broadcasted){
             mesh_send_cmd(cmd);
         }
 
-        on_cmd_receive(cmd, from);
+        on_cmd_receive(cmd);
     }
 
     vTaskDelete(NULL);
@@ -299,11 +289,13 @@ void mesh_event_handler(void *arg, esp_event_base_t event_base,
         esp_mesh_get_id(&id);
         mesh_layer = connected->self_layer;
         memcpy(&mesh_parent_addr.addr, connected->connected.bssid, 6);
+
         ESP_LOGI(MESH_TAG,
                  "<MESH_EVENT_PARENT_CONNECTED>layer:%d-->%d, parent:"MACSTR"%s, ID:"MACSTR"",
                  last_layer, mesh_layer, MAC2STR(mesh_parent_addr.addr),
                  esp_mesh_is_root() ? "<ROOT>" :
                  (mesh_layer == 2) ? "<layer2>" : "", MAC2STR(id.addr));
+
         last_layer = mesh_layer;
         is_mesh_connected = true;
         if(connected_cb != NULL){
@@ -460,8 +452,8 @@ void mesh_init(){
 
 void mesh_start(){
     /* mesh start */
-    ESP_ERROR_CHECK(esp_mesh_start());
     esp_efuse_mac_get_default(mac);
+    ESP_ERROR_CHECK(esp_mesh_start());
     ESP_LOGI(MESH_TAG, "mesh starts successfully, heap:%d, %s\n",  esp_get_free_heap_size(),
          esp_mesh_is_root_fixed() ? "root fixed" : "root not fixed");
 }

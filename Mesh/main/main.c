@@ -38,8 +38,8 @@ void on_connected(bool is_root){
     if(is_root){
     }
     else {
-        mesh_queue_cmd(&http_cmd);
-        mesh_queue_cmd(&mqtt_cmd);
+        /* mesh_queue_cmd(&http_cmd); */
+        /* mesh_queue_cmd(&mqtt_cmd); */
     }
 }
 
@@ -49,9 +49,12 @@ void on_cmd(mesh_cmd_t* cmd){
     if(esp_mesh_is_root()){
         if(cmd->type == MESH_CMD_MQTT && is_connected_to_router){
             mqtt_msg_t *mqtt_msg = (mqtt_msg_t*) cmd->payload;
-            ESP_LOGI(TAG, "Payload: %s", mqtt_msg->payload);
 
-            ESP_LOGI(TAG, "size of mqtt msg payload: %d", strlen(mqtt_msg->payload));
+            if(strcmp(mqtt_msg->topic, "/")){
+                ESP_LOGI(TAG, "Payload: %s", mqtt_msg->payload);
+
+                ESP_LOGI(TAG, "size of mqtt msg payload: %d", strlen(mqtt_msg->payload));
+            }
 
             mqtt_publish_msg(mqtt_msg);
         }
@@ -116,12 +119,11 @@ void wifi_init(){
 void app_main(void)
 {
     esp_log_level_set("*", ESP_LOG_ERROR);
-//  esp_log_level_set("HTTP_CLIENT", ESP_LOG_INFO); 
-//    esp_log_level_set("mesh_main", ESP_LOG_INFO); 
-//    esp_log_level_set("mqtt_client", ESP_LOG_INFO);
+    esp_log_level_set("HTTP_CLIENT", ESP_LOG_INFO); 
+    esp_log_level_set("mesh_main", ESP_LOG_INFO); 
+    esp_log_level_set("mqtt_client", ESP_LOG_INFO);
     esp_log_level_set("example", ESP_LOG_INFO);
     ESP_ERROR_CHECK(nvs_flash_init());
-    /*TODO: rewrite receive to always send to all nodes in iptable, since every node could have a subnode*/
     /*TODO: Add a way for a command to only go to root */
     /*TODO: Maybe display more "node_info" information? 
      * Example: when mqtt command hits root emit node_info that the node with <mac> sent <this> mqtt command (For the ui) */
