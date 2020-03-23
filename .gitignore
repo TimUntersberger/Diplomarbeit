@@ -1,2 +1,4 @@
 workspace.code-workspace
 Mesh/build
+.ccls
+.ccls-cache
