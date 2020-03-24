@@ -1,15 +1,13 @@
 @startuml
-rectangle "Docker Compose" {
-  rectangle "Postgres Network" {
-    node "Postgres:11.5" {
-      rectangle "Ports" as e1 {
-        5432 -> 5432
-      }
+rectangle "Postgres Network" {
+  node "Postgres:11.5" {
+    rectangle "Ports" as e1 {
+      5432 -> 5432
     }
-    node "PgAdmin4" {
-      rectangle "Ports" as e2 {
-        80 -> 5433
-      }
+  }
+  node "PgAdmin4" {
+    rectangle "Ports" as e2 {
+      80 -> 5433
     }
   }
 }

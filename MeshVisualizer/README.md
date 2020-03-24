@@ -14,3 +14,7 @@ example node/add payload
 example node/remove payload
 
 { "mac": "b4:e6:2d:c1:fa:0d" }
+
+example url for connecting
+
+ws://localhost:1884

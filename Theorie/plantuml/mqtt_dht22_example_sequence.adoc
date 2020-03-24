@@ -1,8 +1,13 @@
 @startuml
-loop
-	"DHT22 Mikrocontroller" as dhtmc -> "DHT22" as dht : Fragt nach dem aktuellen Wert
-	dhtmc <- dht : Gibt den aktuellen Wert zurück
-	dhtmc -> "Root Mikrocontroller" as rootmc : Sendet einen MQTT-Command mit Sensordaten
-	rootmc -> "MQTT Server" as mqtt : Published eine MQTT-Message mit Sensordaten
-end
+activate dhtmc
+"DHT22 Mikrocontroller" as dhtmc -> "DHT22" as dht : Fragt nach dem aktuellen Wert
+activate dht
+dhtmc <- dht : Gibt den aktuellen Wert zurück
+deactivate dht
+dhtmc -> "Root Mikrocontroller" as rootmc : Sendet einen MQTT-Command mit Sensordaten
+deactivate dhtmc
+activate rootmc
+rootmc -> "MQTT Server" as mqtt : Published eine MQTT-Message mit Sensordaten
+deactivate rootmc
+activate mqtt
 @enduml
