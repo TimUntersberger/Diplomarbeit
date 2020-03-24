@@ -21,10 +21,104 @@ const cy = cytoscape({
         label: "data(id)",
         "background-color": "#45ba53"
       }
+    },
+    {
+      selector: ".highlighted",
+      style: {
+        "line-color": "red"
+      }
     }
   ],
+  elements: {
+    nodes: [
+      {
+        data: {
+          id: "a"
+        }
+      },
+      {
+        data: {
+          id: "b"
+        }
+      },
+      {
+        data: {
+          id: "c"
+        }
+      },
+      {
+        data: {
+          id: "d"
+        }
+      }
+    ],
+    edges: [
+      {
+        data: {
+          id: "ab",
+          source: "a",
+          target: "b"
+        }
+      },
+      {
+        data: {
+          id: "bc",
+          source: "b",
+          target: "c"
+        }
+      },
+      {
+        data: {
+          id: "bd",
+          source: "b",
+          target: "d"
+        }
+      },
+      {
+        data: {
+          id: "ab",
+          source: "a",
+          target: "b"
+        }
+      }
+    ]
+  },
   layout
 });
+
+function getEdgesInPath(from: String, to: String) {
+  const edges = cy.edges().map(ele => ele.data());
+  let edge = edges.find(e => e.target === from);
+
+  const result = [edge];
+
+  while (edge.source !== to) {
+    edge = edges.find(e => e.target === edge.source);
+
+    result.push(edge);
+  }
+
+  return result;
+}
+
+function highlightPath(from: String, to: String) {
+  const edges = getEdgesInPath(from, to);
+
+  for (const edge of edges) {
+    cy.getElementById(edge.id).addClass("highlighted");
+  }
+}
+
+function unhighlightPath(from: String, to: String) {
+  const edges = getEdgesInPath(from, to);
+
+  for (const edge of edges) {
+    cy.getElementById(edge.id).removeClass("highlighted");
+  }
+}
+
+setTimeout(() => highlightPath("d", "a"), 1000);
+setTimeout(() => unhighlightPath("d", "a"), 3000);
 
 function onNodeAdd(nodeInfo: any) {
   const parentNode = cy.getElementById(nodeInfo.parent);
