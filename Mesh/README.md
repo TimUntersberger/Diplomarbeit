@@ -1,5 +1,14 @@
 # Mesh 
-Open project configuration menu (`idf.py menuconfig`) to configure the mesh network channel, router SSID, router password and mesh softAP settings.
+
+Open project configuration menu (`idf.py menuconfig`) to configure the mesh network.
+
+Following things are required: 
+
+* channel
+* router SSID
+* router password
+* mqtt broker url
+* partition table set to custom
 
 When the mesh network is established and if you happen to run this example on ESP-WROVER-KIT boards, the RGB light indicator will show you on which layer devices are.
 
