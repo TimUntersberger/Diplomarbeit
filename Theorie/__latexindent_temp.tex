@@ -1,5 +1,7 @@
 \chapter{Ausgewählte Aspekte}
 
+\section{DHT22}
+
 \section{Over The Air Update (OTA)}\label{sec:ota}
 
 \subsection*{Problemstellung}\label{sec:problem}
@@ -136,7 +138,64 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 
 \section{Bedienungsanleitung}
 
-% Installation von esp-idf toolchain
+\subsection{Übersicht}
+
+% TODO: Change Diagram 
+%   digital ocean droplet -> host machine
+%   Mesh -> tcp
+%   http -> mqtt
+
+\vspace*{50px}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_deployment.png}
+        \caption{Deployment Diagramm (Quelle: eigene Darstellung)}
+    \end{center}    
+\end{figure}
+
+In diesem kleinen Beispiel gibt es insgesamt 2 Mikrocontroller. 
+
+\begin{itemize}
+    \item Ein \textbf{Mikrocontroller} welcher mit dem DHT22 verbunden ist und regelmäßig die Sensordaten weiterschickt 
+    \item Ein \textbf{Root Mikrocontroller} der nur für das weiterleiten der Nachrichten zuständig ist.
+\end{itemize}
+
+Der Root Mikrocontroller ist mit dem MQTT Broker, welcher in diesem Fall ein \textbf{Mosquitto} Broker ist, verbunden.
+
+Der \textbf{Mosquitto} Server ist auf einer beliebigen \textbf{Host Machine} (Bsp.: Digital Ocean Droplet) gestartet.
+
+\vspace*{50px}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_sequence.png}
+        \caption{Sequence Diagramm (Quelle: eigene Darstellung)}
+    \end{center}    
+\end{figure}
+\vspace*{50px}
+
+Das obige Diagramm zeigt den Verlauf von einer Iteration dieses Beispieles an.
+Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms) ließt die aktuellen Werte des DHT22, welche er dann in das Mesh Netzwerk verschickt.
+
+Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
+
+\subsection{ESP-IDF Setup}
+
+
+
+\subsection{Mosquitto}
+\subsection{Mesh Visualizer}
+\subsection{Config}
+\subsection{Code}
+\subsubsection{Struktur}
+\subsubsection{Setup}
+\subsubsection{IP Event Handler}
+\subsubsection{Command Callback}
+\subsubsection{DHT22 Task}
+\subsection{Ergebnis}
+\subsubsection{Mesh Visualizer}
+\subsubsection{Mqtt Fx}
+
+% Installation der esp-idf toolchain
 % Disclaimer: Wir nehmen "den" esp
 % dht22 Beispiel vorstellen
 %   deployment
@@ -144,7 +203,7 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 % dht22 Anstecken
 %   Welche Pins
 %   Fertig angesteckten Esp herzeigen
-% setup mosquitto
+% setup mosquitto (Mqtt)
 %   websocket und mqtt
 % setup mesh visualizer
 % setup makeconfig
@@ -152,9 +211,9 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 %   folder structure erklären
 %   ip event handler erklären
 %   command callback erklären
-%   
+% Example Output herzeigen
 
-\section{ELF vs Bin}
+\section{ELF vs. Bin}
 
 \subsection{Bin}
 Die Dateierweiterung .bin wird am häufigsten mit komprimierten Binärdateien verknüpft. Diese Dateien werden von vielen verschiedenen Computeranwendungen und für eine Vielzahl von Zwecken verwendet. Die Erweiterung .bin wird häufig für CD- und DVD-Backup-Image-Dateien verwendet.
