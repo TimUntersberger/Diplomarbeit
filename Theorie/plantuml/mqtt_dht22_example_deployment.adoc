@@ -1,5 +1,5 @@
 @startuml
-node "Digital Ocean Droplet" as droplet {
+node "Host Machine" as droplet {
 	rectangle "Mosquitto" as mqtt
 }
 cloud "Mesh Netzwerk" {
@@ -9,6 +9,6 @@ cloud "Mesh Netzwerk" {
 	}
 }
 
-node -- root : Mesh
-root -- mqtt : http
+node -- root : TCP
+root -- mqtt : MQTT
 @enduml

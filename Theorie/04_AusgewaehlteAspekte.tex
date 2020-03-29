@@ -117,6 +117,7 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 
 % sequence von http
 % sequence von mqtt
+% was ist ein mqtt command erklären
 % command architektur erlären
 
 \section{NGINX sichern mit letsencrypt}
@@ -140,11 +141,6 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 
 \subsection{Übersicht}
 
-% TODO: Change Diagram 
-%   digital ocean droplet -> host machine
-%   Mesh -> tcp
-%   http -> mqtt
-
 \vspace*{50px}
 \begin{figure}[H]
     \begin{center}
@@ -156,31 +152,32 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 In diesem kleinen Beispiel gibt es insgesamt 2 Mikrocontroller. 
 
 \begin{itemize}
-    \item Ein \textbf{Mikrocontroller} welcher mit dem DHT22 verbunden ist und regelmäßig die Sensordaten weiterschickt 
+    \item Ein \textbf{Mikrocontroller} welcher mit einem DHT22 verbunden ist und regelmäßig die Sensordaten weiterschickt.
     \item Ein \textbf{Root Mikrocontroller} der nur für das weiterleiten der Nachrichten zuständig ist.
 \end{itemize}
 
-Der Root Mikrocontroller ist mit dem MQTT Broker, welcher in diesem Fall ein \textbf{Mosquitto} Broker ist, verbunden.
+Der Root Mikrocontroller ist mit einem MQTT Broker (\textbf{Mosquitto}) verbunden.
 
-Der \textbf{Mosquitto} Server ist auf einer beliebigen \textbf{Host Machine} (Bsp.: Digital Ocean Droplet) gestartet.
+Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} (Bsp.: Digital Ocean Droplet).
 
 \vspace*{50px}
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_sequence.png}
         \caption{Sequence Diagramm (Quelle: eigene Darstellung)}
-    \end{center}    
+        \label{abb:dht22_sequence_diagram}
+    \end{center}
 \end{figure}
 \vspace*{50px}
 
-Das obige Diagramm zeigt den Verlauf von einer Iteration dieses Beispieles an.
-Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms) ließt die aktuellen Werte des DHT22, welche er dann in das Mesh Netzwerk verschickt.
+Die Abbildung \ref{abb:dht22_sequence_diagram} zeigt den Verlauf einer Iteration dieses Beispieles.
+Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh Netzwerk mittels MQTT Command verschickt.
 
 Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
 
 \subsection{ESP-IDF Setup}
 
-Die folgenden Anweisungen sind für Ubuntu gedacht. Sie können für Alternativen wie zum Beispiel das \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktionieren, sie müssen aber nicht. 
+Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem vorraus. Es wird nicht garantiert, dass dies unter Alternativen wie zum Beispiel dem \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktioniert. 
 
 \subsubsection{Dependencies}
 
@@ -195,7 +192,7 @@ Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gi
 
 \subsubsection{Libraries}
 
-Damit man die ESP-IDF Libraries benutzen kann, muss man zuerst diese herunterladen.
+Damit man die ESP-IDF Libraries benutzen kann, muss man diese zuerst herunterladen.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -205,10 +202,10 @@ Damit man die ESP-IDF Libraries benutzen kann, muss man zuerst diese herunterlad
 \end{verbatim}
 \vspace*{10px}
 
-Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis von dem aktuell eingeloggten Benutzer und wechselt dann in diesen. 
+Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis des aktuell eingeloggten Benutzer und wechselt in diesen. 
 Anschließend wird das offizielle Repository von ESP-IDF rekursiv gecloned.
 
-Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries installieren. Dies kann man durch folgende Bash Befehle lösen.
+Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries installieren. Dies erfolgt durch folgende Bash Befehle.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -217,7 +214,7 @@ Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries instal
 \end{verbatim}
 \vspace*{10px}
 
-Diese Befehle ändern das aktuelle Verzeichnis auf das vorher installierte Repository und führt dann die \textbf{install.sh} Datei von ESP-IDF aus.
+Mit diesen Befehlen wird das Arbeitsverzeichnis auf das vorher installierte Repository gesetzt und die \textbf{install.sh} Datei von ESP-IDF ausgeführt.
 
 Dies kann einige Minuten dauern.
 
@@ -239,9 +236,9 @@ Die \textit{IDF\_PATH} Variable gibt den Pfad des Repositories von ESP-IDF an.
 \end{verbatim}
 \vspace*{10px}
 
-Danach müssen noch ein paar Umgebungsvariable von ESP-IDF selber gesetzt werden, dafür muss man den obigen Befehl ausführen.
+Danach müssen noch weitere Umgebungsvariablen von ESP-IDF selbst gesetzt werden, dafür muss man den oben angeführten Befehl ausführen.
 
-Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es eine gute Entscheidung diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis zu schreiben.
+Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es sinnvoll diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis zu schreiben.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -261,11 +258,11 @@ Es ist auch möglich eine eigene Funktion dafür zu definieren, wenn man die Too
 \end{verbatim}
 \vspace*{10px}
 
-Anschließend muss der Terminal neugestartet werden um die \textbf{.bashrc} Datei benutzen zu können.
+Anschließend muss der Terminal neugestartet werden, um die \textbf{.bashrc} Datei ausführen zu können.
 
 \subsubsection{WSL}\label{sec:wsl}
 
-WSL unterstützt laut dem Stand vom \textbf{29.03.2020} das Linux USB Interface nicht. Dies bedeutet, dass das ESP-IDF Setup zwar funktionieren kann, aber die Benutzung der Toolchain nicht realistisch ist.
+WSL unterstützt bis zum Stand vom \textbf{29.03.2020} das Linux USB Interface nicht. Dies bedeutet, dass für eine fehlerfreie Nutzung der ESP-IDF-Toolchain nicht garantiert wird.
 
 \subsection{Mosquitto}
 
