@@ -127,7 +127,7 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 
 \section{Die Wichtigkeit von Erase Flash}
 
-\section{Mesh Visualizer}
+\section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
 \section{Libraries}
 
@@ -269,7 +269,28 @@ WSL unterstützt laut dem Stand vom \textbf{29.03.2020} das Linux USB Interface 
 
 \subsection{Mosquitto}
 
+\textbf{mosquitto.conf}
+\begin{verbatim}
+    listener 1883
+    protocol mqtt
+
+    listener 1884
+    protocol websockets
+\end{verbatim}
 \vspace*{10px}
+
+Die \textbf{mosquitto.conf} Datei konfiguriert den Mosquitto Broker so, dass er auf 2 Ports zu hört.
+
+\begin{enumerate}
+    \item 1883
+    \item 1884
+\end{enumerate}
+
+Auf dem Port \textbf{1883} hört ein Websocket Server zu, welcher für die Nutzung von dem \textbf{Mesh Visualizer} \ref{sec:mesh-visualizer} konfiguriert wurde. 
+
+Der Port 1883 ist wie üblich eine MQTT-Schnittstelle.
+
+\textbf{docker-compose.yml}
 \begin{verbatim}
     version: '3'
     services:
@@ -278,10 +299,12 @@ WSL unterstützt laut dem Stand vom \textbf{29.03.2020} das Linux USB Interface 
         ports:
           - '1883:1883'
           - '1884:1884'
-      volumes:
-        - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+        volumes:
+            - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
 \end{verbatim}
 \vspace*{10px}
+
+% Describe the docker-compose file above
 
 \subsection{Mesh Visualizer}
 \subsection{Config}
