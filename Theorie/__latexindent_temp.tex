@@ -180,9 +180,109 @@ Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt
 
 \subsection{ESP-IDF Setup}
 
+Die folgenden Anweisungen sind für Ubuntu gedacht. Sie können für Alternativen wie zum Beispiel das \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktionieren, sie müssen aber nicht. 
 
+\subsubsection{Dependencies}
+
+Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gibt es den folgenden shell command.
+
+\vspace*{10px}
+\begin{verbatim}
+    sudo apt-get install git wget flex bison gperf python python-pip 
+    python-setuptools cmake ninja-build ccache libffi-dev libssl-dev
+\end{verbatim}
+\vspace*{10px}
+
+\subsubsection{Libraries}
+
+Damit man die ESP-IDF Libraries benutzen kann, muss man zuerst diese herunterladen.
+
+\vspace*{10px}
+\begin{verbatim}
+    mkdir $HOME/esp &&
+    cd $HOME/esp &&
+    git clone --recursive https://github.com/espressif/esp-idf.git
+\end{verbatim}
+\vspace*{10px}
+
+Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis von dem aktuell eingeloggten Benutzer und wechselt dann in diesen. 
+Anschließend wird das offizielle Repository von ESP-IDF rekursiv gecloned.
+
+Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries installieren. Dies kann man durch folgende Bash Befehle lösen.
+
+\vspace*{10px}
+\begin{verbatim}
+    cd $HOME/esp/esp-idf &&
+    ./install.sh
+\end{verbatim}
+\vspace*{10px}
+
+Diese Befehle ändern das aktuelle Verzeichnis auf das vorher installierte Repository und führt dann die \textbf{install.sh} Datei von ESP-IDF aus.
+
+Dies kann einige Minuten dauern.
+
+\subsubsection{Umgebungsvariablen}
+
+Damit die Toolchain nun verwendet werden kann, müssen noch ein paar Umgebungsvariablen definiert werden. 
+
+\vspace*{10px}
+\begin{verbatim}
+    export IDF_PATH=$HOME/esp/esp-idf
+\end{verbatim}
+\vspace*{10px}
+
+Die \textit{IDF\_PATH} Variable gibt den Pfad des Repositories von ESP-IDF an.
+
+\vspace*{10px}
+\begin{verbatim}
+    . $HOME/esp/esp-idf/export.sh
+\end{verbatim}
+\vspace*{10px}
+
+Danach müssen noch ein paar Umgebungsvariable von ESP-IDF selber gesetzt werden, dafür muss man den obigen Befehl ausführen.
+
+Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es eine gute Entscheidung diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis zu schreiben.
+
+\vspace*{10px}
+\begin{verbatim}
+    export IDF_PATH=$HOME/esp/esp-idf
+    . $HOME/esp/esp-idf/export.sh
+\end{verbatim}
+\vspace*{10px}
+
+Es ist auch möglich eine eigene Funktion dafür zu definieren, wenn man die Toolchain nur bei bedarf benutzen möchte.
+
+\vspace*{10px}
+\begin{verbatim}
+    function loadEspIdf() {
+        export IDF_PATH=$HOME/esp/esp-idf
+        . $HOME/esp/esp-idf/export.sh
+    }
+\end{verbatim}
+\vspace*{10px}
+
+Anschließend muss der Terminal neugestartet werden um die \textbf{.bashrc} Datei benutzen zu können.
+
+\subsubsection{WSL}\label{sec:wsl}
+
+WSL unterstützt laut dem Stand vom \textbf{29.03.2020} das Linux USB Interface nicht. Dies bedeutet, dass das ESP-IDF Setup zwar funktionieren kann, aber die Benutzung der Toolchain nicht realistisch ist.
 
 \subsection{Mosquitto}
+
+\vspace*{10px}
+\begin{verbatim}
+    version: '3'
+    services:
+      mosquitto:
+        image: eclipse-mosquitto
+        ports:
+          - '1883:1883'
+          - '1884:1884'
+      volumes:
+        - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+\end{verbatim}
+\vspace*{10px}
+
 \subsection{Mesh Visualizer}
 \subsection{Config}
 \subsection{Code}
