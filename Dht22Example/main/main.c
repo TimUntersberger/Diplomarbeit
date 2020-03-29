@@ -64,8 +64,38 @@ void wifi_init(){
     ESP_ERROR_CHECK(esp_wifi_start());
 }
 
+void DHT_task(void *pvParameter)
+{
+	while(1) {
+		int ret = dht22_read();
+        float humidity = dht22_get_humidity();
+        float temperature = dht22_get_temperature();
+		
+		dht22_handle_error(ret);
+
+		ESP_LOGI(TAG, "Humidity: %.1f\n", humidity);
+		ESP_LOGI(TAG, "Temperature: %.1f\n", temperature);
+		
+		mqtt_msg_t msg = {0};
+
+		snprintf(msg.topic, MQTT_MESSAGE_TOPIC_SIZE, "temperature");
+   		snprintf(msg.payload, MQTT_MESSAGE_PAYLOAD_SIZE, "%f", temperature);
+
+		mqtt_publish_msg(&msg);
+
+		snprintf(msg.topic, MQTT_MESSAGE_TOPIC_SIZE, "humidity");
+   		snprintf(msg.payload, MQTT_MESSAGE_PAYLOAD_SIZE, "%f", humidity);
+
+        mqtt_publish_msg(&msg);
+
+		vTaskDelay(3000 / portTICK_RATE_MS);
+	}
+}
+
 void app_main(void)
 {
+	dht22_set_gpio(27);
+
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
@@ -78,4 +108,6 @@ void app_main(void)
     mesh_on_cmd(&on_cmd);
 
     mesh_start();
+
+    xTaskCreate( &DHT_task, "DHT_task", 2048, NULL, 5, NULL );
 }

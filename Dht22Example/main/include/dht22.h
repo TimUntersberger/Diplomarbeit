@@ -15,11 +15,11 @@
 
 // == function prototypes =======================================
 
-void set_dht22_gpio(int gpio);
-void errorHandler(int response);
-int readDHT();
+void dht22_set_gpio(int gpio);
+void dht22_handle_error(int response);
+int dht22_read();
 float dht22_get_humidity();
 float dht22_get_temperature();
-int getSignalLevel(int usTimeOut, bool state);
+int dht22_get_signal_level(int usTimeOut, bool state);
 
 #endif
