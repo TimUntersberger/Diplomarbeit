@@ -29,60 +29,6 @@ const cy = cytoscape({
       }
     }
   ],
-  elements: {
-    nodes: [
-      {
-        data: {
-          id: "a"
-        }
-      },
-      {
-        data: {
-          id: "b"
-        }
-      },
-      {
-        data: {
-          id: "c"
-        }
-      },
-      {
-        data: {
-          id: "d"
-        }
-      }
-    ],
-    edges: [
-      {
-        data: {
-          id: "ab",
-          source: "a",
-          target: "b"
-        }
-      },
-      {
-        data: {
-          id: "bc",
-          source: "b",
-          target: "c"
-        }
-      },
-      {
-        data: {
-          id: "bd",
-          source: "b",
-          target: "d"
-        }
-      },
-      {
-        data: {
-          id: "ab",
-          source: "a",
-          target: "b"
-        }
-      }
-    ]
-  },
   layout
 });
 
@@ -117,8 +63,8 @@ function unhighlightPath(from: String, to: String) {
   }
 }
 
-setTimeout(() => highlightPath("d", "a"), 1000);
-setTimeout(() => unhighlightPath("d", "a"), 3000);
+// setTimeout(() => highlightPath("d", "a"), 1000);
+// setTimeout(() => unhighlightPath("d", "a"), 3000);
 
 function onNodeAdd(nodeInfo: any) {
   const parentNode = cy.getElementById(nodeInfo.parent);
