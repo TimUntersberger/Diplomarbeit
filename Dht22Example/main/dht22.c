@@ -1,24 +1,3 @@
-/*------------------------------------------------------------------------------
-
-	DHT22 temperature & humidity sensor AM2302 (DHT22) driver for ESP32
-
-	Jun 2017:	Ricardo Timmermann, new for DHT22  	
-
-	Code Based on Adafruit Industries and Sam Johnston and Coffe & Beer. Please help
-	to improve this code. 
-	
-	This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-	Unless required by applicable law or agreed to in writing, this
-	software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-	CONDITIONS OF ANY KIND, either express or implied.
-
-	PLEASE KEEP THIS CODE IN LESS THAN 0XFF LINES. EACH LINE MAY CONTAIN ONE BUG !!!
-
----------------------------------------------------------------------------------*/
-
-#define LOG_LOCAL_LEVEL ESP_LOG_VERBOSE
-
 #include <stdio.h>
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
@@ -26,29 +5,26 @@
 #include "esp_system.h"
 #include "driver/gpio.h"
 
-#include "DHT22.h"
+#include "dht22.h"
 
-// == global defines =============================================
+static const char* TAG = "dht22";
 
-static const char* TAG = "DHT";
+int gpio = 0;
+float humidity = 0.0;
+float temperature = 0.0;
 
-int DHTgpio = 4;				// my default DHT pin = 4
-float humidity = 0.;
-float temperature = 0.;
-
-// == set the DHT used pin=========================================
-
-void setDHTgpio( int gpio )
+void dht22_set_gpio(int value)
 {
-	DHTgpio = gpio;
+	gpio = value;
 }
 
-// == get temp & hum =============================================
+float dht22_get_humidity() { 
+  return humidity;
+}
 
-float getHumidity() { return humidity; }
-float getTemperature() { return temperature; }
-
-// == error handler ===============================================
+float dht22_get_temperature () { 
+  return temperature; 
+}
 
 void errorHandler(int response)
 {
@@ -70,20 +46,11 @@ void errorHandler(int response)
 	}
 }
 
-/*-------------------------------------------------------------------------------
-;
-;	get next state 
-;
-;	I don't like this logic. It needs some interrupt blocking / priority
-;	to ensure it runs in realtime.
-;
-;--------------------------------------------------------------------------------*/
-
 int getSignalLevel( int usTimeOut, bool state )
 {
 
 	int uSec = 0;
-	while( gpio_get_level(DHTgpio)==state ) {
+	while( gpio_get_level(gpio)==state ) {
 
 		if( uSec > usTimeOut ) 
 			return -1;
@@ -150,17 +117,17 @@ uint8_t bitInx = 7;
 
 	// == Send start signal to DHT sensor ===========
 
-	gpio_set_direction( DHTgpio, GPIO_MODE_OUTPUT );
+	gpio_set_direction( gpio, GPIO_MODE_OUTPUT );
 
 	// pull down for 3 ms for a smooth and nice wake up 
-	gpio_set_level( DHTgpio, 0 );
+	gpio_set_level( gpio, 0 );
 	ets_delay_us( 3000 );			
 
 	// pull up for 25 us for a gentile asking for data
-	gpio_set_level( DHTgpio, 1 );
+	gpio_set_level( gpio, 1 );
 	ets_delay_us( 25 );
 
-	gpio_set_direction( DHTgpio, GPIO_MODE_INPUT );		// change to input mode
+	gpio_set_direction( gpio, GPIO_MODE_INPUT );		// change to input mode
   
 	// == DHT will keep the line low for 80 us and then high for 80us ====
 
