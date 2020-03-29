@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "dht22.h"
 #include "mesh.h"
 #include "mqtt.h"
 

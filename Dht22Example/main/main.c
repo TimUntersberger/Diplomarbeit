@@ -66,35 +66,36 @@ void wifi_init(){
 
 void DHT_task(void *pvParameter)
 {
-	setDHTgpio( 27 );
 	while(1) {
-	
-		printf("=== Reading DHT ===\n" );
-		int ret = readDHT();
+		int ret = dht22_read();
+        float humidity = dht22_get_humidity();
+        float temperature = dht22_get_temperature();
 		
-		errorHandler(ret);
+		dht22_handle_error(ret);
 
-		printf( "Hum %.1f\n", getHumidity() );
-
-		printf( "Tmp %.1f\n", getTemperature() );
+		ESP_LOGI(TAG, "Humidity: %.1f\n", humidity);
+		ESP_LOGI(TAG, "Temperature: %.1f\n", temperature);
 		
-		mqtt_msg_t msg ={0};
-		snprintf(msg.topic, 20, "temperature");
-   		snprintf(msg.payload, 100, "%f", getTemperature());
+		mqtt_msg_t msg = {0};
+
+		snprintf(msg.topic, MQTT_MESSAGE_TOPIC_SIZE, "temperature");
+   		snprintf(msg.payload, MQTT_MESSAGE_PAYLOAD_SIZE, "%f", temperature);
+
 		mqtt_publish_msg(&msg);
-		snprintf(msg.topic, 20, "humidity");
-   		snprintf(msg.payload, 100, "%f", getHumidity());
-        	mqtt_publish_msg(&msg);
-		// currentHum = getHumidity();
-		// currentTemp = getTemperature();
-		// -- wait at least 2 sec before reading again ------------
-		// The interval of whole process must be beyond 2 seconds !! 
-		vTaskDelay( 3000 / portTICK_RATE_MS );
+
+		snprintf(msg.topic, MQTT_MESSAGE_TOPIC_SIZE, "humidity");
+   		snprintf(msg.payload, MQTT_MESSAGE_PAYLOAD_SIZE, "%f", humidity);
+
+        mqtt_publish_msg(&msg);
+
+		vTaskDelay(3000 / portTICK_RATE_MS);
 	}
 }
 
 void app_main(void)
 {
+	dht22_set_gpio(27);
+
     ESP_ERROR_CHECK(nvs_flash_init());
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
