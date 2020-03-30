@@ -339,6 +339,16 @@ Wie schon bei der \textbf{mosquitto.conf} Datei erwähnt, benötigt Mosquitto 2 
 
 Die Konfigurationsdatei wird mittels eines Volumen in den Container injected.
 
+In der folgenden Abbildung (\ref{abb:example_mosquitto_start}) ist zu sehen wie man den Mosquitto nun startet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_mosquitto_start.png}
+        \caption{Example Mosquitto Start (Quelle: eigene Darstellung)}
+        \label{abb:example_mosquitto_start}
+    \end{center}
+\end{figure}
+
 \subsection{Mesh Visualizer}\label{sec:example-mesh-visualizer}
 
 Nach der erfolgreichen Absolvierung der in Kapitel \ref{sec:example-source-code} beschriebenen Anweisungen befindet sich nun der Unterordner namens \textbf{MeshVisualizer} in dem Ordner Diplomarbeit.
@@ -384,20 +394,53 @@ Nachdem der Server auf dem Port \textit{1234} läuft, ist nun die Website, welch
     \begin{center}
         \includegraphics[scale=.3]{images/example_mesh_visualizer_website.png}
         \caption{Example Mesh Visualizer Website (Quelle: eigene Darstellung)}
-        \label{abb:example_mesh_visualizer_start}
+        \label{abb:example_mesh_visualizer_website}
     \end{center}
 \end{figure}
 
+Auf der Website ist momentan nur ein Eingabefeld zusammen mit einem Knopf direkt daneben zu sehen.
+
+Durch das Eingabefeld wird die URL des Mosquittos gesetzt. 
+Die Definierung des verwendeten Protokolls darf nicht auser Acht gelassen werden.\newline
+
+Da Javascript im Browser nicht in der Lage ist mit dem MQTT Protokoll zu kommunizieren, muss man sich mit dem vorher definierten Websocket Port (1884) des Brokers verbinden.
+
+Beispiel
+\begin{verbatim}
+    ws://localhost:1884
+\end{verbatim}
+
+Mit dem Drücken des \textit{connect} Knopfs, wird versucht eine Verbindung mit dem Broker herzustellen.
+
+Die Benutzung der Website wird in Kapitel \ref{sec:example-result} genauer erläutert.
+
 \subsection{Config}
+
+Die Konfiguration eines ESP-IDF Projekts, wird im Normfall mittels der menuconfig gelöst, wie in Kapitel \ref{sec:esp-idf-toolchain} erwähnt.
+
+% TODO: write about required config values.
+
+\subsection{Hardware}
+% TODO: write about how to connect the dht22 with the esp
+% TODO: write about how to connect the esp with the computer
+
+\subsection{Hochladen}
+
+Bevor das Programm auf dem ESP laufen kann, muss es hochgeladen werden.
+
+Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp-idf-toolchain} beschrieben.
+
+\subsection{Ergebnis}\label{sec:example-result}
+\subsubsection{Mesh Visualizer}
+\subsubsection{Mqtt Fx}
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
 \subsubsection{Setup}
 \subsubsection{IP Event Handler}
 \subsubsection{Command Callback}
 \subsubsection{DHT22 Task}
-\subsection{Ergebnis}
-\subsubsection{Mesh Visualizer}
-\subsubsection{Mqtt Fx}
+\subsection{Mögliche Probleme}
+% TODO: Write about possible problems that could occur while following the example
 
 % Installation der esp-idf toolchain
 % Disclaimer: Wir nehmen "den" esp
