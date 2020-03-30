@@ -16,21 +16,41 @@
 Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibriekammer kalibriert. Dieser Kalibrierkoeffizient wird dann im am Bord one time programmable Speicher (OTP Memory \ref{sec:otp}) gespeichert.
 \pagebreak
 
+Die Technischen Daten des Sensors sind:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{images/dht22_datasheet.png}
+        \caption{Daten Dht22 \cite{dht22_datasheet_sparkfun}}
+    \end{center}
+\end{figure}
+
 Zu den Vorteilen des DHT22 zählen:
 \begin{itemize}
     \item Kleiner Formfaktor (15,1mm x 25,1mm x 7,7mm)
     \begin{figure}[H]
         \begin{center}
-            \includegraphics[scale=0.8]{images/dht22_formfaktor.png}
-            \caption{Formfaktor Dht22 \cite{dht22_formfactor}}
+            \includegraphics[scale=0.6]{images/dht22_formfaktor.png}
+            \caption{Formfaktor Dht22 \cite{dht22_datasheet_sparkfun}}
         \end{center}
     \end{figure}
-    \item 
+    \item Niedriger Stromverbrauch (3,3-6 Volt)
+    \item Lange Übertragunsdistanz (20 Meter)
 \end{itemize}
-Zu den weiteren Vorteilen des Sensors zählt ein kleiner Formfaktor, niedriger Stromverbrauch und eine Übertragunsdistanz von bis zu 20 Metern.
+
+Der Nachteil des Sensors ist:
+\begin{itemize}
+    \item Wartezeit zwischen neuen Sensordaten (mindestens 2 Sekunden)
+\end{itemize}
 
 \subsubsection{OTP Memory}\label{sec:otp}
+OTP Speicher ist eine spezielle Form von nicht flüchtigem Speicher, der es genau ein Mal erlaubt auf den Speicher zu schreiben. Wenn der Speicher einmal programmiert ist behält er seine Informationen für immer, auch über Stromverlust.
 
+Beispiele dafür sind:
+\begin{itemize}
+    \item Boot code
+    \item Encryption keys
+    \item Konfigurationsparameter für analoge Sensoren
+\end{itemize}
 
 \subsection{NodeMCU ESP32}
 
