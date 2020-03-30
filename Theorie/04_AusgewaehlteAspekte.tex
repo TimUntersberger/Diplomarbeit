@@ -1,6 +1,59 @@
 \chapter{Ausgewählte Aspekte}
 
-\section{DHT22}
+\section{Verwendete Hardware}
+
+\subsection{DHT22}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/dht22.png}
+        \caption{Bild DHT22 \cite{dht22_picture}}
+    \end{center}    
+\end{figure}
+
+
+
+Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibriekammer kalibriert. Dieser Kalibrierkoeffizient wird dann im am Bord one time programmable Speicher (OTP Memory \ref{sec:otp}) gespeichert.
+\pagebreak
+
+Die Technischen Daten des Sensors sind:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{images/dht22_datasheet.png}
+        \caption{Daten Dht22 \cite{dht22_datasheet_sparkfun}}
+    \end{center}
+\end{figure}
+
+Zu den Vorteilen des DHT22 zählen:
+\begin{itemize}
+    \item Kleiner Formfaktor (15,1mm x 25,1mm x 7,7mm)
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.6]{images/dht22_formfaktor.png}
+            \caption{Formfaktor Dht22 \cite{dht22_datasheet_sparkfun}}
+        \end{center}
+    \end{figure}
+    \item Niedriger Stromverbrauch (3,3-6 Volt)
+    \item Lange Übertragunsdistanz (20 Meter)
+\end{itemize}
+
+Der Nachteil des Sensors ist:
+\begin{itemize}
+    \item Wartezeit zwischen neuen Sensordaten (mindestens 2 Sekunden)
+\end{itemize}
+
+\subsubsection{OTP Memory}\label{sec:otp}
+OTP Speicher ist eine spezielle Form von nicht flüchtigem Speicher, der es genau ein Mal erlaubt auf den Speicher zu schreiben. Wenn der Speicher einmal programmiert ist behält er seine Informationen für immer, auch über Stromverlust.
+
+Beispiele dafür sind:
+\begin{itemize}
+    \item Boot code
+    \item Encryption keys
+    \item Konfigurationsparameter für analoge Sensoren
+\end{itemize}
+
+\subsection{NodeMCU ESP32}
+
 
 \section{Over The Air Update (OTA)}\label{sec:ota}
 
@@ -193,6 +246,8 @@ Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gi
     python-setuptools cmake ninja-build ccache libffi-dev libssl-dev
 \end{verbatim}
 \vspace*{10px}
+
+% TODO: install python3 things
 
 \subsubsection{Libraries}
 
@@ -426,9 +481,11 @@ Die Konfiguration eines ESP-IDF Projekts, wird im Normfall mittels der menuconfi
 
 \subsection{Hochladen}
 
-Bevor das Programm auf dem ESP laufen kann, muss es hochgeladen werden.
+Bevor das Programm auf den ESPs laufen kann, muss es hochgeladen werden.
 
 Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp-idf-toolchain} beschrieben.
+
+% TODO: fix dht2example program (only emit data if it is not root)
 
 \subsection{Ergebnis}\label{sec:example-result}
 \subsubsection{Mesh Visualizer}
