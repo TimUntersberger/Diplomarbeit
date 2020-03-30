@@ -54,6 +54,25 @@ Beispiele dafür sind:
 
 \subsection{NodeMCU ESP32}
 
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/NodeMCU-ESP32.png}
+        \caption{Bild NodeMCU ESP32 \cite{nodemcu_picture_joy-it}}
+    \end{center}
+\end{figure}
+
+Das NodeMCU ESP32 ist ein prototyping Board. Die wichtigste Komponente dieses ESPs ist das ESP-WROOM-32 \ref{sec:esp-wroom-32}, es stell das Gehirn dieses Mikrocontrollers dar.
+
+\subsubsection{ESP-WROOM-32}\label{sec:esp-wroom-32}
+
+Das ESP-WROOM-32 ist ein generisches MCU Modul mit integriertem Wi-Fi, Bluetooth und Bluetooth low energy. So ermöglicht einem dieses Modul sich beispielsweise mit Wlan-Router oder einem Handy zu verbinden. Weiters ist es durch den niedrigen Schlafstrom von 5 µA gut für den Bateriebetrieb geeignet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.78]{images/esp32-wroom-32.png}
+        \caption{ESP32-WROOM-32 Spezifikationen\cite{esp32-wroom-32_secifications}}
+    \end{center}
+\end{figure}
 
 \section{Over The Air Update (OTA)}\label{sec:ota}
 
@@ -162,7 +181,7 @@ Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr 
 
 \begin{enumerate}
     \item OTA-Enabled Firmware wird zum ersten mal per Kabel auf das Board gespielt
-    \item Der Microcontroller schaut nach, ob eine neue Firmware-Version verfügbar ist
+    \item Der Mikrocontroller schaut nach, ob eine neue Firmware-Version verfügbar ist
     \item Gibt es eine neue Firmware lädt er diese herunter und starte selbst neu
 \end{enumerate}
 

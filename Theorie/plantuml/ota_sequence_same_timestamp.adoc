@@ -1,0 +1,8 @@
+@startuml
+    activate Mikrocontroller
+    Mikrocontroller -> OTAServer: Request für Timestamp neuster Firmware
+    activate OTAServer
+    OTAServer -> Mikrocontroller : Timestamp neuster Firmware
+    deactivate OTAServer
+    Mikrocontroller -> Mikrocontroller : Überprüft Timestamp
+@enduml
