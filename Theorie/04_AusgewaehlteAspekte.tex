@@ -175,6 +175,10 @@ Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms) ließ
 
 Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
 
+Es wird davon ausgegangen, dass eine Installation von Nodejs mit einer Version von mindestens \textit{10} vorhanden ist.
+
+Die Installation wird in Kapitel \ref{sec:nodejs} beschrieben.
+
 \subsection{ESP-IDF Setup}
 
 Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem vorraus. Es wird nicht garantiert, dass dies unter Alternativen wie zum Beispiel dem \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktioniert. 
@@ -264,7 +268,35 @@ Anschließend muss der Terminal neugestartet werden, um die \textbf{.bashrc} Dat
 
 WSL unterstützt bis zum Stand vom \textbf{29.03.2020} das Linux USB Interface nicht. Dies bedeutet, dass für eine fehlerfreie Nutzung der ESP-IDF-Toolchain nicht garantiert wird.
 
-\subsection{Mosquitto}
+\subsection{Source Code}\label{sec:example-source-code}
+
+Der Source Code der für dieses Beispiel benötigt wird, lebt in dem folgenden Repository.
+
+\vspace*{10px}
+\begin{verbatim}
+    https://github.com/TimUntersberger/Diplomarbeit
+\end{verbatim}
+\vspace*{10px}
+
+Für die erfolgreiche Absolvierung des Beispieles ist es notwendig das Repository zu clonen.
+
+\vspace*{10px}
+\begin{verbatim}
+    git clone https://github.com/TimUntersberger/Diplomarbeit
+\end{verbatim}
+\vspace*{10px}
+
+Nachdem der Command fertig ist, befinden sich mehrere Unterordner in dem neu erstellten Ordner namens \textit{Diplomarbeit}. Die einzigen relevanten Ordner für das Beispiel sind \textbf{Dht22Example} und \textbf{MeshVisualizer}.
+
+Nach Bedarf können die anderen gelöscht werden.
+
+Die zwei Dateien, welche in Kapitel \ref{sec:mosquitto} beschrieben werden, befinden sich in dem Unterordner \textbf{MeshVisualizer}.
+
+Genauere Anweisungen zu \textbf{MeshVisualizer} befinden sich in dem Kapitel \ref{sec:example-mesh-visualizer}.
+
+Die Struktur und wie der Code von \textbf{Dht22Example} benutzt werden kann, wird in dem Kapitel \ref{sec:code} beschrieben.
+
+\subsection{Mosquitto}\label{sec:mosquitto}
 
 \textbf{mosquitto.conf}
 \begin{verbatim}
@@ -301,11 +333,63 @@ Der Port 1883 ist wie üblich eine MQTT-Schnittstelle.
 \end{verbatim}
 \vspace*{10px}
 
-% Describe the docker-compose file above
+Diese \textbf{docker-compose.yml} Datei verwendet die Version 3 von docker-compose. Insgesamt wird nur ein einziger Service benötigt für dieses Beispiel. Der Name des Services ist \textit{mosquitto} und benützt das offizielle Image von eclipse namens \textit{eclipse-mosquitto}.
 
-\subsection{Mesh Visualizer}
+Wie schon bei der \textbf{mosquitto.conf} Datei erwähnt, benötigt Mosquitto 2 offene Ports. Diese werden hier mit den selben äußeren Ports verbunden.
+
+Die Konfigurationsdatei wird mittels eines Volumen in den Container injected.
+
+\subsection{Mesh Visualizer}\label{sec:example-mesh-visualizer}
+
+Nach der erfolgreichen Absolvierung der in Kapitel \ref{sec:example-source-code} beschriebenen Anweisungen befindet sich nun der Unterordner namens \textbf{MeshVisualizer} in dem Ordner Diplomarbeit.
+
+Bevor der \textbf{MeshVisualizer} gestartet werden kann, muss das Arbeitzverzeichnis auf den Pfad des \textbf{MeshVisualizer} Ordners gesetzt werden.
+
+Anschließend ist es notwendig, die Dependencies des Projekts zu installieren.
+
+Dies erfolgt durch den in Abbildung \ref{abb:example_mesh_visualizer_installation_cmd} angeführten Command.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_mesh_visualizer_installation_cmd.png}
+        \caption{Example Mesh Visualizer Installation Command (Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_installation_cmd}
+    \end{center}
+\end{figure}
+
+\pagebreak
+In der nachstehenden Abbildung (\ref{abb:example_mesh_visualizer_installation_output}) wird das Ergebnis visualisiert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{images/example_mesh_visualizer_installation_output.png}
+        \caption{Example Mesh Visualizer Installation Output(Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_installation_output}
+    \end{center}
+\end{figure}
+
+Das starten des Visualizers geschieht wie in der nachstehenden Abbildung (\ref{abb:example_mesh_visualizer_start}).
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{images/example_mesh_visualizer_start.png}
+        \caption{Example Mesh Visualizer Start (Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_start}
+    \end{center}
+\end{figure}
+
+Nachdem der Server auf dem Port \textit{1234} läuft, ist nun die Website, welche in Abbildung \ref{abb:example_mesh_visualizer_website} zu sehen ist, auf der URL \textit{http://localhost:1234/} verfügbar.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.3]{images/example_mesh_visualizer_website.png}
+        \caption{Example Mesh Visualizer Website (Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_start}
+    \end{center}
+\end{figure}
+
 \subsection{Config}
-\subsection{Code}
+\subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
 \subsubsection{Setup}
 \subsubsection{IP Event Handler}
