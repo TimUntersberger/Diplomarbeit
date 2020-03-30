@@ -281,7 +281,7 @@ Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gi
 \end{verbatim}
 \vspace*{10px}
 
-\subsubsection{Libraries}
+\subsubsection{Libraries}\label{sec:libraries}
 
 Damit man die ESP-IDF Libraries benutzen kann, muss man diese zuerst herunterladen.
 
@@ -617,16 +617,55 @@ Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=1]{images/example_result_mesh_visualizer.png}
+        \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
         \caption{Example Ergebnis Mesh Visualizer (Quelle: eigene Darstellung)}
         \label{abb:example_result_mesh_visualizer}
     \end{center}
 \end{figure}
 
+In Abbildung \ref{abb:example_result_mesh_visualizer} sieht man wie sich die Mesh Visualizer Website verändert hat.
+
+In dieser Abbildung sind zwei Knoten mit jeweils einer MAC Addresse zu sehen.
+
+Die MAC Addressen stehen für den jeweiligen ESP, der zu diesem Netzwerk verbunden ist.
+
+Die Knoten sind in einer baumartigen Struktur abgebildet. Der Knoten an der Spitz des Diagramms ist der \textbf{Root Knoten}
+
 \subsubsection{Mqtt Fx}
 % TODO: Display mqtt messages
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_structure_overview.png}
+        \caption{Example Code Struktur Übersicht (Quelle: eigene Darstellung)}
+        \label{abb:example_code_structure_overview}
+    \end{center}
+\end{figure}
+
+Die Übersicht in Abbildung \ref{abb:example_code_structure_overview} zeigt einen kleine Ausschnitt der Struktur.
+
+Der Stammordner beinhaltet die Konfigurations Dateien sowie den \textbf{main} Ordner, welcher den Source Code beinhaltet.
+
+Die \textbf{.editorconfig} Datei ist dazu da, die Formatierung des Source Codes in alle Texteditoren uniform zu halten.
+
+In der \textbf{partitions.csv} Datei befindet sich die Beschreibung des in Kapitel \ref{sec:example-partition-table} erwähnten Partition Tables.
+
+Die nachstehende Abbildung zeigt die Struktur des \textbf{main} Ordners.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_structure_main.png}
+        \caption{Example Code Struktur Main (Quelle: eigene Darstellung)}
+        \label{abb:example_code_structure_main}
+    \end{center}
+\end{figure}
+
+Dieser beihnhaltet nicht nur den Source Code sondern auch die \textit{menuconfig} Datei, welche in Kapitel \ref{sec:esp-idf-toolchain} genauer beschrieben ist.
+
+Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstanden sind (wie zum Beispiel \textit{mqtt.h}), befinden sich im Kapitel \ref{sec:libraries}.
+
 \subsubsection{Setup}
 \subsubsection{IP Event Handler}
 \subsubsection{Command Callback}

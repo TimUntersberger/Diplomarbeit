@@ -54,6 +54,25 @@ Beispiele dafür sind:
 
 \subsection{NodeMCU ESP32}
 
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/NodeMCU-ESP32.png}
+        \caption{Bild NodeMCU ESP32 \cite{nodemcu_picture_joy-it}}
+    \end{center}
+\end{figure}
+
+Das NodeMCU ESP32 ist ein prototyping Board. Die wichtigste Komponente dieses ESPs ist das ESP-WROOM-32 \ref{sec:esp-wroom-32}, es stell das Gehirn dieses Mikrocontrollers dar.
+
+\subsubsection{ESP-WROOM-32}\label{sec:esp-wroom-32}
+
+Das ESP-WROOM-32 ist ein generisches MCU Modul mit integriertem Wi-Fi, Bluetooth und Bluetooth low energy. So ermöglicht einem dieses Modul sich beispielsweise mit Wlan-Router oder einem Handy zu verbinden. Weiters ist es durch den niedrigen Schlafstrom von 5 µA gut für den Bateriebetrieb geeignet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.78]{images/esp32-wroom-32.png}
+        \caption{ESP32-WROOM-32 Spezifikationen\cite{esp32-wroom-32_secifications}}
+    \end{center}
+\end{figure}
 
 \section{Over The Air Update (OTA)}\label{sec:ota}
 
@@ -63,10 +82,38 @@ Bis jetzt musste man den Computer physisch mit einem Kabel mit dem Mikrocontroll
 OTA ermöglicht es den Mikrocontroller über das Netzwerk mit neuer Firmware zu versorgen, dabei muss der selektierte Microcomputer lediglich mit einem Wlan-Router verbunden sein und ein physisches Kabel wird überflüssig.
 
 \subsection*{Wie OTA funktioniert}
-Bei dem OTA-Vorgang wird zuerst die Config-Datei, des jeweiligen Mikrocontrollers, ausgelesen. In dierser Config-Datei steht auch welches Firmware sich OTA herunterladen soll. Nun überprüft der Mikrocontroller ob die Firmware-Version des Servers neuer ist als die, die der Controller bereits besitzt, ist dies der Fall wird die neue Version heruntergeladen und der Mikrocontroller wird mit der aktuellen Version neu gestartet.
+Bei dem OTA-Vorgang wird zu aller erst die Config-Datei, des jeweiligen Mikrocontrollers, ausgelesen. In dierser Datei steht welche Firmware OTA herunterladen soll. Nun sendet der Mikrocontroller eine Anfrage mit dem, in der Config-Datei eingetragen, Namen der Firmware. Diese Anfrage dient dazu den Timestamp, an dem die Firmware das letzte Mal am Server geändert worden ist herauszufinden.\newline
+Darauf antwortet der Server mit dem Timestamp.\newline
+Nun überprüft der Mikrocontroller den Timestamp der letzten Änderung des Servers mit dem Timestamp der letzten Änderung der Firmware, die gerade installiert ist.\newline
 
-% TODO: Sequence diagram.
+Nun gibt es zwei Szenarien, die eintreten können:
+
+\begin{itemize}
+    \item Die Timestamps sind gleich. Das bedeutet, dass der Server und der Mikrocontroller beide die gleiche Firmware besitzen und es besteht kein Grund diese vom Server herunterzuladen.
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{diagrams/ota_sequence_same_timestamp.png}
+            \caption{OTA Sequenz Timestamp gleich (Quelle: eigene Darstellung)}
+        \end{center}
+    \end{figure}
+    \newpage
+    \item Die Timstamps sind unterschiedlich. Das bedeutet, dass die Firmware am Server geändert wurde und der Mikrocontroller eine ältere Version besitzt.\newline
+    Da davon ausgegangen wird, dass der Server immer die beste Version der Firmware bestitz, lädt der Mikrocontroller diese herunter und startet von der soeben heruntergeladenen Firmware neu.
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{diagrams/ota_sequence_different_timestamp.png}
+            \caption{OTA Sequenz Timestamp anders (Quelle: eigene Darstellung)}
+        \end{center}
+    \end{figure}
+\end{itemize}
+
 % TODO: Deployment diagram.
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{diagrams/ota_deployment.png}
+        \caption{OTA Deployment (Quelle: eigene Darstellung)}
+    \end{center}
+\end{figure}
 
 \subsection{Partition Table}\label{sec:ota-partition-table}
 Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen. Würde man diese Tabelle nicht richtig konfigurieren würde das Programm nicht einmal starten. Dazu kommt noch eine erschwerte Fehlersuche, da Errormeldungen bei der Arbeit mit Mikrocontrollern zu wünschen lassen.
@@ -150,26 +197,11 @@ Wenn Sie möchten, dass die Partitionen in der Partitionstabelle mit einem Start
 \subsubsection{Flags}
 Derzeit wird nur ein Flag unterstützt: encrypted. Wenn dieses Feld auf encrypted eingestellt ist, wird diese Partition verschlüsselt, wenn die Flash-Verschlüsselung aktiviert ist.
 
-Partitionen vom App-Typ werden immer verschlüsselt unabhängig ob die Flag gesetzt ist oder nicht.
-\cite{espressif_partition_tables}
-\subsection*{Implementation}
-Die ausgewählte Struktur für die Diplomarbeit kann man im folgenden Bild sehr gut sehen.
+Partitionen vom App-Typ werden immer verschlüsselt unabhängig ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=.5]{images/ota-explanation.png}
-        \caption{OTA Erklärung (Quelle: eigene Darstellung)}
-    \end{center}    
-\end{figure}
-
-\begin{enumerate}
-    \item OTA-Enabled Firmware wird zum ersten mal per Kabel auf das Board gespielt
-    \item Der Microcontroller schaut nach, ob eine neue Firmware-Version verfügbar ist
-    \item Gibt es eine neue Firmware lädt er diese herunter und starte selbst neu
-\end{enumerate}
+% Todo seite entfernen
 
 \section{Mesh Netzwerk}\label{sec:mesh}
-
 % sequence von http
 % sequence von mqtt
 % was ist ein mqtt command erklären
@@ -249,7 +281,7 @@ Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gi
 \end{verbatim}
 \vspace*{10px}
 
-\subsubsection{Libraries}
+\subsubsection{Libraries}\label{sec:libraries}
 
 Damit man die ESP-IDF Libraries benutzen kann, muss man diese zuerst herunterladen.
 
@@ -585,16 +617,55 @@ Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=1]{images/example_result_mesh_visualizer.png}
+        \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
         \caption{Example Ergebnis Mesh Visualizer (Quelle: eigene Darstellung)}
         \label{abb:example_result_mesh_visualizer}
     \end{center}
 \end{figure}
 
+In Abbildung \ref{abb:example_result_mesh_visualizer} sieht man wie sich die Mesh Visualizer Website verändert hat.
+
+In dieser Abbildung sind zwei Knoten mit jeweils einer MAC Addresse zu sehen.
+
+Die MAC Addressen stehen für den jeweiligen ESP, der zu diesem Netzwerk verbunden ist.
+
+Die Knoten sind in einer baumartigen Struktur abgebildet. Der Knoten an der Spitz des Diagramms ist der \textbf{Root Knoten}
+
 \subsubsection{Mqtt Fx}
 % TODO: Display mqtt messages
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_structure_overview.png}
+        \caption{Example Code Struktur Übersicht (Quelle: eigene Darstellung)}
+        \label{abb:example_code_structure_overview}
+    \end{center}
+\end{figure}
+
+Die Übersicht in Abbildung \ref{abb:example_code_structure_overview} zeigt einen kleine Ausschnitt der Struktur.
+
+Der Stammordner beinhaltet die Konfigurations Dateien sowie den \textbf{main} Ordner, welcher den Source Code beinhaltet.
+
+Die \textbf{.editorconfig} Datei ist dazu da, die Formatierung des Source Codes in alle Texteditoren uniform zu halten.
+
+In der \textbf{partitions.csv} Datei befindet sich die Beschreibung des in Kapitel \ref{sec:example-partition-table} erwähnten Partition Tables.
+
+Die nachstehende Abbildung zeigt die Struktur des \textbf{main} Ordners.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_structure_main.png}
+        \caption{Example Code Struktur Main (Quelle: eigene Darstellung)}
+        \label{abb:example_code_structure_main}
+    \end{center}
+\end{figure}
+
+Dieser beihnhaltet nicht nur den Source Code sondern auch die \textit{menuconfig} Datei, welche in Kapitel \ref{sec:esp-idf-toolchain} genauer beschrieben ist.
+
+Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstanden sind (wie zum Beispiel \textit{mqtt.h}), befinden sich im Kapitel \ref{sec:libraries}.
+
 \subsubsection{Setup}
 \subsubsection{IP Event Handler}
 \subsubsection{Command Callback}
