@@ -1,6 +1,39 @@
 \chapter{Ausgewählte Aspekte}
 
-\section{DHT22}
+\section{Verwendete Hardware}
+
+\subsection{DHT22}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/dht22.png}
+        \caption{Bild DHT22 \cite{dht22_picture}}
+    \end{center}    
+\end{figure}
+
+
+
+Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibriekammer kalibriert. Dieser Kalibrierkoeffizient wird dann im am Bord one time programmable Speicher (OTP Memory \ref{sec:otp}) gespeichert.
+\pagebreak
+
+Zu den Vorteilen des DHT22 zählen:
+\begin{itemize}
+    \item Kleiner Formfaktor (15,1mm x 25,1mm x 7,7mm)
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{images/dht22_formfaktor.png}
+            \caption{Formfaktor Dht22 \cite{dht22_formfactor}}
+        \end{center}
+    \end{figure}
+    \item 
+\end{itemize}
+Zu den weiteren Vorteilen des Sensors zählt ein kleiner Formfaktor, niedriger Stromverbrauch und eine Übertragunsdistanz von bis zu 20 Metern.
+
+\subsubsection{OTP Memory}\label{sec:otp}
+
+
+\subsection{NodeMCU ESP32}
+
 
 \section{Over The Air Update (OTA)}\label{sec:ota}
 
