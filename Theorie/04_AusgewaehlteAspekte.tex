@@ -68,7 +68,7 @@ Bei dem OTA-Vorgang wird zuerst die Config-Datei, des jeweiligen Mikrocontroller
 % TODO: Sequence diagram.
 % TODO: Deployment diagram.
 
-\subsection{Partitions Tabelle}
+\subsection{Partition Table}\label{sec:ota-partition-table}
 Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen. Würde man diese Tabelle nicht richtig konfigurieren würde das Programm nicht einmal starten. Dazu kommt noch eine erschwerte Fehlersuche, da Errormeldungen bei der Arbeit mit Mikrocontrollern zu wünschen lassen.
 Die Standard-Partitionstabelle ist je nach Hersteller anders. Um OTA zu ermöglichen ist es notwendig im Partitionstabelle mindestens eine, ausreichend große, OTA-Partition zu vergeben. Dabei ist es wichtig, dass diese Partition ausreichend Speicher für die gewünschte Firmware hat, da sonst der ganze Vorgang abgebrochen wird.
 
@@ -101,6 +101,8 @@ Wenn die Option der Benutzerdefinierte Partitionstabelle ausgewählt wird. Muss 
         \caption{Beispiel Partitionstabelle (Quelle: eigene Darstellung)}
     \end{center}    
 \end{figure}
+
+% TODO: talk about ota partition table diagram
 
 \subsubsection{Name Feld}
 Das Namensfeld kann beliebig gewählt werden. Es ist für den Mikrocontroller nicht von Bedeutung. Namen die länger als 16 Zeichen sind werden jedoch abgeschnitten.
@@ -246,8 +248,6 @@ Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gi
     python-setuptools cmake ninja-build ccache libffi-dev libssl-dev
 \end{verbatim}
 \vspace*{10px}
-
-% TODO: install python3 things
 
 \subsubsection{Libraries}
 
@@ -469,27 +469,130 @@ Mit dem Drücken des \textit{connect} Knopfs, wird versucht eine Verbindung mit 
 
 Die Benutzung der Website wird in Kapitel \ref{sec:example-result} genauer erläutert.
 
+\subsection{Partition Table}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{diagrams/mqtt_dht22_example_partitions.png}
+        \caption{Example Partiton Table (Quelle: eigene Darstellung)}
+        \label{abb:example-partitions}
+    \end{center}
+\end{figure}
+
+Der verwendete Mikrocontroller besitzt insgesamt \textbf{4MB} an Speicher.
+
+Für das Programm sind \textbf{2MB} reserviert, da der default Wert von \textbf{1MB} für dieses Beispiel nicht ausreichend ist. 
+
+Mehr Informationen zu \textit{Partition Tables} sind in Kapitel \ref{sec:ota-partition-table} zu finden.
+
 \subsection{Config}
 
 Die Konfiguration eines ESP-IDF Projekts, wird im Normfall mittels der menuconfig gelöst, wie in Kapitel \ref{sec:esp-idf-toolchain} erwähnt.
 
-% TODO: write about required config values.
+\pagebreak
+
+Nachdem öffnen der menuconfig sind die folgenden Optionen abgebildet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_overview.png}
+        \caption{Example Config Übersicht (Quelle: eigene Darstellung)}
+        \label{abb:example_config_overview}
+    \end{center}
+\end{figure}
+
+Die folgenden Optionen werden im Laufe dieses Kapitels berührt:
+
+\begin{enumerate}
+    \item Example Configuration (Kapitel \ref{sec:example-example-config})
+    \item Serial flasher config (Kapitel \ref{sec:example-serial-flasher-config})
+    \item Partition Table (Kapitel \ref{sec:example-partition-table})
+\end{enumerate}
+
+Nachdem das Programm fertig konfiguriert ist, kann die menuconfig geschlossen werden.
+
+\pagebreak
+
+\subsubsection{Example Configuration}\label{sec:example-example-config}
+
+In der \textbf{Example Configuration} Option wird das Mesh Netzwerk und der MQTT-Client konfiguriert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_example_config.png}
+        \caption{Example Config Example Configuration (Quelle: eigene Darstellung)}
+        \label{abb:example_config_example_config}
+    \end{center}
+\end{figure}
+
+Folgende Werte müssen angepasst werden:
+
+\begin{itemize}
+    \item \textbf{Router SSID} \newline
+        Die SSID des WLAN Routers, womit sich der Mikrocontroller verbinden soll.
+    \item \textbf{Router password} \newline
+        Das Passwort des WLAN Routers, womit sich der Mikrocontroller verbinden soll.
+    \item \textbf{Mesh AP Password} \newline
+        Das Mesh-Netzwerk interne Passwort. Das Passwort muss mindestens 8 Zeichen lang sein und mindestens eine Zahl beinhalten.
+    \item \textbf{MQTT broker url} \newline
+        Die URL des MQTT Brokers. Hier ist es wichtig, dass nicht localhost eingegeben wird, da dieses Programm auf dem esp läuft (dies ist am Anfang der Arbeit passiert).\newline
+        Das Schema muss der URL in dem Beispiel unten in Abbildung \ref{abb:example_config_example_config} folgen.
+\end{itemize}
+
+\pagebreak
+
+\subsubsection{Serial flasher config}\label{sec:example-serial-flasher-config}
+
+In der \textbf{Serial flasher config} Option wird der Serial Flasher konfiguriert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_serial_flasher_config.png}
+        \caption{Example Config Serial Flasher Config (Quelle: eigene Darstellung)}
+        \label{abb:example_config_serial_flasher_config}
+    \end{center}
+\end{figure}
+
+Hier muss nur die \textbf{Flash size} angepasst werden. Die Größe hängt von dem jeweiligen Modell des ESPs ab.
+
+\subsubsection{Partition Table}\label{sec:example-partition-table}
+
+In der \textbf{Partition Table} Option wird der verwendete \textit{Partition Table} konfiguriert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_partition_table.png}
+        \caption{Example Config Partition Table (Quelle: eigene Darstellung)}
+        \label{abb:example_config_partition_table}
+    \end{center}
+\end{figure}
+
+In dieser Konfiguration muss der Typ des \textbf{Partition Table} Felds auf \textit{Custom partition table CSV} gesetzt werden.
 
 \subsection{Hardware}
 % TODO: write about how to connect the dht22 with the esp
 % TODO: write about how to connect the esp with the computer
 
-\subsection{Hochladen}
+\subsection{Flashen}
 
 Bevor das Programm auf den ESPs laufen kann, muss es hochgeladen werden.
 
 Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp-idf-toolchain} beschrieben.
 
-% TODO: fix dht2example program (only emit data if it is not root)
-
 \subsection{Ergebnis}\label{sec:example-result}
+% TODO: Explain Result
 \subsubsection{Mesh Visualizer}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_result_mesh_visualizer.png}
+        \caption{Example Ergebnis Mesh Visualizer (Quelle: eigene Darstellung)}
+        \label{abb:example_result_mesh_visualizer}
+    \end{center}
+\end{figure}
+
 \subsubsection{Mqtt Fx}
+% TODO: Display mqtt messages
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
 \subsubsection{Setup}
@@ -498,24 +601,6 @@ Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp
 \subsubsection{DHT22 Task}
 \subsection{Mögliche Probleme}
 % TODO: Write about possible problems that could occur while following the example
-
-% Installation der esp-idf toolchain
-% Disclaimer: Wir nehmen "den" esp
-% dht22 Beispiel vorstellen
-%   deployment
-%   sequence
-% dht22 Anstecken
-%   Welche Pins
-%   Fertig angesteckten Esp herzeigen
-% setup mosquitto (Mqtt)
-%   websocket und mqtt
-% setup mesh visualizer
-% setup makeconfig
-% Code
-%   folder structure erklären
-%   ip event handler erklären
-%   command callback erklären
-% Example Output herzeigen
 
 \section{ELF vs. Bin}
 

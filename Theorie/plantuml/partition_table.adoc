@@ -1,19 +1,39 @@
 @startuml
-node "Speicher [4MB]" {
-  rectangle nvs {
-    rectangle 16KB
-  }
-  rectangle otadata {
-    rectangle 8KB
-  }
-  rectangle ota_0{
-    rectangle "1MB" as e1
-  }
-  rectangle ota_1{
-    rectangle "1MB" as e2
-  }
-  rectangle nvs_key{
-    rectangle 4KB
-  }
-}
+agent Speicher [
+
+Insgesamt
+
+<b>4MB
+
+---
+
+nvs 
+
+<b>16KB
+
+--
+
+otadata
+
+<b>8KB
+
+--
+
+ota_0
+
+<b>1MB
+
+--
+
+ota_1
+
+<b>1MB
+
+--
+
+nvs_key
+
+<b>4KB
+
+]
 @enduml

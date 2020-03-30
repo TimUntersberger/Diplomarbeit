@@ -1,0 +1,27 @@
+@startuml
+agent Speicher [
+
+Insgesamt
+
+<b>4MB
+
+---
+
+nvs 
+
+<b>24KB
+
+--
+
+phy_init
+
+<b>1KB
+
+-- 
+
+factory
+
+<b>2MB
+
+]
+@enduml
