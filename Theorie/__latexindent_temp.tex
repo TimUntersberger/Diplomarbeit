@@ -703,7 +703,7 @@ Anschließend startet sie das Mesh Netzwerk.
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.8]{images/example_code_setup_wifi.png}
+        \includegraphics[scale=0.]{images/example_code_setup_wifi.png}
         \caption{Example Code Setup Wifi (Quelle: eigene Darstellung)}
         \label{abb:example_code_setup_wifi}
     \end{center}
@@ -752,7 +752,7 @@ Das Programm reagiert auf diese beiden Commands und schickt sie dann über MQTT 
 
 Dies ist wichtig für den \textit{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}).
 
-Wenn ein MQTT Command an dem Root Knoten ankommt, dann schickt dieser den payload (welcher in dem Fall eines MQTT Commands, die MQTT Message ist) weiter mithilfe der mqtt library (Kapitel \ref{sec:libraries}).
+Wenn ein MQTT Command an dem Root Knoten ankommt, dann schickt dieser den payload (welcher, in dem Fall eines MQTT Commands, die MQTT Message ist) weiter mithilfe der mqtt library (Kapitel \ref{sec:libraries}).
 
 \begin{figure}[H]
     \begin{center}
@@ -763,6 +763,15 @@ Wenn ein MQTT Command an dem Root Knoten ankommt, dann schickt dieser den payloa
 \end{figure}
 
 \subsubsection{DHT22 Task}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_dht22_task.png}
+        \caption{Example Code DHT22 Task (Quelle: eigene Darstellung)}
+        \label{abb:example_code_dht22_task}
+    \end{center}
+\end{figure}
+
 \subsection{Mögliche Probleme}
 % TODO: Write about possible problems that could occur while following the example
 
@@ -876,7 +885,7 @@ Die Tools scanelf und execstack sind zwei Beispiele, um die stack-Details anzuze
     \end{center}
 \end{figure}
 
-\subsection{Static vs. Daynamic binaries}
+\subsection{Static vs. Dynamic binaries}
 Beim Umgang mit ELF-Binärdateien ist es gut zu wissen, dass es zwei Typen gibt und wie sie verknüpft sind. Der Typ ist entweder statisch oder dynamisch und bezieht sich auf die verwendeten Bibliotheken. Zu Optimierungszwecken stellen wir häufig fest, dass Binärdateien „dynamisch“ sind, was bedeutet, dass externe Komponenten für die ordnungsgemäße Ausführung erforderlich sind. Häufig handelt es sich bei diesen externen Komponenten um normale Bibliotheken, die allgemeine Funktionen wie das Öffnen von Dateien oder das Erstellen eines Netzwerk-Sockets enthalten. In statischen Binärdateien sind dagegen alle Bibliotheken enthalten. Dadurch werden sie größer und dennoch tragbarer (z. B. wenn sie auf einem anderen System verwendet werden).
 
 \subsection{Fazit}
