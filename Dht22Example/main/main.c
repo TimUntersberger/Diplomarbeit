@@ -23,7 +23,11 @@ void DHT_task(void *pvParameter)
     {
         int ret = dht22_read();
 
-        dht22_handle_error(ret);
+        if (ret != ESP_OK)
+        {
+            dht22_handle_error(ret);
+            continue;
+        }
 
         float humidity = dht22_get_humidity();
         float temperature = dht22_get_temperature();
