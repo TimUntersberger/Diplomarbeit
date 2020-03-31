@@ -667,8 +667,92 @@ Dieser beihnhaltet nicht nur den Source Code sondern auch die \textit{menuconfig
 Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstanden sind (wie zum Beispiel \textit{mqtt.h}), befinden sich im Kapitel \ref{sec:libraries}.
 
 \subsubsection{Setup}
-\subsubsection{IP Event Handler}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_setup.png}
+        \caption{Example Code Setup (Quelle: eigene Darstellung)}
+        \label{abb:example_code_setup}
+    \end{center}
+\end{figure}
+
+Die in Abbildung \ref{abb:example_code_setup} dargestellte Funktion \textit{app\_main} is für die Initialisierung des Programms zuständig.
+
+Sie initialisiert folgende Komponenten:
+
+\begin{itemize}
+    \item nvs flasher
+    \item netif
+    \item event loop
+    \item wifi
+    \item mesh
+\end{itemize}
+
+Anschließend startet sie das Mesh Netzwerk.
+
+\subsubsection{Wifi Setup}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_setup_wifi.png}
+        \caption{Example Code Setup Wifi (Quelle: eigene Darstellung)}
+        \label{abb:example_code_setup_wifi}
+    \end{center}
+\end{figure}
+
+In Abbildung \ref{abb:example_code_setup_wifi} ist eine Funktion namens \textit{wifi\_init} zu sehen. Diese ist für die Initialisierung des Wifis zuständig.
+
+Die Funktion verwendet die default Werte von ESP-IDF für die Initialisierung des Wifis.
+Es wird nicht nur das wifi gestartet sondern auch ein \textit{Callback} für das \textit{IP\_EVENT\_STA\_GOT\_IP} Event registriert.
+
+Der \textit{Callback} wird in Kapitel \ref{sec:example-code-event-handler} beschrieben.
+
+\subsubsection{IP Event Handler}\label{sec:example-code-event-handler}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_event_handler.png}
+        \caption{Example Code Event Handler (Quelle: eigene Darstellung)}
+        \label{abb:example_code_event_handler}
+    \end{center}
+\end{figure}
+
+Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_code_event_handler} zu sehen ist, startet den MQTT-Client nachdem sie die globale Variable \textit{is\_connected\_to\_router} setzt.
+
+\textit{is\_connected\_to\_router} steht für den aktuellen Status des Wifis. Normalerweise ist diese immer auf \textit{false} gesetzt, da nur der \textit{Root Mikrocontroller} eine Verbindung mit dem externen Netz besitzen soll.
+
 \subsubsection{Command Callback}
+
+Der \textit{Command Callback} wird aufgerufen, wenn ein neuer \textit{Command} an diesen Knoten verschickt wird.
+
+Was ein \textit{Command} ist und wie er funktioniert ist in Kapitel \ref{sec:libraries} beschrieben.
+
+Der Callback reagiert nur auf neue Commands, wenn der aktuelle Knoten der \textit{Root Knoten} ist.
+
+Das Beispiel Programm reagiert auf folgende Command Typen:
+
+\begin{itemize}
+    \item \textbf{MQTT}
+    \item \textbf{ADD NODE}
+    \item \textbf{REMOVE NODE}
+\end{itemize}
+
+\textbf{ADD\_NODE} und \textbf{REMOVE\_NODE} sind Commands die automatisch von der Mesh Library verschickt werden.
+
+Das Programm reagiert auf diese beiden Commands und schickt sie dann über MQTT im JSON Format weiter.
+
+Dies ist wichtig für den \textit{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}).
+
+Wenn ein MQTT Command an dem Root Knoten ankommt, dann schickt dieser den payload (welcher in dem Fall eines MQTT Commands, die MQTT Message ist) weiter mithilfe der mqtt library (Kapitel \ref{sec:libraries}).
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_on_cmd_one.png}
+        \caption{Example Code Command Callback 1 (Quelle: eigene Darstellung)}
+        \label{abb:example_code_on_cmd_one}
+    \end{center}
+\end{figure}
+
 \subsubsection{DHT22 Task}
 \subsection{Mögliche Probleme}
 % TODO: Write about possible problems that could occur while following the example
