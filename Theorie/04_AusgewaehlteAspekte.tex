@@ -265,6 +265,7 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 \section{Libraries}
 
 % TODO: Continue
+% TODO: Write about DHT22 library
 
 Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
 
@@ -320,6 +321,40 @@ Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun
 Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchron läuft, deswegen ist es notwendig über die Konsequenzen beim Benutzen der Funktion nachzudenken.
 
 \subsection{Http}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/http_functions.png}
+        \caption{HTTP Funktionen(Quelle: eigene Darstellung)}
+        \label{abb:http_functions}
+    \end{center}    
+\end{figure}
+
+Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche in  Abbildung \ref{abb:http_functions} zu sehen sind.
+
+
+\textit{http\_request} nimmt einen Enum-Wert \textit{method} als erstes Argument und einen String Pointer als zweites.
+
+Das Enum beinhaltet folgende möglichen Werte:
+
+\begin{itemize}
+    \item \textbf{HTTP\_METHOD\_GET}
+    \item \textbf{HTTP\_METHOD\_POST}
+    \item \textbf{HTTP\_METHOD\_PUT}
+    \item \textbf{HTTP\_METHOD\_PATCH}
+    \item \textbf{HTTP\_METHOD\_DELETE}
+\end{itemize}
+
+% TODO: Rewrite
+
+Dabei ist zu erwähnen, dass das Enum an sich mehr mögliche Werte besitzt, als in der oben angeführten Liste zu sehen sind.
+
+Dies ist der Fall, weil der HTTP Client nur für primitive Fälle implementiert wurde.
+
+Trotzdem unterstützt die Funktion \textit{http\_request} Query Paramter, aber nur mittels des \textit{url} Arguments.
+
+Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_response\_body\_size} geben den jeweiligen Wert des letzten HTTP Requests zurück.
+
 \subsection{Mesh}
 % was ist ein mqtt command erklären
 % command architektur erlären
