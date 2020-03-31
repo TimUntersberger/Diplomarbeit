@@ -222,26 +222,20 @@ Der Partition Table des OTA Clients ist in Abbildung (\ref{abb:ota_partition_tab
 % Todo seite entfernen
 
 \section{Mesh Netzwerk}\label{sec:mesh}
-% sequence von http
-% sequence von mqtt
-% was ist ein mqtt command erklären
-% command architektur erlären
-
-\section{NGINX sichern mit letsencrypt}
-
-\section{EspWifiManager Implementation}
-
-\section{Makeconfig}
-
-\section{Die Wichtigkeit von Erase Flash}
 
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
+% TODO: Start
+
 \section{Libraries}
+
+% TODO: Start
 
 \subsection{Mqtt}
 \subsection{Http}
 \subsection{Mesh}
+% was ist ein mqtt command erklären
+% command architektur erlären
 \subsection{Dht22}
 
 \section{Bedienungsanleitung}
@@ -253,6 +247,7 @@ Der Partition Table des OTA Clients ist in Abbildung (\ref{abb:ota_partition_tab
     \begin{center}
         \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_deployment.png}
         \caption{Deployment Diagramm (Quelle: eigene Darstellung)}
+        \label{abb:dht22_deployment_diagram}
     \end{center}    
 \end{figure}
 
@@ -278,7 +273,7 @@ Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} 
 \vspace*{50px}
 
 Die Abbildung \ref{abb:dht22_sequence_diagram} zeigt den Verlauf einer Iteration dieses Beispieles.
-Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh Netzwerk mittels MQTT Command verschickt.
+Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh Netzwerk mittels einem MQTT Command (\ref{sec:libraries}) verschickt.
 
 Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
 
@@ -632,6 +627,8 @@ In dieser Konfiguration muss der Typ des \textbf{Partition Table} Felds auf \tex
     \end{center}
 \end{figure}
 
+% TODO: Juli help split sentence yes
+
 Wie in der Abbildung zu sehen, sind, um die zwei Module miteinander zu verbinden, drei, weiblich zu weiblich, Dupont-Kabel notwendig.
 
 Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen für den GND Pin immer ein schwarzes und für den 3.3V Pin immer rotes Kabel zu verwenden, um die Übersicht nicht zu verlieren.
@@ -804,6 +801,28 @@ Wenn ein MQTT Command an dem Root Knoten ankommt, dann schickt dieser den payloa
         \includegraphics[scale=0.8]{images/example_code_dht22_task.png}
         \caption{Example Code DHT22 Task (Quelle: eigene Darstellung)}
         \label{abb:example_code_dht22_task}
+    \end{center}
+\end{figure}
+
+\textit{DHT\_task} ist eine Funktion, welche als Task (Kapitel \ref{sec:esp-idf-toolchain}) gestartet wird. 
+
+Sie ist für das regelmäßige Einlesen der aktuellen DHT22 Werte und das Verschicken dieser an den spezifizierter MQTT Broker zuständig.
+
+Ungefähr alle 3 Sekunden führt dieser Task die, in Abbildung \ref{abb:dht22_sequence_diagram} zu sehende, Sequenz durch.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_dht22_task_one.png}
+        \caption{Example Code DHT22 Task 1 (Quelle: eigene Darstellung)}
+        \label{abb:example_code_dht22_task_one}
+    \end{center}
+\end{figure}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_dht22_task_two.png}
+        \caption{Example Code DHT22 Task 2 (Quelle: eigene Darstellung)}
+        \label{abb:example_code_dht22_task_two}
     \end{center}
 \end{figure}
 
