@@ -159,8 +159,6 @@ Wenn die Option der Benutzerdefinierte Partitionstabelle ausgewählt wird. Muss 
     \end{center}    
 \end{figure}
 
-% TODO: talk about ota partition table diagram
-
 \subsubsection{Name Feld}
 Das Namensfeld kann beliebig gewählt werden. Es ist für den Mikrocontroller nicht von Bedeutung. Namen die länger als 16 Zeichen sind werden jedoch abgeschnitten.
 
@@ -208,6 +206,19 @@ Wenn Sie möchten, dass die Partitionen in der Partitionstabelle mit einem Start
 Derzeit wird nur ein Flag unterstützt: encrypted. Wenn dieses Feld auf encrypted eingestellt ist, wird diese Partition verschlüsselt, wenn die Flash-Verschlüsselung aktiviert ist.
 
 Partitionen vom App-Typ werden immer verschlüsselt unabhängig ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
+
+\subsubsection{OTA Partition Tables}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.7]{diagrams/ota_partition_table.png}
+        \caption{OTA Partition Table (Quelle: eigene Darstellung)}
+        \label{abb:ota_partition_table}
+    \end{center}    
+\end{figure}
+Der Partition Table des OTA Clients ist in Abbildung (\ref{abb:ota_partition_table})
+% TODO: talk about ota partition table diagram
+
+
 % Todo seite entfernen
 
 \section{Mesh Netzwerk}\label{sec:mesh}
