@@ -107,13 +107,16 @@ Nun gibt es zwei Szenarien, die eintreten können:
     \end{figure}
 \end{itemize}
 
-% TODO: Deployment diagram.
+\subsubsection{Übersicht}
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.6]{diagrams/ota_deployment.png}
         \caption{OTA Deployment (Quelle: eigene Darstellung)}
     \end{center}
 \end{figure}
+Um OTA zu ermöglichen ist auf einem Digital Ocean Droplet der OTA Server installiert. Dieser stellt die OTA-API zur Verfügung. Wird eine Anfrage an den OTA Server gesendet um Firmware herunterzuladen greift dieser auf die Postgres Datenbank zu auf der die Firmware-Images gespeichert sind. Sollen diese Firmware-Images geändert, entfernt oder neue hinzugefügt werden geschieht dies mit der OTA-Web Application, sie stellt eine Benutzeroberfläche bereit, um diese Funktionalität zu ermöglichen.
+
+Einem Mikrocontroller ist es nun ermöglicht, wenn dieser Wi-Fi Funktionalität besitzt, Requests an den OTA Server zu senden und Antworten von diesem zu erhalten.
 
 \subsection{Partition Table}\label{sec:ota-partition-table}
 Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen. Würde man diese Tabelle nicht richtig konfigurieren würde das Programm nicht einmal starten. Dazu kommt noch eine erschwerte Fehlersuche, da Errormeldungen bei der Arbeit mit Mikrocontrollern zu wünschen lassen.
@@ -198,10 +201,9 @@ Wenn Sie möchten, dass die Partitionen in der Partitionstabelle mit einem Start
 Derzeit wird nur ein Flag unterstützt: encrypted. Wenn dieses Feld auf encrypted eingestellt ist, wird diese Partition verschlüsselt, wenn die Flash-Verschlüsselung aktiviert ist.
 
 Partitionen vom App-Typ werden immer verschlüsselt unabhängig ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
-
 % Todo seite entfernen
 
-\section{Mesh Netzwerk}\label{sec:mesh}
+\section{Mesh Netzwerk}
 % sequence von http
 % sequence von mqtt
 % was ist ein mqtt command erklären
