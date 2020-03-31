@@ -304,7 +304,6 @@ Hier ist zu sehen, dass die Längen der jeweiligen Buffers mithilfe einer \texti
 Eine \textit{preprocessor directive} ist, in der Programmiersprache C, ein Weg wie man Makros definieren kann. 
 
 Makrodefinitionen sind keine Variablen und können nicht wie Variablen von Ihrem Programmcode geändert werden. Im Allgemeinen wird diese Syntax verwendet, wenn Konstanten erstellt werden sollen, die Zahlen, Zeichenfolgen oder Ausdrücke darstellen.
-\pagebreak
 
 Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche in der nachstehenden Abbildung (\ref{abb:mqtt_functions}) zu sehen sind.
 
@@ -315,6 +314,10 @@ Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche 
         \label{abb:mqtt_functions}
     \end{center}
 \end{figure}
+
+Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun.
+
+Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchron läuft, deswegen ist es notwendig über die Konsequenzen beim Benutzen der Funktion nachzudenken.
 
 \subsection{Http}
 \subsection{Mesh}

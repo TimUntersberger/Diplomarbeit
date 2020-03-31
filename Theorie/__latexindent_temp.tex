@@ -53,6 +53,7 @@ Beispiele dafür sind:
 \end{itemize}
 
 \subsection{NodeMCU ESP32}
+\label{sec:nodemcu_esp32}
 
 \begin{figure}[H]
     \begin{center}
@@ -152,14 +153,16 @@ Wenn die Option der Benutzerdefinierte Partitionstabelle ausgewählt wird. Muss 
     \item Flags
 \end{itemize}
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=1]{images/partition_table.png}
-        \caption{Beispiel Partitionstabelle (Quelle: eigene Darstellung)}
-    \end{center}    
-\end{figure}
-
-% TODO: talk about ota partition table diagram
+\begin{verbatim}
+    # Name,   Type, SubType,  Offset,   Size,  Flags
+    nvs,      data, nvs,      0x9000,  0x4000
+    otadata,  data, ota,      0xd000,  0x2000
+    phy_init, data, phy,      0xf000,  0x1000
+    factory,  app,  factory,  0x10000,  1M
+    ota_0,    app,  ota_0,    ,         1M
+    ota_1,    app,  ota_1,    ,         1M
+    nvs_key,  data, nvs_keys, ,        0x1000
+\end{verbatim}
 
 \subsubsection{Name Feld}
 Das Namensfeld kann beliebig gewählt werden. Es ist für den Mikrocontroller nicht von Bedeutung. Namen die länger als 16 Zeichen sind werden jedoch abgeschnitten.
@@ -172,28 +175,50 @@ Wenn eine Anwendung Daten speichern muss, muss einen benutzerdefinierten Partiti
 Der Bootloader ignoriert alle anderen Partitionstypen als App (0) und Daten (1).
 
 \subsubsection{SubType}
-Das 8-Bit-SubType-Feld ist spezifisch für einen bestimmten Partitionstyp. Esp-idf gibt derzeit nur die Bedeutung des Subtypfelds für die Partitionstypen "App" und "Daten" an (Stand 09.03.2020).
+Das 8-Bit-SubType-Feld ist spezifisch für einen bestimmten Partitionstyp. Esp-idf gibt derzeit nur die Bedeutung des Subtypfelds für die Partitionstypen \textit{App} und \textit{Daten} an (Stand 09.03.2020).
 
+Wenn der Typ \textit{App} ist, kann das Subtypfeld als
+\begin{itemize}
+    \item \textit{factory (0)}
+    \item \textit{ota\_0 (0x10)} bis \textit{ota\_15 (0x1F)}
+    \item \textit{test (0x20)}
+\end{itemize}
+angegeben werden.
 
-Wenn der Typ "App" ist, kann das Subtypfeld als Factory (0), ota\_0 (0x10) ... ota\_15 (0x1F) oder test (0x20) angegeben werden.
-factory (0) ist die Standard-App-Partition. Der Bootloader führt die Factory-App aus, es sei denn, er sieht eine Partition vom Typ data / ota. In diesem Fall liest er diese Partition, um zu bestimmen, welches OTA-Image gestartet werden soll.
-OTA aktualisiert niemals die Factory-Partition.
-Wenn Sie die Flash-Nutzung in einem OTA-Projekt beibehalten möchten, können Sie die Factory-Partition entfernen und stattdessen ota\_0 verwenden.
-ota\_0 (0x10)\dots ota\_15 (0x1F) sind die OTA-App-Slots. Verwenden Sie dann die OTA-Datenpartition, um zu konfigurieren, welchen App-Slot der Bootloader starten soll. Wenn Sie OTA verwenden, sollte eine Anwendung mindestens zwei OTA-Applikationslots haben (ota\_0 und ota\_1).
-test (0x20) ist ein reservierter Subtyp für werkseitige Testverfahren. Es wird als Fallback-Boot-Partition verwendet, wenn keine andere gültige App-Partition gefunden wird. Es ist auch möglich, den Bootloader so zu konfigurieren, dass er bei jedem Start einen GPIO-Eingang liest, und diese Partition zu starten, wenn der GPIO "low" gehalten wird.
-Wenn der Typ "data" ist, kann das Subtypfeld als ota (0), phy (1), nvs (2) oder nvs\_keys (4) angegeben werden.
-ota (0) ist die OTA-Datenpartition, in der Informationen zur aktuell ausgewählten OTA-Anwendung gespeichert werden. Diese Partition sollte mindestens 0x2000 Bytes groß sein.
-phy (1) dient zum Speichern von PHY-Initialisierungsdaten.
-In der Standardkonfiguration wird die Phy-Partition nicht verwendet und die PHY-Initialisierungsdaten werden in der App selbst kompiliert. Daher wird diese Partition aus Platzgründen meist aus der Partitionstabelle entfernt.
-nvs (2) steht für die NVS-API (Non-Volatile Storage).
-NVS wird zum Speichern von PHY-Kalibrierungsdaten pro Gerät verwendet (anders als Initialisierungsdaten).
-NVS wird unter anderem zum Speichern von WiFi-Daten verwendet, wenn die Initialisierungsfunktion esp\_wifi\_set\_storage (WIFI\_STORAGE\_FLASH) verwendet wird.
-Die NVS-API kann auch für andere Anwendungsdaten verwendet werden.
-Es wird dringend empfohlen, eine NVS-Partition von mindestens 0x3000 Byte in Ihr Projekt aufzunehmen, da sonst einige unerwartete Fehler auftreten können.
-Wenn Sie die NVS-API zum Speichern vieler Daten verwenden, erhöhen Sie die NVS-Partitionsgröße von den standardmäßig 0x6000 konfigurierten Bytes.
-nvs\_keys (4) ist für die NVS-Key-Partition.
-Es wird zum Speichern von NVS-encryption-keys verwendet, wenn das NVS Encryption feature aktiviert ist.
-Die Größe dieser Partition sollte 4096 Byte betragen (minimale Partitionsgröße).
+\begin{itemize}
+    \item \textit{Factory (0)} ist die Standard-App-Partition. Der Bootloader führt die Factory-App aus, es sei denn, er sieht eine Partition vom Typ data / ota. In diesem Fall liest er diese Partition, um zu bestimmen, welches OTA-Image gestartet werden soll.
+    \begin{itemize}
+        \item Weiters sei vermekt, dass OTA niemals die \textit{factory} Partition aktualisiert.
+        \item Wenn Sie die Flash-Nutzung in einem OTA-Projekt beibehalten möchten, können Sie die Factory-Partition entfernen und stattdessen \textit{ota\_0} verwenden.
+    \end{itemize}
+    \item \textit{ota\_0 (0x10)\dots ota\_15 (0x1F)} sind die OTA-App-Slots. Sie verwenden dann die \textit{ota\_data} Partition, um zu konfigurieren, welchen App-Slot der Bootloader starten soll.
+    \item Bei der Verwendung von OTA sollte eine Anwendung über mindestens zwei OTA-Applikationslots verfügen (\textit{ota\_0} und \textit{ota\_1}).
+    \item \textit{test (0x20)} ist ein reservierter Subtyp für werkseitige Testverfahren. Es wird als Fallback-Boot-Partition verwendet, wenn keine andere gültige App-Partition gefunden wird. Es ist auch möglich, den Bootloader so zu konfigurieren, dass er bei jedem Start einen general-purpose input/output(\textmd{GPIO}) Pin liest, und diese Partition zu starten, wenn der GPIO "low" gehalten wird.
+    \pagebreak
+    \item Wenn der Typ \textit{data} ist, kann das Subtypfeld mit folgenden Werten befüllt werden:
+    \begin{itemize}
+        \item \textit{ota (0)}
+        \item \textit{phy (1)}
+        \item \textit{nvs (2)}
+        \item \textit{nvs\_key (4)}
+    \end{itemize}
+    \item \textit{ota (0)} ist die OTA-Datenpartition, in der Informationen zur aktuell ausgewählten OTA-Anwendung gespeichert werden. Diese Partition sollte mindestens 0x2000 Bytes groß sein.
+    \item \textit{phy (1)} dient zum Speichern von PHY-Initialisierungsdaten.
+    In der Standardkonfiguration wird die Phy-Partition nicht verwendet und die PHY-Initialisierungsdaten werden in der App selbst kompiliert. Daher wird diese Partition aus Platzgründen meist aus der Partitionstabelle entfernt.
+    \item \textit{nvs (2)} steht für die Non-Volatile Storage-API (\textmd{NVS}).
+    \begin{itemize}
+        \item \textmd{NVS} wird zum Speichern von PHY-Kalibrierungsdaten pro Gerät verwendet (anders als Initialisierungsdaten).
+        \item \textmd{NVS} wird unter anderem zum Speichern von WiFi-Daten verwendet, wenn die Initialisierungsfunktion esp\_wifi\_set\_storage (WIFI\_STORAGE\_FLASH) verwendet wird.
+        \item Die \textmd{NVS}-API kann auch für andere Anwendungsdaten verwendet werden.
+        \item Es wird dringend empfohlen, eine \textmd{NVS}-Partition von mindestens 0x3000 Byte aufzunehmen, da sonst einige unerwartete Fehler auftreten können.
+        \item Wenn die \textmd{NVS}-API zum Speichern vieler Daten verwenden wird, wird empfohlen diese von den standardmäßig 0x6000 konfigurierten Bytes zu erhöhen.
+    \end{itemize}
+    \item \textit{nvs\_keys (4)} ist die \textmd{NVS}-Key-Partition.
+    \begin{itemize}
+        \item Sie wird zum Speichern von \textmd{NVS} encryption keys verwendet, wenn das \textmd{NVS} Encryption feature aktiviert ist.
+        \item Die Größe dieser Partition sollte 4096 Byte betragen (minimale Partitionsgröße).
+    \end{itemize}
+\end{itemize}
 
 \subsection{Offset}
 Partitionen mit leeren Offsets beginnen nach der vorherigen Partition oder nach der Partitionstabelle bei der ersten Partition.
@@ -208,6 +233,28 @@ Wenn Sie möchten, dass die Partitionen in der Partitionstabelle mit einem Start
 Derzeit wird nur ein Flag unterstützt: encrypted. Wenn dieses Feld auf encrypted eingestellt ist, wird diese Partition verschlüsselt, wenn die Flash-Verschlüsselung aktiviert ist.
 
 Partitionen vom App-Typ werden immer verschlüsselt unabhängig ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
+
+\subsubsection{OTA Partition Tables}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.7]{diagrams/ota_partition_table.png}
+        \caption{OTA Partition Table (Quelle: eigene Darstellung)}
+        \label{abb:ota_partition_table}
+    \end{center}    
+\end{figure}
+Der Partition Table des OTA Clients ist in Abbildung (\ref{abb:ota_partition_table}) zu sehen.
+
+Insgesamt stehen allen Partitionen \textbf{4MB} zur Verfügung, da dies der gesamte Flash-Speicher des NodeMCU ESP32 (\ref{sec:nodemcu_esp32}) ist. Dieser enthält folgende Partitionen:
+\begin{itemize}
+    \item Der \textbf{nvs}-Partition stehen \textbf{16KB} zur Verfügung, hier werden die notwendigen Config Daten gespeichert.
+    \item Um OTA Updates durchführen zu können ist auch eine \textbf{otadata} Partition notwendig, der in deisem Fall \textbf{8KB} zur verfügung stehen. Hier wird gespeichert welche der beiden ota Partitionen gestartet werden muss.
+    \item \textbf{ota\_0} und \textbf{ota\_1} sind, mit jeweils \textbf{1MB}, die beiden ota Partitionen. Hier wird die Firmware gespeichert, welche der Mikrocontroller dann ausführt.
+    \item \textbf{nvs\_key} erhält \textbf{4KB} Speicher. Da das NVS Filesystem aus Key-Value Paaren besteht wird zur Value (\textbf{nvs}) auch ein Key gebraucht (\textbf{nvs\_key}).
+\end{itemize}
+
+Auf eine \textbf{factory} Partition wurde verzichtet, um Speicher für die ota Partitionen zu sparen. Außerdem wird, wenn keine \textbf{factory} Partition existiert, die \textbf{ota} Partition mit dem niedrigsten Index gestartet. Hier ist das \textbf{ota\_0}.
+
+Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. Weiters behandelt die \textbf{phy\_init} Partition nur Ethernetdaten, welche in diesem Beispiel überflüssig sind.
 
 \section{Mesh Netzwerk}\label{sec:mesh}
 
@@ -257,7 +304,6 @@ Hier ist zu sehen, dass die Längen der jeweiligen Buffers mithilfe einer \texti
 Eine \textit{preprocessor directive} ist, in der Programmiersprache C, ein Weg wie man Makros definieren kann. 
 
 Makrodefinitionen sind keine Variablen und können nicht wie Variablen von Ihrem Programmcode geändert werden. Im Allgemeinen wird diese Syntax verwendet, wenn Konstanten erstellt werden sollen, die Zahlen, Zeichenfolgen oder Ausdrücke darstellen.
-\pagebreak
 
 Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche in der nachstehenden Abbildung (\ref{abb:mqtt_functions}) zu sehen sind.
 
@@ -268,6 +314,10 @@ Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche 
         \label{abb:mqtt_functions}
     \end{center}
 \end{figure}
+
+Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun.
+
+Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchron läuft, deswegen ist es notwendig über die Konsequenzen beim Benutzen der Funktion nachzudenken.
 
 \subsection{Http}
 \subsection{Mesh}
