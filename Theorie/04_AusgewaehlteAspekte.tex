@@ -89,7 +89,7 @@ Nun überprüft der Mikrocontroller den Timestamp der letzten Änderung des Serv
 Nun gibt es zwei Szenarien, die eintreten können:
 
 \begin{itemize}
-    \item Die Timestamps sind gleich. Das bedeutet, dass der Server und der Mikrocontroller beide die gleiche Firmware besitzen und es besteht kein Grund diese vom Server herunterzuladen.
+    \item \textbf{Die Timestamps sind gleich}. Das bedeutet, dass der Server und der Mikrocontroller beide die gleiche Firmware besitzen und es besteht kein Grund diese vom Server herunterzuladen.
     \begin{figure}[H]
         \begin{center}
             \includegraphics[scale=0.8]{diagrams/ota_sequence_same_timestamp.png}
@@ -97,7 +97,7 @@ Nun gibt es zwei Szenarien, die eintreten können:
         \end{center}
     \end{figure}
     \newpage
-    \item Die Timstamps sind unterschiedlich. Das bedeutet, dass die Firmware am Server geändert wurde und der Mikrocontroller eine ältere Version besitzt.\newline
+    \item \textbf{Die Timstamps sind unterschiedlich}. Das bedeutet, dass die Firmware am Server geändert wurde und der Mikrocontroller eine ältere Version besitzt.\newline
     Da davon ausgegangen wird, dass der Server immer die beste Version der Firmware bestitz, lädt der Mikrocontroller diese herunter und startet von der soeben heruntergeladenen Firmware neu.
     \begin{figure}[H]
         \begin{center}
@@ -114,9 +114,16 @@ Nun gibt es zwei Szenarien, die eintreten können:
         \caption{OTA Deployment (Quelle: eigene Darstellung)}
     \end{center}
 \end{figure}
-Um OTA zu ermöglichen ist auf einem Digital Ocean Droplet der OTA Server installiert. Dieser stellt die OTA-API zur Verfügung. Wird eine Anfrage an den OTA Server gesendet um Firmware herunterzuladen greift dieser auf die Postgres Datenbank zu auf der die Firmware-Images gespeichert sind. Sollen diese Firmware-Images geändert, entfernt oder neue hinzugefügt werden geschieht dies mit der OTA-Web Application, sie stellt eine Benutzeroberfläche bereit, um diese Funktionalität zu ermöglichen.
 
-Einem Mikrocontroller ist es nun ermöglicht, wenn dieser Wi-Fi Funktionalität besitzt, Requests an den OTA Server zu senden und Antworten von diesem zu erhalten.
+Um OTA zu ermöglichen ist auf einem \textit{Digital Ocean Droplet} der OTA Server deployed. 
+
+Dieser stellt eine API zur Verwaltung von den existierenden Firmwares zur Verfügung.  
+
+Wenn eine Firmware geändert, entfernt oder eine neue hinzugefügt werden soll, geschieht dies über der OTA-Web Applikation.
+
+Die OTA-Web Applikation stellt eine Benutzeroberfläche zur Verwaltung der Firmwares bereit.
+
+Einem Mikrocontroller ist es nun ermöglicht mithilfe des \textit{OTA Servers} zu überprüfen, ob dieser die aktuelle Version einer Firmware besitzt und diese eventuell herunterzuladen.
 
 \subsection{Partition Table}\label{sec:ota-partition-table}
 Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen. Würde man diese Tabelle nicht richtig konfigurieren würde das Programm nicht einmal starten. Dazu kommt noch eine erschwerte Fehlersuche, da Errormeldungen bei der Arbeit mit Mikrocontrollern zu wünschen lassen.
