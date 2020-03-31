@@ -22,10 +22,11 @@ void DHT_task(void *pvParameter)
     while (1)
     {
         int ret = dht22_read();
-        float humidity = dht22_get_humidity();
-        float temperature = dht22_get_temperature();
 
         dht22_handle_error(ret);
+
+        float humidity = dht22_get_humidity();
+        float temperature = dht22_get_temperature();
 
         ESP_LOGI(TAG, "Humidity: %.1f\n", humidity);
         ESP_LOGI(TAG, "Temperature: %.1f\n", temperature);
