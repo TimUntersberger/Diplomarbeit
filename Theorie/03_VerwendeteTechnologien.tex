@@ -2,6 +2,59 @@
 
 \section{ESP-IDF Toolchain}\label{sec:esp-idf-toolchain}
 
+Um die Toolchain verwenden zu können muss man sich in einem ESP-IDF Projektverzeichnis befinden. Hier kann ist es möglich, mit folgendem Befehl, den ESP zu konfigurieren:
+
+\begin{verbatim}
+    idf.py menuconfig
+\end{verbatim}
+
+Dieser Befehl sollte zu folgendem Menü führen:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.5]{images/menuconfig.png}
+        \caption{menuconfig \cite{menuconfig_picture}}
+    \end{center}
+\end{figure}
+\pagebreak
+Dieses Menü wird verwendet um Projekt spezifische Variablen zu setzten. Wie zum Beispiel:
+\begin{itemize}
+    \item Netzwerkname
+    \item Netzwerkpasswort
+    \item Takt des Prozessors
+    \item Parition Table Variante
+    \item \dots und viele mehr
+\end{itemize}
+
+Weiters ist hier zu beachten, dass, wenn man auf einem Dual-Core ESP arbeiten sollte zuerst auf den Single-Core Modus umstellen sollte, bevor man die fertigen Beispiele von Espressif ausprobiert.
+
+Ist das Projekt richtig konfiguriert kann man es mit dem folgendem Befehl builden:
+\begin{verbatim}
+    idf.py build
+\end{verbatim}
+
+Mit diesem Befehl wird die Anwendung kompiliert und der Bootloader und der Partition Table wird erstellt.
+
+Sollten beim Kompilieren Fehler auftreten, so werden diese nun in der Konsole ausgegeben. Ist dies nicht der Fall kann das Program mit diesem Befehl auf den ESP geflashed werden:
+\begin{verbatim}
+    idf.py flash
+\end{verbatim}
+
+Sollte es ein Problem beim flashen geben, liegt dies häufig an einem kaputten USB-Kabel.
+
+Um nun überprüfen zu können, ob das Program so läuft, wie es soll, kann man mit:
+\begin{verbatim}
+    idf.py monitor
+\end{verbatim}
+den IDF Monitor (\ref{sec:monitor}) starten.
+
+Es ist auch möglich ein einem einzigen Befehlt das Program zu builden, zu flashen und upzuloaden:
+\begin{verbatim}
+    idf.py flash monitor
+\end{verbatim}
+
+\subsubsection{IDF Monitor}\label{sec:monitor}
+Der IDF-Monitor ist ein serielles Terminalprogramm, das serielle Daten zum und vom seriellen Anschluss des Zielgeräts weiterleitet.
+
 % TODO: write about esp tasks and other functionality we used
 % Task
 % Menuconfig (wie man ui benutzt und wie eine .projbuild datei funktioniert)
@@ -90,7 +143,7 @@ Docker-compose ist ein Tool zum Definieren und Ausführen von Docker-Anwendungen
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.8]{images/docker_compose_example.png}
-        \caption{Docker Compose Beispiel}
+        \caption{Docker Compose Beispiel (Quelle: eigene Darstellung)}
     \end{center}
 \end{figure}
 
