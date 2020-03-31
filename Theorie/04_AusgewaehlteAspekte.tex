@@ -611,8 +611,32 @@ In der \textbf{Partition Table} Option wird der verwendete \textit{Partition Tab
 In dieser Konfiguration muss der Typ des \textbf{Partition Table} Felds auf \textit{Custom partition table CSV} gesetzt werden.
 
 \subsection{Hardware}
-% TODO: write about how to connect the dht22 with the esp
-% TODO: write about how to connect the esp with the computer
+
+\subsubsection{DHT22 mit ESP32 verbinden}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.36]{images/DHT22-ESP32-Connection.png}
+        \caption{Verbindung ESP32-DHT22 (Quelle: eigene Darstellung)}
+        \label{abb:esp32-dht22}
+    \end{center}
+\end{figure}
+
+Wie in der Abbildung zu sehen, sind, um die zwei Module miteinander zu verbinden, drei, weiblich zu weiblich, Dupont-Kabel notwendig.
+
+Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen für den GND Pin immer ein schwarzes und für den 3.3V Pin immer rotes Kabel zu verwenden, um die Übersicht nicht zu verlieren.
+
+Nun werden folgende Pins miteinander verbuden:
+\begin{itemize}
+    \item Der - Pin des DHT22 mit dem GND Pin des Mikrocontrollers (in Abbildung \ref{abb:esp32-dht22} schwarz markiert)
+    \item Der + Pin des DHT22 mit dem 3.3V Pin des Mikrocontrollers (in Abbildung \ref{abb:esp32-dht22} rot markiert)
+    \item Der out Pin des DHT22 mit einem beliebigem data Pin des Mikrocontrollers (in Abbildung \ref{abb:esp32-dht22} blau markiert)
+\end{itemize}
+\pagebreak
+
+\subsubsection{ESP32 mit Computer verbinden}
+Um den ESP mit dem Computer zu verbinden wird ein gewöhnliches USB zu Micro-USB Kabel verwendet.
+
+Das Micro-USB-Ende des Kabels wird in den seriellen Ausgang des Mikrocontrollers gesteckt und das USB-Ende des Kabels in einen beliebigen USB-Port des gewünschten Computers
 
 \subsection{Flashen}
 
