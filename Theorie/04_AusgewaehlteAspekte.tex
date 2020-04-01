@@ -253,9 +253,64 @@ Auf eine \textbf{factory} Partition wurde verzichtet, um Speicher für die ota P
 
 Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. Weiters behandelt die \textbf{phy\_init} Partition nur Ethernetdaten, welche in diesem Beispiel überflüssig sind.
 
-\section{Mesh Netzwerk}\label{sec:mesh}
+\section{ESP-MESH}\label{sec:mesh}
+\textmd{ESP-MESH} ist ein Netzwerkprotokoll, das auf dem Wi-Fi-Protokoll basiert. Mit \textmd{ESP-MESH} können zahlreiche Geräte (im Folgenden als Knoten bezeichnet), die über einen großen physischen Bereich (sowohl drinnen als auch draußen) verteilt sind, unter einem einzigen WLAN (Wireless Local Area Network) miteinander verbunden werden. \textmd{ESP-MESH} ist selbstorganisierend und selbstheilend, was bedeutet, dass das Netzwerk autonom aufgebaut und gepflegt werden kann.
 
-% TODO: Start
+\subsection{Wi-Fi vs Mesh}
+
+\subsubsection{Wi-Fi}
+
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/wifi-network-architecture.png}
+    \caption{Wi-Fi Netzwerk Struktur \cite{esp-mesh}}
+    \label{abb:mesh_visualizer}
+    \end{center}    
+\end{figure}
+
+Ein herkömmliches Wi-Fi-Netzwerk ist ein Punkt-zu-Mehrpunkt-Netzwerk, in dem ein einzelner zentraler Knoten, der als Access Point (AP) bezeichnet wird, direkt mit allen anderen Knoten verbunden ist, die als Stationen bezeichnet werden.
+
+Der AP ist für die Schlichtung und Weiterleitung von Übertragungen zwischen den Stationen verantwortlich. Einige APs leiten auch Übertragungen von oder zu einem externen IP-Netzwerk über einen Router weiter.
+
+Herkömmliche Wi-Fi-Netzwerke haben den Nachteil eines begrenzten Versorgungsbereichs, da jede Station in Reichweite sein muss, um eine direkte Verbindung mit dem AP herzustellen. Darüber hinaus sind herkömmliche Wi-Fi-Netzwerke anfällig für Überlastung, da die maximal zulässige Anzahl von Stationen im Netzwerk durch die Kapazität des AP begrenzt ist.
+
+\subsubsection{Mesh}
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/esp-mesh-network-architecture.png}
+    \caption{ESP-Netzwerk Struktur \cite{esp-mesh}}
+    \label{abb:mesh_visualizer}
+    \end{center}    
+\end{figure}
+
+\textmd{ESP-MESH} unterscheidet sich von herkömmlichen Wi-Fi-Netzwerken darin, dass Knoten keine Verbindung zu einem zentralen Knoten herstellen müssen. Stattdessen dürfen Knoten eine Verbindung zu benachbarten Knoten herstellen.
+
+Knoten sind gegenseitig für die Weiterleitung der Übertragungen verantwortlich. Dies ermöglicht es einem \textmd{ESP-MESH}-Netzwerk, einen viel größeren Versorgungsbereich zu haben, da Knoten immer noch mit verbunden sein können, ohne sich in Reichweite des zentralen Knotens befinden zu müssen. Ebenso ist \textmd{ESP-MESH} weniger anfällig für Überlastung, da die Anzahl der im Netzwerk zulässigen Knoten nicht mehr durch einen einzelnen zentralen Knoten begrenzt ist.
+
+Um mit einem \textmd{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folgende Begriffe zu verstehen:
+\begin{itemize}
+    \item \textmd{Node}
+    
+    Jedes Gerät, das Teil eines ESP-MESH-Netzwerks ist
+    \item \textmd{Root Node}
+    
+    Der \textmd{Root Node} ist der oberste Knoten eines Netzwerk
+
+    \item \textmd{Child Node}
+    
+    Ein \textmd{Child Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textmd{unter} einem anderem Knoten befindet
+
+    \item \textmd{Parent Node}
+    
+    Ein \textmd{Parent Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textmd{über} einem anderem Knoten befindet.
+
+    \item \textmd{Descendant Node}
+    
+    Ein \textmd{descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist
+
+    \item 
+\end{itemize}
+
+
+\cite{esp-mesh}
 
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
