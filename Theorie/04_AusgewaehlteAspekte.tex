@@ -366,11 +366,7 @@ Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_respons
 
 \subsubsection{Mesh}\label{sec:own-libraries-mesh}
 
-Die Mesh Library wurde um das \textit{mesh\_cmd\_t} Konstrukt, welches in Abbildung \ref{abb:mesh_cmd_t} dargestellt wird, gebaut.
-
-Ein \textit{mesh\_cmd} besteht hauptsächlich aus dem \textit{type} und einem \textit{payload}. Dazu werden noch verschiedene Metadaten über diesen Command gespeichert.
-
-Es werden folgende Metadaten gespeichert:
+Die Mesh Library wurde um das \textit{mesh\_cmd\_t} Konstrukt, welches in Abbildung \ref{abb:mesh_cmd_t} dargestellt wird, gebaut. Es existiert eine globale Warteschlange von Commands, welche nach dem First-In-First-Out (FIFO) Prinizip versendet werden.
 
 \begin{figure}[H]
     \begin{center}
@@ -380,6 +376,15 @@ Es werden folgende Metadaten gespeichert:
     \end{center}
 \end{figure}
 
+Ein \textit{mesh\_cmd} besteht hauptsächlich aus dem \textit{type} und einem \textit{payload}. Dazu werden noch verschiedene Metadaten über diesen Command gespeichert.
+
+Es werden folgende Metadaten gespeichert:
+
+\begin{itemize}
+    \item wenn \textbf{is\_broadcasted} gesetzt ist, dann verteilt ein Knoten den neuen Command an alle Unter-Knoten. 
+    \item ist \textbf{send\_to\_self} gesetzt, wird der versendete Command auch an sich selber verschickt.
+    \item das \textbf{from} Feld gibt an, von welchem Knoten dieser Command entstanden ist.
+\end{itemize}
 
 Es werden die Funktion, welche in folgender Abbildung (\ref{abb:mesh_functions}) zu sehen sind, zur Verfügung gestellt.
 
@@ -391,10 +396,35 @@ Es werden die Funktion, welche in folgender Abbildung (\ref{abb:mesh_functions})
     \end{center}
 \end{figure}
 
-Diese Library basiert auf eine First-In-First-Out-Queue (FIFO Queue), welche periodisch versendet wird. 
+In der obbigen Abbildung sind verschiedene Funktionstypen definiert, welche das jeweilige Interface eines Callbacks definiert.
 
-Jeglicher Command kann mithilfe der \textit{mesh\_queue\_cmd} Funktion zu dieser FIFO Queue hinzugefügt werden.
+Es werden folgende Typen definiert:
 
+\begin{itemize}
+    \item \textbf{void mesh\_cmd\_cb(mesh\_cmd\_t* cmd)}:
+
+    Dieser Callback wird aufgerufen wenn der Knoten, auf dem dieses Programm läuft, einen neuen Command erhält. Ihm wird die Address dieses Commands übergeben.
+
+    \item \textbf{void mesh\_connected\_cb(bool is\_root)}:
+    
+    
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{void mesh\_create\_network\_interface()}:
+    
+    Diese Funktion erstellt die Netzwerkschnittstelle des Mesh-Netzwerks, welche für die Verbindung mit dem Wi-Fi benötigt wird. Daher ist es wichtig, dass diese Funktion aufgerufen wird bevor das Wi-Fi initialisiert wird.
+
+    \item \textbf{void mesh\_queue\_cmd(mesh\_cmd\_t *cmd)}:
+
+    Die \textit{mesh\_queue\_cmd} Funktion nimmt die Adresse eines Mesh Commands als einiziges Argument, welcher an die Warteschlange angehängt wird. 
+
+    \item \textbf{void mesh\_on\_cmd(mesh\_cmd\_cb)}:
+    
+    Mithilfe dieser Funktion kann die Funktion geändert werden, welche aufgerufen wird, wenn dieser Knoten einen neuen Command erhält.
+
+    Sie bekommt eine Funktion vom Typen \textit{mesh\_cmd\_cb}, welcher am Anfang von diesem Kapitel beschrieben wurde, als Argument.
+\end{itemize}
 
 
 % was ist ein mesh command erklären
@@ -791,7 +821,7 @@ In dieser Konfiguration muss der Typ des \textbf{Partition Table} Felds auf \tex
 
 % TODO: Juli help split sentence yes
 
-Wie in der Abbildung zu sehen, sind, um die zwei Module miteinander zu verbinden, drei, weiblich zu weiblich, Dupont-Kabel notwendig.
+Wie in der Abbildung zu sehen ist, sind, um die zwei Module miteinander zu verbinden, drei, weiblich zu weiblich, Dupont-Kabel notwendig.
 
 Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen für den GND Pin immer ein schwarzes und für den 3.3V Pin immer rotes Kabel zu verwenden, um die Übersicht nicht zu verlieren.
 
@@ -923,6 +953,8 @@ Der \textit{Callback} wird in Kapitel \ref{sec:example-code-event-handler} besch
 Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_code_event_handler} zu sehen ist, startet den MQTT-Client nachdem sie die globale Variable \textit{is\_connected\_to\_router} setzt.
 
 \textit{is\_connected\_to\_router} steht für den aktuellen Status des Wifis. Normalerweise ist diese immer auf \textit{false} gesetzt, da nur der \textit{Root Mikrocontroller} eine Verbindung mit dem externen Netz besitzen soll.
+
+% TODO: Connected Callback
 
 \subsubsection{Command Callback}
 
