@@ -259,6 +259,23 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
+Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung eines Mesh Netzwerkes. 
+
+\begin{figure}[H] \begin{center}
+        \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
+        \caption{Mesh Visualizer (Quelle: eigene Darstellung)}
+        \label{abb:mesh_visualizer}
+    \end{center}    
+\end{figure}
+
+
+
+Sie verwendet die Graphen Library \textit{cytoscapejs} für die Darstellung der Knoten. Weitere Informationen sind dem Kapitel \ref{sec:cytoscape} zu entnehmen. 
+
+Die Benutzung in der Praxis ist in dem Kapitel \ref{sec:example-mesh-visualizer} näher beschrieben.
+
+\subsection{Cytoscape}\label{sec:cytoscape}
+
 % TODO: Start
 
 \section{Libraries}\label{sec:libraries}
@@ -344,8 +361,6 @@ In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert
 
 \subsection{Eigene Libraries}\label{sec:own-libraries}
 
-% TODO: Continue
-
 Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
 
 Das Application Programming Interface (API) dieser Libraries und wie man sie benutzt wird in diesem Kapitel erklärt.
@@ -413,7 +428,7 @@ Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche i
 
 \textit{http\_request} nimmt einen Enum-Wert \textit{method} als erstes Argument und einen String Pointer als zweites.
 
-Das Enum beinhaltet folgende möglichen Werte:
+Das Enum beinhaltet folgende mögliche Werte:
 
 \begin{itemize}
     \item \textbf{HTTP\_METHOD\_GET}
@@ -423,7 +438,17 @@ Das Enum beinhaltet folgende möglichen Werte:
     \item \textbf{HTTP\_METHOD\_DELETE}
 \end{itemize}
 
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/http_client_methods.png}
+        \caption{HTTP Client Methoden}%\cite{esp_idf_http_client_methods}}
+        \label{abb:http_client_methods}
+    \end{center}    
+\end{figure}
+
 % TODO: Rewrite
+
+GET 11 4 
 
 Dabei ist zu erwähnen, dass das Enum an sich mehr mögliche Werte besitzt, als in der oben angeführten Liste zu sehen sind.
 
@@ -953,7 +978,10 @@ Wie in der nachstehenden Abbildung zu sehen ist, wird regelmäßig die aktuelle 
         \caption{Beispiel Ergebnis Mqtt (Quelle: eigene Darstellung)}
         \label{abb:example_result_mqtt}
     \end{center}
+
 \end{figure}
+
+Der MQTT Client, welcher in Abbildung \ref{abb:example_result_mqtt} zu sehen ist, wurde entwickelt von hivemq und dient zur Kommunizierung mit einem 
 
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
@@ -1042,8 +1070,6 @@ Der \textit{Callback} wird in Kapitel \ref{sec:example-code-event-handler} besch
 Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_code_event_handler} zu sehen ist, startet den MQTT-Client nachdem sie die globale Variable \textit{is\_connected\_to\_router} setzt.
 
 \textit{is\_connected\_to\_router} steht für den aktuellen Status des Wifis. Normalerweise ist diese immer auf \textit{false} gesetzt, da nur der \textit{Root Mikrocontroller} eine Verbindung mit dem externen Netz besitzen soll.
-
-% TODO: Connected Callback
 
 \subsubsection{Command Callback}
 

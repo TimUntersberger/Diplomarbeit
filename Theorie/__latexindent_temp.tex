@@ -259,6 +259,23 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
+Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung eines Mesh Netzwerkes. 
+
+\begin{figure}[H] \begin{center}
+        \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
+        \caption{Mesh Visualizer (Quelle: eigene Darstellung)}
+        \label{abb:mesh_visualizer}
+    \end{center}    
+\end{figure}
+
+
+
+Sie verwendet die Graphen Library \textit{cytoscapejs} für die Darstellung der Knoten. Weitere Informationen sind dem Kapitel \ref{sec:cytoscape} zu entnehmen. 
+
+Die Benutzung in der Praxis ist in dem Kapitel \ref{sec:example-mesh-visualizer} näher beschrieben.
+
+\subsection{Cytoscape}\label{sec:cytoscape}
+
 % TODO: Start
 
 \section{Libraries}\label{sec:libraries}
@@ -266,8 +283,44 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 \subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
 
 \subsubsection{freertos}\label{sec:esp-idf-libraries-freertos}
+Diese Library ist notwendig um, auf einem ESP, Code parallel laufe lassen zu können.
 
-% TODO: write about tasks and other functionality we used
+Mit folgender Funktion wird ein Task angelegt:
+\begin{verbatim}
+    static inline IRAM_ATTR BaseType_t xTaskCreate(
+            TaskFunction_t pvTaskCode,
+            const char * const pcName,
+            const uint32_t usStackDepth,
+            void * const pvParameters,
+            UBaseType_t uxPriority,
+            TaskHandle_t * const pvCreatedTask)
+\end{verbatim}
+
+Wie zu sehen werden der Funktion folgende Parameter übergeben:
+\begin{itemize}
+    \item \textbf{pvTaskCode}
+
+    Hier wird der Zeiger der Funktion eingetragen, die im Task laufen soll. Damit die Funktion nie einen Retrunwert liefert muss dieser Parameter implementiert sein.
+    \item \textbf{pcName}
+    
+    Dieser Parameter ist der beschreibende Name des Tasks. Er wird verwendet um debugging zu erleichtern
+
+    \item \textbf{usStackDepth}
+    
+    Diese Variable deffiniert die Größe des Task-Stacks. Die Zahl, die hier übergeben wird entspricht der Anzahl der Variablen, die der Task zugleich halten kann, nicht die Anzahl der Bytes.
+    \item \textbf{pvParameters}
+    
+    Dies ist der Pointer einer Variable, die an den Task übergeben wird.
+    \item  \textbf{uxPriority}
+    
+    \textbf{uxPriority} stellt die Priorität des Tasks dar. Systeme mit MPU-Unterstützung können optional Tasks in einem privilegierten (System-) Modus erstellen, indem das Bit \textit{portPRIVILEGE\_BIT} des Prioritätsparameters gesetzt wird.
+    \item \textbf{pvCreatedTask}
+    
+    \textbf{pvCreatedTask} wird verwendet, um ein \textit{handle} zurückzugeben, mit dem auf den erstellten Task verwiesen werden kann. Um den Task beispielsweise zu löschen.
+\end{itemize}
+
+% TODO: write about esp tasks and other functionality we used
+% Task
 
 \subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
 In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert. Wie in der folgenden Abbildung zu sehen ist.
@@ -307,8 +360,6 @@ In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert
 \end{itemize}
 
 \subsection{Eigene Libraries}\label{sec:own-libraries}
-
-% TODO: Continue
 
 Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
 
@@ -377,7 +428,7 @@ Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche i
 
 \textit{http\_request} nimmt einen Enum-Wert \textit{method} als erstes Argument und einen String Pointer als zweites.
 
-Das Enum beinhaltet folgende möglichen Werte:
+Das Enum beinhaltet folgende mögliche Werte:
 
 \begin{itemize}
     \item \textbf{HTTP\_METHOD\_GET}
@@ -387,7 +438,17 @@ Das Enum beinhaltet folgende möglichen Werte:
     \item \textbf{HTTP\_METHOD\_DELETE}
 \end{itemize}
 
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/http_client_methods.png}
+        \caption{HTTP Client Methoden}%\cite{esp_idf_http_client_methods}}
+        \label{abb:http_client_methods}
+    \end{center}    
+\end{figure}
+
 % TODO: Rewrite
+
+GET 11 4 
 
 Dabei ist zu erwähnen, dass das Enum an sich mehr mögliche Werte besitzt, als in der oben angeführten Liste zu sehen sind.
 
@@ -917,7 +978,10 @@ Wie in der nachstehenden Abbildung zu sehen ist, wird regelmäßig die aktuelle 
         \caption{Beispiel Ergebnis Mqtt (Quelle: eigene Darstellung)}
         \label{abb:example_result_mqtt}
     \end{center}
+
 \end{figure}
+
+Der MQTT Client, welcher in Abbildung \ref{abb:example_result_mqtt} zu sehen ist, wurde entwickelt von hivemq und dient zur Kommunizierung mit einem 
 
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
@@ -1006,8 +1070,6 @@ Der \textit{Callback} wird in Kapitel \ref{sec:example-code-event-handler} besch
 Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_code_event_handler} zu sehen ist, startet den MQTT-Client nachdem sie die globale Variable \textit{is\_connected\_to\_router} setzt.
 
 \textit{is\_connected\_to\_router} steht für den aktuellen Status des Wifis. Normalerweise ist diese immer auf \textit{false} gesetzt, da nur der \textit{Root Mikrocontroller} eine Verbindung mit dem externen Netz besitzen soll.
-
-% TODO: Connected Callback
 
 \subsubsection{Command Callback}
 
