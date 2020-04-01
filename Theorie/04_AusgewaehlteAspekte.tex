@@ -254,7 +254,7 @@ Auf eine \textbf{factory} Partition wurde verzichtet, um Speicher für die ota P
 Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. Weiters behandelt die \textbf{phy\_init} Partition nur Ethernetdaten, welche in diesem Beispiel überflüssig sind.
 
 \section{ESP-MESH}\label{sec:mesh}
-\textmd{ESP-MESH} ist ein Netzwerkprotokoll, das auf dem Wi-Fi-Protokoll basiert. Mit \textmd{ESP-MESH} können zahlreiche Geräte (im Folgenden als Knoten bezeichnet), die über einen großen physischen Bereich (sowohl drinnen als auch draußen) verteilt sind, unter einem einzigen WLAN (Wireless Local Area Network) miteinander verbunden werden. \textmd{ESP-MESH} ist selbstorganisierend und selbstheilend, was bedeutet, dass das Netzwerk autonom aufgebaut und gepflegt werden kann.
+\textbf{ESP-MESH} ist ein Netzwerkprotokoll, das auf dem Wi-Fi-Protokoll basiert. Mit \textbf{ESP-MESH} können zahlreiche Geräte (im Folgenden als Knoten bezeichnet), die über einen großen physischen Bereich (sowohl drinnen als auch draußen) verteilt sind, unter einem einzigen WLAN (Wireless Local Area Network) miteinander verbunden werden. \textbf{ESP-MESH} ist selbstorganisierend und selbstheilend, was bedeutet, dass das Netzwerk autonom aufgebaut und gepflegt werden kann.
 
 \subsection{Wi-Fi vs Mesh}
 
@@ -263,7 +263,6 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 \begin{figure}[H] \begin{center}
     \includegraphics[scale=0.5]{diagrams/wifi-network-architecture.png}
     \caption{Wi-Fi Netzwerk Struktur \cite{esp-mesh}}
-    \label{abb:mesh_visualizer}
     \end{center}    
 \end{figure}
 
@@ -277,38 +276,98 @@ Herkömmliche Wi-Fi-Netzwerke haben den Nachteil eines begrenzten Versorgungsber
 \begin{figure}[H] \begin{center}
     \includegraphics[scale=0.5]{diagrams/esp-mesh-network-architecture.png}
     \caption{ESP-Netzwerk Struktur \cite{esp-mesh}}
-    \label{abb:mesh_visualizer}
     \end{center}    
 \end{figure}
 
-\textmd{ESP-MESH} unterscheidet sich von herkömmlichen Wi-Fi-Netzwerken darin, dass Knoten keine Verbindung zu einem zentralen Knoten herstellen müssen. Stattdessen dürfen Knoten eine Verbindung zu benachbarten Knoten herstellen.
+\textbf{ESP-MESH} unterscheidet sich von herkömmlichen Wi-Fi-Netzwerken darin, dass Knoten keine Verbindung zu einem zentralen Knoten herstellen müssen. Stattdessen dürfen Knoten eine Verbindung zu benachbarten Knoten herstellen.
 
-Knoten sind gegenseitig für die Weiterleitung der Übertragungen verantwortlich. Dies ermöglicht es einem \textmd{ESP-MESH}-Netzwerk, einen viel größeren Versorgungsbereich zu haben, da Knoten immer noch mit verbunden sein können, ohne sich in Reichweite des zentralen Knotens befinden zu müssen. Ebenso ist \textmd{ESP-MESH} weniger anfällig für Überlastung, da die Anzahl der im Netzwerk zulässigen Knoten nicht mehr durch einen einzelnen zentralen Knoten begrenzt ist.
+Knoten sind gegenseitig für die Weiterleitung der Übertragungen verantwortlich. Dies ermöglicht es einem \textbf{ESP-MESH}-Netzwerk, einen viel größeren Versorgungsbereich zu haben, da Knoten immer noch mit verbunden sein können, ohne sich in Reichweite des zentralen Knotens befinden zu müssen. Ebenso ist \textbf{ESP-MESH} weniger anfällig für Überlastung, da die Anzahl der im Netzwerk zulässigen Knoten nicht mehr durch einen einzelnen zentralen Knoten begrenzt ist.
 
-Um mit einem \textmd{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folgende Begriffe zu verstehen:
+Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folgende Begriffe zu verstehen:
 \begin{itemize}
-    \item \textmd{Node}
+    \item \textbf{Node (Knoten)}
     
     Jedes Gerät, das Teil eines ESP-MESH-Netzwerks ist
-    \item \textmd{Root Node}
+    \item \textbf{Root Node}
     
-    Der \textmd{Root Node} ist der oberste Knoten eines Netzwerk
+    Der \textbf{Root Node} ist der oberste Knoten eines Netzwerk
 
-    \item \textmd{Child Node}
+    \item \textbf{Child Node}
     
-    Ein \textmd{Child Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textmd{unter} einem anderem Knoten befindet
+    Ein \textbf{Child Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textbf{unter} einem anderem Knoten befindet
 
-    \item \textmd{Parent Node}
+    \item \textbf{Parent Node}
     
-    Ein \textmd{Parent Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textmd{über} einem anderem Knoten befindet.
+    Ein \textbf{Parent Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textbf{über} einem anderem Knoten befindet.
 
-    \item \textmd{Descendant Node}
+    \item \textbf{Descendant Node}
     
-    Ein \textmd{descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist
+    Ein \textbf{descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist
 
-    \item 
+    \item \textbf{Sibling Node}
+    
+    Ist ein Knoten der sich mit einem anderen Knoten den gleichen \textbf{Parent Node} teilt.
+
+    \item \textbf{Leaf Node}
+    
+    Ein \textbf{Leaf Node} ist ein \textbf{Node} welchem es nicht erlaubt ist \textbf{Child Nodes} zu besitzen.
+
+    \item \textbf{Idle Node}
+    
+    Ein \textbf{Idle Node} ist ein Knoten, welcher sich noch nicht mit dem Netzwerk verbunden hat. Er wird jedoch versuchen eine \textbf{Connection} mit einem \textbf{Parent Node} herzustellen.
+
+    \item \textbf{Connection}
+    
+    Unter einer \textbf{Connection} versteht man eine herkömliche Wi-Fi Verbindung
+
+    \item \textbf{Upstream Connection}
+    
+    Darunter wird eine \textbf{Connection} von einem \textbf{Child Node} zu einem \textbf{Parent Node} verstanden.
+
+    \item \textbf{Downstream Connection}
+    
+    Darunter wird eine \textbf{Connection} von einem \textbf{Parent Node} zu einem \textbf{Child Node} verstanden. Es ist das Gegeteil zu einer \textbf{Upstream Connection}.
+
+    \pagebreak
+
+    \item \textbf{Wireless Hop}
+    
+    Dies ist der Teil des Pfades zwischen Ursprungs- und Zielknoten, der einer einzelnen drahtlosen Verbindung entspricht. Ein Datenpaket, das eine einzelne Verbindung durchläuft, wird als \textit{Single-Hop} bezeichnet, während das Durchlaufen mehrerer Verbindungen als \textit{Multi-Hop} bezeichnet wird.
+    
+    \item \textbf{Subnetwork}
+    
+    Ein \textbf{Subnetwork} ist die Unterteilung eines \textbf{ESP-MESH-Netzwerks}, das aus einem Knoten und allen seinen untergeordneten Knoten besteht. Daher besteht das Subnetz des Stammknotens aus allen Knoten in einem \textbf{ESP-MESH-Netzwerks}.
+
+    \item \textbf{media access control(MAC) Address}
+    
+    Eine \textbf{MAC Addresse} ist eine Adresse, welche eine Netzwerkkarte eindeutig bestimmen kann.
 \end{itemize}
 
+In Folgender Abbildung ist ein \textbf{ESP-MESH} Netzwerk, mit gekennzeichneten Node Typen dargestellt.
+
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/mesh-node-types.png}
+    \caption{Node Typen \cite{esp-mesh}}
+    \end{center}    
+\end{figure}
+
+\subsubsection{Connection eines Idle Nodes}
+Wenn ein \textbf{Idle Node} nur einen möglichen \textbf{Parent Node} in Reichweite erkennt, so verbindet er sich zu diesem. Tritt der Fall ein, dass mehrere Möglichkeiten für einen \textbf{Parent Node} existieren, so hängt die Wahl des \textbf{Paren Nodes} von volgenden Faktoren ab:
+
+\begin{itemize}
+    \item Auf der wievielten Ebene sitzt der \textbf{Parent Node}
+    \item Die Anzahl der \textbf{Child Nodes} eines \textbf{Parent Nodes}
+\end{itemize}
+
+Der \textbf{Idle Node} bevorzugt jedes Mal den \textbf{Parent Node} auf der niedrigsten Ebene, so wird die Anzahl der verschiedenen Ebenen im \textbf{ESP-MESH} Netzwerk möglichst niedrig gehalten.
+
+Wenn sich mehrere mögliche \textbf{Parent Nodes} auf der gleichen Ebene befinden, verbindet sich der \textbf{Idle Node} zu dem mit den wenigsten \textbf{Child Nodes}.
+
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/mesh-preferred-parent-node.png}
+    \caption{Bevorzuget Parent Node \cite{esp-mesh}}
+    \end{center}    
+\end{figure}
 
 \cite{esp-mesh}
 
