@@ -262,14 +262,16 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 
 % TODO: Start
 
-\section{Libraries}
+\section{Libraries}\label{sec:libraries}
 
-\subsection{ESP-IDF Libraries}
+\subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
+
+\subsubsection{freertos}\label{sec:esp-idf-libraries-freertos}
 
 % TODO: write about esp tasks and other functionality we used
 % Task
 
-\subsection{Eigene Libraries}
+\subsection{Eigene Libraries}\label{sec:own-libraries}
 
 % TODO: Continue
 
@@ -277,7 +279,7 @@ Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
 
 Das Application Programming Interface (API) dieser Libraries und wie man sie benutzt wird in diesem Kapitel erklärt.
 
-\subsubsection{Mqtt}
+\subsubsection{Mqtt}\label{sec:own-libraries-mqtt}
 
 \begin{figure}[H]
     \begin{center}
@@ -326,7 +328,7 @@ Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun
 
 Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchron läuft, deswegen ist es notwendig über die Konsequenzen beim Benutzen der Funktion nachzudenken.
 
-\subsubsection{Http}
+\subsubsection{Http}\label{sec:own-libraries-http}
 
 \begin{figure}[H]
     \begin{center}
@@ -361,12 +363,12 @@ Trotzdem unterstützt die Funktion \textit{http\_request} Query Paramter, aber n
 
 Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_response\_body\_size} geben den jeweiligen Wert des letzten HTTP Requests zurück.
 
-\subsubsection{Mesh}
+\subsubsection{Mesh}\label{sec:own-libraries-mesh}
 
 % was ist ein mqtt command erklären
 % command architektur erlären
 
-\subsubsection{Dht22}
+\subsubsection{Dht22}\label{sec:own-libraries-dht22}
 
 % TODO: Write about DHT22 library
 
@@ -405,7 +407,7 @@ Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} 
 \vspace*{50px}
 
 Die Abbildung \ref{abb:dht22_sequence_diagram} zeigt den Verlauf einer Iteration dieses Beispieles.
-Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh Netzwerk mittels einem MQTT Command (\ref{sec:libraries}) verschickt.
+Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh Netzwerk mittels einem MQTT Command (\ref{sec:own-libraries-mqtt}) verschickt.
 
 Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
 
@@ -837,7 +839,7 @@ Die nachstehende Abbildung zeigt die Struktur des \textbf{main} Ordners.
 
 Dieser beihnhaltet nicht nur den Source Code sondern auch die \textit{menuconfig} Datei, welche in Kapitel \ref{sec:esp-idf-toolchain} genauer beschrieben ist.
 
-Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstanden sind (wie zum Beispiel \textit{mqtt.h}), befinden sich im Kapitel \ref{sec:libraries}.
+Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstanden sind (wie zum Beispiel \textit{mqtt.h}), befinden sich im Kapitel \ref{sec:own-libraries}.
 
 \subsubsection{Setup}
 
@@ -898,7 +900,7 @@ Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_c
 
 Der \textit{Command Callback} wird aufgerufen, wenn ein neuer \textit{Command} an diesen Knoten verschickt wird.
 
-Was ein \textit{Command} ist und wie er funktioniert ist in Kapitel \ref{sec:libraries} beschrieben.
+Was ein \textit{Command} ist und wie er funktioniert ist in Kapitel \ref{sec:own-libraries-mesh} beschrieben.
 
 Der Callback reagiert nur auf neue Commands, wenn der aktuelle Knoten der \textit{Root Knoten} ist.
 
@@ -916,7 +918,7 @@ Das Programm reagiert auf diese beiden Commands und schickt sie dann über MQTT 
 
 Dies ist wichtig für den \textit{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}).
 
-Erreicht ein MQTT Command den Root Knoten, so versendet dieser mithilfe der MQTT Library (Kapitel \ref{sec:libraries}) den Payload, welcher die MQTT Message beinhaltet.
+Erreicht ein MQTT Command den Root Knoten, so versendet dieser mithilfe der MQTT Library (Kapitel \ref{sec:own-libraries-mqtt}) den Payload, welcher die MQTT Message beinhaltet.
 
 \begin{figure}[H]
     \begin{center}
@@ -936,7 +938,7 @@ Erreicht ein MQTT Command den Root Knoten, so versendet dieser mithilfe der MQTT
     \end{center}
 \end{figure}
 
-\textit{DHT\_task} ist eine Funktion, welche als Task (Kapitel \ref{sec:esp-idf-toolchain}) gestartet wird. 
+\textit{DHT\_task} ist eine Funktion, welche als Task (Kapitel \ref{sec:esp-idf-libraries-freertos}) gestartet wird. 
 
 Sie ist für das regelmäßige Einlesen der aktuellen DHT22 Werte und das Verschicken dieser an den spezifizierter MQTT Broker zuständig.
 
@@ -952,7 +954,7 @@ Ungefähr alle 3 Sekunden läuft dieser Task die, in Abbildung \ref{abb:dht22_se
 
 Am Anfang einer Iteration werden die aktuellen Werte des DHT22 Sensors gelesen. Funktioniert etwas beim Einlesen der Werte nicht, so wird dies mithilfe der \textit{dht22\_handle\_error} Funktion behandelt und die aktuelle Iteration übersprungen.
 
-Wenn das einlesen erfolgreich ist, holt sich das Programm die gespeicherte Feuchtigkeit und Temperatur (Kapitel \ref{sec:libraries}) und gibt diese aus.
+Wenn das einlesen erfolgreich ist, holt sich das Programm die gespeicherte Feuchtigkeit und Temperatur (Kapitel \ref{sec:own-libraries-dht22}) und gibt diese aus.
 
 \begin{figure}[H]
     \begin{center}
