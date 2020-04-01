@@ -264,9 +264,13 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 \subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
 
 \subsubsection{freertos}\label{sec:esp-idf-libraries-freertos}
-
 % TODO: write about esp tasks and other functionality we used
 % Task
+\subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
+
+% TODO: Write about DHT22 library
+
+
 
 \subsection{Eigene Libraries}\label{sec:own-libraries}
 
@@ -381,10 +385,6 @@ Jeglicher Command kann mithilfe der \textit{mesh\_queue\_cmd} Funktion zu dieser
 % was ist ein mesh command erklären
 % command architektur erlären
 
-\subsubsection{Dht22}\label{sec:own-libraries-dht22}
-
-% TODO: Write about DHT22 library
-
 \section{Bedienungsanleitung}
 
 \subsection{Übersicht}
@@ -424,7 +424,118 @@ Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms in Abb
 
 Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
 
-Es wird davon ausgegangen, dass eine Installation von NodejDht22Example} und \textbf{MeshVisualizer}.
+Es wird davon ausgegangen, dass eine Installation von Nodejs mit einer Version von mindestens \textit{10} vorhanden ist.
+
+Die Installation wird in Kapitel \ref{sec:nodejs} beschrieben.
+
+\subsection{ESP-IDF Setup}
+
+Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem vorraus. Es wird nicht garantiert, dass dies unter Alternativen wie zum Beispiel dem \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktioniert. 
+
+\subsubsection{Dependencies}
+
+Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gibt es den folgenden shell command.
+
+\vspace*{10px}
+\begin{verbatim}
+    sudo apt-get install git wget flex bison gperf python python-pip 
+    python-setuptools cmake ninja-build ccache libffi-dev libssl-dev
+\end{verbatim}
+\vspace*{10px}
+
+\subsubsection{Libraries}\label{sec:libraries}
+
+Damit man die ESP-IDF Libraries benutzen kann, muss man diese zuerst herunterladen.
+
+\vspace*{10px}
+\begin{verbatim}
+    mkdir $HOME/esp &&
+    cd $HOME/esp &&
+    git clone --recursive https://github.com/espressif/esp-idf.git
+\end{verbatim}
+\vspace*{10px}
+
+Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis des aktuell eingeloggten Benutzer und wechselt in diesen. 
+Anschließend wird das offizielle Repository von ESP-IDF rekursiv gecloned.
+
+Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries installieren. Dies erfolgt durch folgende Bash Befehle.
+
+\vspace*{10px}
+\begin{verbatim}
+    cd $HOME/esp/esp-idf &&
+    ./install.sh
+\end{verbatim}
+\vspace*{10px}
+
+Mit diesen Befehlen wird das Arbeitsverzeichnis auf das vorher installierte Repository gesetzt und die \textbf{install.sh} Datei von ESP-IDF ausgeführt.
+
+Dies kann einige Minuten dauern.
+
+\subsubsection{Umgebungsvariablen}
+
+Damit die Toolchain nun verwendet werden kann, müssen noch ein paar Umgebungsvariablen definiert werden. 
+
+\vspace*{10px}
+\begin{verbatim}
+    export IDF_PATH=$HOME/esp/esp-idf
+\end{verbatim}
+\vspace*{10px}
+
+Die \textit{IDF\_PATH} Variable gibt den Pfad des Repositories von ESP-IDF an.
+
+\vspace*{10px}
+\begin{verbatim}
+    . $HOME/esp/esp-idf/export.sh
+\end{verbatim}
+\vspace*{10px}
+
+Danach müssen noch weitere Umgebungsvariablen von ESP-IDF selbst gesetzt werden, dafür muss man den oben angeführten Befehl ausführen.
+
+Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es sinnvoll diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis zu schreiben.
+
+\vspace*{10px}
+\begin{verbatim}
+    export IDF_PATH=$HOME/esp/esp-idf
+    . $HOME/esp/esp-idf/export.sh
+\end{verbatim}
+\vspace*{10px}
+
+Es ist auch möglich eine eigene Funktion dafür zu definieren, wenn man die Toolchain nur bei bedarf benutzen möchte.
+
+\vspace*{10px}
+\begin{verbatim}
+    function loadEspIdf() {
+        export IDF_PATH=$HOME/esp/esp-idf
+        . $HOME/esp/esp-idf/export.sh
+    }
+\end{verbatim}
+\vspace*{10px}
+
+Anschließend muss der Terminal neugestartet werden, um die \textbf{.bashrc} Datei ausführen zu können.
+
+\subsubsection{WSL}\label{sec:wsl}
+
+WSL unterstützt bis zum Stand vom \textbf{29.03.2020} das Linux USB Interface nicht. Dies bedeutet, dass für eine fehlerfreie Nutzung der ESP-IDF-Toolchain nicht garantiert wird.
+
+\subsection{Source Code}\label{sec:example-source-code}
+
+Der Source Code der für dieses Beispiel benötigt wird, lebt in dem folgenden Repository.
+
+\vspace*{10px}
+\begin{verbatim}
+    https://github.com/TimUntersberger/Diplomarbeit
+\end{verbatim}
+\vspace*{10px}
+
+Für die erfolgreiche Absolvierung des Beispieles ist es notwendig das Repository zu clonen.
+
+\vspace*{10px}
+\begin{verbatim}
+    git clone https://github.com/TimUntersberger/Diplomarbeit
+\end{verbatim}
+\vspace*{10px}
+
+Nachdem der Command fertig ist, befinden sich mehrere Unterordner in dem neu erstellten Ordner namens \textit{Diplomarbeit}. Die einzigen relevanten Ordner für das Beispiel sind \textbf{Dht22Example} und \textbf{MeshVisualizer}.
 
 Nach Bedarf können die anderen gelöscht werden.
 
