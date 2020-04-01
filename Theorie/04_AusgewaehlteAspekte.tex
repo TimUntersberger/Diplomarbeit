@@ -279,7 +279,7 @@ Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
 
 Das Application Programming Interface (API) dieser Libraries und wie man sie benutzt wird in diesem Kapitel erklärt.
 
-\subsubsection{Mqtt}\label{sec:own-libraries-mqtt}
+\subsubsection{MQTT}\label{sec:own-libraries-mqtt}
 
 \begin{figure}[H]
     \begin{center}
@@ -328,7 +328,7 @@ Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun
 
 Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchron läuft, deswegen ist es notwendig über die Konsequenzen beim Benutzen der Funktion nachzudenken.
 
-\subsubsection{Http}\label{sec:own-libraries-http}
+\subsubsection{Hypertext Transfer Protocol (HTTP)}\label{sec:own-libraries-http}
 
 \begin{figure}[H]
     \begin{center}
@@ -365,7 +365,11 @@ Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_respons
 
 \subsubsection{Mesh}\label{sec:own-libraries-mesh}
 
-% was ist ein mqtt command erklären
+Diese Mesh Library basiert auf eine First-In-First-Out-Queue (FIFO Queue), welche periodisch versendet wird. 
+
+Jeglicher Command kann mithilfe der \textit{mesh_queue_cmd} Funktion zu dieser FIFO Queue hinzugefügt werden.
+
+% was ist ein mesh command erklären
 % command architektur erlären
 
 \subsubsection{Dht22}\label{sec:own-libraries-dht22}
