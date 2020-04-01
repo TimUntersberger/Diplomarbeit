@@ -368,6 +368,32 @@ Wenn sich mehrere mögliche \textbf{Parent Nodes} auf der gleichen Ebene befinde
     \caption{Bevorzuget Parent Node \cite{esp-mesh}}
     \end{center}    
 \end{figure}
+\pagebreak
+
+\subsubsection{Node Versagen}
+Wenn ein Knoten versagt können Zwei Situationen entstehen:
+\begin{itemize}
+    \item Der Knoten ist ein \textbf{Root Node}:
+    
+    \begin{figure}[H] \begin{center}
+        \includegraphics[scale=0.5]{diagrams/mesh-root-node-failure.png}
+        \caption{Root Node Versagen\cite{esp-mesh}}
+        \end{center}    
+    \end{figure}
+
+    Wenn der \textbf{Root Node} versagt, wird dies von seinen \textbf{Child Nodes} sofort erkannt.
+    
+    Die \textbf{Child Nodes} werden zuerst mehrmals versuchen sich erneut mit den ehemaligen \textbf{Root Node} zu verbinden, wenn dies fehlschlägt wird es zwischen den \textbf{Child Nodes} eine neue \textbf{Root Noode} Wahl geben.
+    
+    Mittels der Received Signal Strength Indicator (RSSI) ermittelt nun jeder \textbf{Child Node} die Signalstärke des Routers und der \textbf{Child Node} mit der stärksten Verbindung wird der neue \textbf{Root Node} zu dem sich die \textbf{Child Nodes} verbinden.
+
+    \item Der Knoten ist kein \textbf{Root Node} aber ein \textbf{Parent Node}:
+    \item \begin{figure}[H] \begin{center}
+        \includegraphics[scale=0.5]{diagrams/mesh-parent-node-failure.png}
+        \caption{Parent Node Versagen\cite{esp-mesh}}
+        \end{center}    
+    \end{figure}
+\end{itemize}
 
 \cite{esp-mesh}
 
