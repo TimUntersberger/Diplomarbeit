@@ -400,6 +400,21 @@ Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_respons
 
 \subsubsection{Mesh}\label{sec:own-libraries-mesh}
 
+Die Mesh Library wurde um das \textit{mesh\_cmd\_t} Konstrukt, welches in Abbildung \ref{abb:mesh_cmd_t} dargestellt wird, gebaut.
+
+Ein \textit{mesh\_cmd} besteht hauptsächlich aus dem \textit{type} und einem \textit{payload}. Dazu werden noch verschiedene Metadaten über diesen Command gespeichert.
+
+Es werden folgende Metadaten gespeichert:
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/mesh_cmd_t.png}
+        \caption{Mesh Command Type (Quelle: eigene Darstellung)}
+        \label{abb:mesh_cmd_t}
+    \end{center}
+\end{figure}
+
+
 Es werden die Funktion, welche in folgender Abbildung (\ref{abb:mesh_functions}) zu sehen sind, zur Verfügung gestellt.
 
 \begin{figure}[H]
