@@ -8,6 +8,8 @@ Um die Toolchain verwenden zu können muss man sich in einem ESP-IDF Projektverz
     idf.py menuconfig
 \end{verbatim}
 
+% TODO: wie eine .projbuild datei funktioniert
+
 Dieser Befehl sollte zu folgendem Menü führen:
 \begin{figure}[H]
     \begin{center}
@@ -25,29 +27,33 @@ Dieses Menü wird verwendet um Projekt spezifische Variablen zu setzten. Wie zum
     \item \dots und viele mehr
 \end{itemize}
 
-Weiters ist hier zu beachten, dass, wenn man auf einem Dual-Core ESP arbeiten sollte zuerst auf den Single-Core Modus umstellen sollte, bevor man die fertigen Beispiele von Espressif ausprobiert.
+Damit die fertigen Espressif Beispiele auf einem Dual-Core ESP funktionieren, muss sich dieser im Single-Core Modus befinden.
 
-Ist das Projekt richtig konfiguriert kann man es mit dem folgendem Befehl builden:
+Ist das Projekt richtig konfiguriert kann es mit folgendem Befehl gebuildet werden:
 \begin{verbatim}
     idf.py build
 \end{verbatim}
 
-Mit diesem Befehl wird die Anwendung kompiliert und der Bootloader und der Partition Table wird erstellt.
+Mit diesem Befehl wird die Anwendung kompiliert sowie der Bootloader und der Partition Table erstellt.
 
-Sollten beim Kompilieren Fehler auftreten, so werden diese nun in der Konsole ausgegeben. Ist dies nicht der Fall kann das Program mit diesem Befehl auf den ESP geflashed werden:
+Sollten beim Kompilieren Fehler auftreten, so werden diese in der Konsole ausgegeben.
+Ist dies nicht der Fall, kann das Programm mit diesem Befehl auf den ESP geflashet werden:
 \begin{verbatim}
     idf.py flash
 \end{verbatim}
 
-Sollte es ein Problem beim flashen geben, liegt dies häufig an einem kaputten USB-Kabel.
+Sollte es ein Problem beim Flashen geben, liegt dies häufig an einem kaputten USB-Kabel.
 
-Um nun überprüfen zu können, ob das Program so läuft, wie es soll, kann man mit:
+Zumeist ist ein Problem beim Flashen auf ein kaputtes USB-Kabel zurückzuführen.
+
+Die Funktionalität des Programmes kann mit folgendem Befehl auf dem IDF Monitor, welcher in Kapitel \ref{sec:monitor} näher beschrieben wird, überprüft werden.
+
 \begin{verbatim}
     idf.py monitor
 \end{verbatim}
-den IDF Monitor (\ref{sec:monitor}) starten.
 
-Es ist auch möglich ein einem einzigen Befehlt das Program zu builden, zu flashen und upzuloaden:
+Mit dem nachstehenden Befehl kann das Programm gebuildet, geflashet und upgeloadet werden. Dies erspart den Aufwand jeden Befehl einzeln einzugeben.
+
 \begin{verbatim}
     idf.py flash monitor
 \end{verbatim}
@@ -55,12 +61,6 @@ Es ist auch möglich ein einem einzigen Befehlt das Program zu builden, zu flash
 \subsubsection{IDF Monitor}\label{sec:monitor}
 Der IDF-Monitor ist ein serielles Terminalprogramm, das serielle Daten zum und vom seriellen Anschluss des Zielgeräts weiterleitet.
 
-% TODO: write about esp tasks and other functionality we used
-% Task
-% Menuconfig (wie man ui benutzt und wie eine .projbuild datei funktioniert)
-% Wie flashed man
-% Was ist ein monitor
-% Mögliche Probleme (falscher port etc, wie kann man diese lösen)
 
 \section{Nodejs}\label{sec:nodejs}
 
@@ -125,10 +125,6 @@ Zwischen jedem Durchlauf des Event Loops prüft Nodejs, ob es auf asynchrone I/O
 PlatformIO ist ein fortschrittliches und äußerst vielseitiges Ökosystem für die IoT-Entwicklung, das eine IDE, ein Build-System, einen Unified Debugger und einen Bibliotheksmanager umfasst. Es bietet Unterstützung für mehr als 550 Entwicklungsboards, mehr als 25 Entwicklungsplattformen und mehr als 10 nützliche Frameworks. Die PlatformIO IDE ist ein plattformübergreifendes Dienstprogramm für die schnelle berufliche Weiterentwicklung mit integriertem C / C++ - Intelligent Code Completion, Smart Code Linter und erweitertem Serial Port Monitor. PlatformIO kann auch in die gängigen IDEs und kontinuierlichen Integrationssysteme integriert werden, um die Zeit für die Bereitstellung von IoT-Anwendungen zu verkürzen.\cite{platformio_about_us}
 
 PlatformIO ist in reinem Python geschrieben und hängt nicht von zusätzlichen Bibliotheken / Tools eines Betriebssystems ab. So kann man mit PlatformIO auf Windows, Macintosh und Linux arbeiten.
-
-\section{ESP IDF Toolchain}\label{sec:platformio}
-
-% TODO: Start
 
 \section{Docker}\label{sec:docker}
 

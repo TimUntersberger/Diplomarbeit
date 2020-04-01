@@ -264,14 +264,20 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 
 \section{Libraries}
 
+\subsection{ESP-IDF Libraries}
+
+% TODO: write about esp tasks and other functionality we used
+% Task
+
+\subsection{Eigene Libraries}
+
 % TODO: Continue
-% TODO: Write about DHT22 library
 
 Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
 
 Das Application Programming Interface (API) dieser Libraries und wie man sie benutzt wird in diesem Kapitel erklärt.
 
-\subsection{Mqtt}
+\subsubsection{Mqtt}
 
 \begin{figure}[H]
     \begin{center}
@@ -320,7 +326,7 @@ Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun
 
 Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchron läuft, deswegen ist es notwendig über die Konsequenzen beim Benutzen der Funktion nachzudenken.
 
-\subsection{Http}
+\subsubsection{Http}
 
 \begin{figure}[H]
     \begin{center}
@@ -355,10 +361,14 @@ Trotzdem unterstützt die Funktion \textit{http\_request} Query Paramter, aber n
 
 Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_response\_body\_size} geben den jeweiligen Wert des letzten HTTP Requests zurück.
 
-\subsection{Mesh}
+\subsubsection{Mesh}
+
 % was ist ein mqtt command erklären
 % command architektur erlären
-\subsection{Dht22}
+
+\subsubsection{Dht22}
+
+% TODO: Write about DHT22 library
 
 \section{Bedienungsanleitung}
 
@@ -906,7 +916,7 @@ Das Programm reagiert auf diese beiden Commands und schickt sie dann über MQTT 
 
 Dies ist wichtig für den \textit{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}).
 
-Wenn ein MQTT Command an dem Root Knoten ankommt, dann schickt dieser den payload (welcher, in dem Fall eines MQTT Commands, die MQTT Message ist) weiter mithilfe der mqtt library (Kapitel \ref{sec:libraries}).
+Erreicht ein MQTT Command den Root Knoten, so versendet dieser mithilfe der MQTT Library (Kapitel \ref{sec:libraries}) den Payload, welcher die MQTT Message beinhaltet.
 
 \begin{figure}[H]
     \begin{center}
