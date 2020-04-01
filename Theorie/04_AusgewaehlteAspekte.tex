@@ -11,8 +11,6 @@
     \end{center}    
 \end{figure}
 
-
-
 Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibriekammer kalibriert. Dieser Kalibrierkoeffizient wird dann im am Bord one time programmable Speicher (OTP Memory \ref{sec:otp}) gespeichert.
 \pagebreak
 
@@ -494,6 +492,9 @@ Wie zu sehen werden der Funktion folgende Parameter übergeben:
 \cite{xTaskCreate_definition}
 
 \subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
+
+% TODO: Write who made this library and give him credit
+
 In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert. Wie in der folgenden Abbildung zu sehen ist.
 
 \begin{figure}[H]
@@ -581,9 +582,20 @@ Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche 
     \end{center}
 \end{figure}
 
-Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun.
+\begin{itemize}
+    \item \textbf{void mqtt\_publish\_msg(mqtt\_msg\_t *msg)}:
+    
+    Als einziges Argument wird die Addresse einer MQTT Message erwartet.
 
-Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchron läuft, deswegen ist es notwendig über die Konsequenzen beim Benutzen der Funktion nachzudenken.
+    Diese wird anschließend synchron an den definierten MQTT Broker gesendet.
+
+    \item \textbf{void mqtt\_start()}:
+    
+    Nachdem Aufrufen dieser Funktion wird versucht eine Verbindung mit dem definierten MQTT Broker herzustellen.
+
+\end{itemize}
+
+Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun.
 
 \subsubsection{Hypertext Transfer Protocol (HTTP)}\label{sec:own-libraries-http}
 
@@ -597,30 +609,49 @@ Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchr
 
 Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche in  Abbildung \ref{abb:http_functions} zu sehen sind.
 
-\textit{http\_request} nimmt einen Enum-Wert \textit{method} als erstes Argument und einen String Pointer als zweites.
+\begin{itemize}
+    \item \textbf{esp\_err\_t http\_request(esp\_http\_client\_method\_t method, const char* url)}:
 
-Das Enum beinhaltet folgende mögliche Werte:
+    Diese Funktion nimmt folgende zwei Argumente entgegen:
 
-\begin{figure}[H]
-    \begin{center}
-        \includegraphics[scale=1]{images/http_client_methods.png}
-        \caption{HTTP Client Methoden}% TODO: fix \cite{esp_idf_http_client_methods}}
-        \label{abb:http_client_methods}
-    \end{center}    
-\end{figure}
+    \begin{itemize}
+        \item method
+        
+        Dieses Argument erwartet einen in Abbildung \ref{abb:http_client_methods} dargestellten Enum-Wert.
 
-% TODO: Rewrite
+        \begin{figure}[H]
+            \begin{center}
+                \includegraphics[scale=1]{images/http_client_methods.png}
+                \caption{HTTP Client Methoden}% TODO: fix \cite{esp_idf_http_client_methods}}
+                \label{abb:http_client_methods}
+            \end{center}    
+        \end{figure}
 
-GET 11 4 
+        Die HTTP Library unterstützt ausschließlich die \textit{HTTP\_METHOD\_GET} Methode, da dies den minimalen Anforderungen des Mesh Netzwerks entspricht.
 
+        \item url
+        
+        Durch dieses Argument wird definiert an welche Adresse dieser HTTP Request verschickt wird.
 
-Dabei ist zu erwähnen, dass das Enum an sich mehr mögliche Werte besitzt, als in der oben angeführten Liste zu sehen sind.
+        Die URL kann auch Query Parameter beinhalten. 
 
-Dies ist der Fall, weil der HTTP Client nur für primitive Fälle implementiert wurde.
+        In der folgenden URL ist ein Query Parameter mit einem Schlüssel namens \textit{hello} und einem Wert von \textit{world} definiert.
 
-Trotzdem unterstützt die Funktion \textit{http\_request} Query Paramter, aber nur mittels des \textit{url} Arguments.
+        \begin{verbatim}
+            https://www.github.com?hello=world
+        \end{verbatim}
+    \end{itemize}
+    
+    Nach dem Aufrufen dieser Funktion wird ein synchroner HTTP Request verschickt und anschließend ein Fehlercode zurückgegeben.
 
-Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_response\_body\_size} geben den jeweiligen Wert des letzten HTTP Requests zurück.
+    \item \textbf{char* http\_get\_response\_body()}:
+    
+    Diese Funktion gibt die Addresse des Body von dem letzten HTTP Request zurück.
+
+    \item \textbf{int http\_get\_response\_body\_size()}:
+    
+    Diese Funktion gibt die Länge des Body von dem letzten HTTP Request zurück.
+\end{itemize}
 
 \subsubsection{Mesh}\label{sec:own-libraries-mesh}
 
@@ -1082,16 +1113,14 @@ In dieser Konfiguration muss der Typ des \textbf{Partition Table} Felds auf \tex
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.36]{images/DHT22-ESP32-Connection.png}
-        \caption{Verbindung ESP32-DHT22 (Quelle: eigene Darstellung)}
+        \caption{Verbindung ESP32-DHT22 \cite{dht22_picture, nodemcu_picture_joy-it}}
         \label{abb:esp32-dht22}
     \end{center}
 \end{figure}
 
-% TODO: Juli help split sentence yes
+Um die zwei in Abbildung \ref{abb:esp32-dht22} dargestellten Module miteinander zu verbinden sind drei weiblich zu weiblich Dupont-Kabel notwendig.
 
-Wie in der Abbildung zu sehen ist, sind, um die zwei Module miteinander zu verbinden, drei, weiblich zu weiblich, Dupont-Kabel notwendig.
-
-Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen für den GND Pin immer ein schwarzes und für den 3.3V Pin immer rotes Kabel zu verwenden, um die Übersicht nicht zu verlieren.
+Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen für den GND Pin immer ein schwarzes und für den 3.3V Pin immer ein rotes Kabel zu verwenden, da ansonsten die Übersicht verloren geht. 
 
 Nun werden folgende Pins miteinander verbuden:
 \begin{itemize}

@@ -2,6 +2,65 @@
 
 \section{Message Queuing Telemetry Transport (MQTT)}\label{sec:mqtt}
 
+Im Laufe der Arbeit werden folgende Begriffe erwähnt, welche hier erklärt werden:
+
+\begin{enumerate}
+    \item \textbf{Broker}:
+    
+    Ein Server, der alle Nachrichten von den Clients empfängt und diese dann an die entsprechenden Zielclients weiterleitet.
+
+    \item \textbf{Topic}:
+    
+    In MQTT verweist das Wort Topic auf eine UTF-8-Zeichenfolge, die der Broker zum Filtern von Nachrichten für jeden verbundenen Client verwendet. Das Topic besteht aus einer oder mehreren Topiclevels. Jedes Topiclevel ist durch einen Slash getrennt.
+    
+    \item \textbf{Message}:
+    
+    Eine MQTT Message ist ein beliebiges Array von Bytes, welche an ein bestimmtes Topic gesendet werden.
+
+    Wenn in dem Kapitel \ref{sec:own-libraries-mqtt} von einer MQTT Message geschrieben wird, dann steht dies für die Struktur, welche in der selben Library definiert wird.
+
+    \item \textbf{Quality of Service (QoS)}:
+    
+    Das Quality of Service (QoS) Level ist eine Vereinbarung zwischen dem Absender einer Nachricht und dem Empfänger einer Nachricht, die die Zustellgarantie für eine bestimmte Nachricht definiert.
+\end{enumerate}
+
+\subsection{QoS}\label{sec:mqtt-qos}
+
+In der nachstehenden Aufzählung werden die 3 verschiedenen Arten von QoS näher erläutert.
+
+\begin{enumerate}
+    \item \textbf{QoS 0 - maximal einmal}:
+    Die minimale QoS-Stufe ist 0. Dieser Service-Level garantiert eine bestmögliche Lieferung. Es gibt keine Liefergarantie. Der Empfänger bestätigt den Empfang der Nachricht nicht und die Nachricht wird vom Absender nicht gespeichert und erneut gesendet. QoS-Stufe 0 wird oft als "fire and forget" bezeichnet und bietet die gleiche Garantie wie das zugrunde liegende TCP-Protokoll. \cite{hivemq}
+
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{images/QoS-0.png}
+            \caption{MQTT QoS 0 \cite{hivemq}}
+        \end{center}
+    \end{figure}
+
+    \item \textbf{QoS 1 - mindestens einmal}:
+    
+    QoS Level 1 garantiert, dass eine Nachricht mindestens einmal an den Empfänger übermittelt wird. Der Absender speichert die Nachricht, bis er vom Empfänger ein Rückmeldung erhält, das den Empfang der Nachricht bestätigt. Es ist möglich, dass eine Nachricht mehrmals gesendet oder zugestellt wird. \cite{hivemq}
+
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{images/QoS-1.png}
+            \caption{MQTT QoS 1 \cite{hivemq}}
+        \end{center}
+    \end{figure}
+
+    \item \textbf{QoS 2 - genau einmal}:
+    
+    QoS 2 ist das höchste Servicelevel in MQTT. Diese Stufe garantiert, dass jede Nachricht nur einmal von den vorgesehenen Empfängern empfangen wird. QoS 2 ist die sicherste und langsamste Servicequalität. Die Garantie wird durch mindestens zwei request/response flows zwischen dem Sender und dem Empfänger bereitgestellt. \cite{hivemq}
+
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{images/QoS-2.png}
+            \caption{MQTT QoS 2 \cite{hivemq}}
+        \end{center}
+    \end{figure}
+\end{enumerate}
 
 \section{ESP-IDF Toolchain}\label{sec:esp-idf-toolchain}
 Um die Toolchain verwenden zu können muss man sich in einem ESP-IDF Projektverzeichnis befinden. Hier kann ist es möglich, mit folgendem Befehl, den ESP zu konfigurieren:
@@ -133,11 +192,57 @@ PlatformIO ist in reinem Python geschrieben und hängt nicht von zusätzlichen B
 
 \section{Docker}\label{sec:docker}
 
+Docker ist ein Open-Source-Projekt zur Automatisierung der Bereitstellung von Anwendungen als tragbare Container, die überall ausgeführt werden können. 
 
+\subsection{Docker vs. Virtuelle Maschinen}\label{sec:docker-vm}
+
+\subsubsection{Virtuelle Maschinen}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/docker-vm.png}
+        \caption{Docker Virtuelle Maschine (Quelle: eigene Darstellung)}
+    \end{center}
+\end{figure}
+
+Zu den virtuellen Maschinen gehören die Anwendung, die erforderlichen Bibliotheken oder Binärdateien sowie ein vollständiges Gastbetriebssystem. Die vollständige Virtualisierung erfordert mehr Ressourcen als die Containerisierung. \cite{docker}
+
+\subsubsection{Docker}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/docker.png}
+        \caption{Docker (Quelle: eigene Darstellung)}
+    \end{center}
+\end{figure}
+
+Container enthalten die Anwendung und alle ihre Abhängigkeiten. Sie teilen den Betriebssystemkern jedoch mit anderen Containern und werden als isolierte Prozesse im Benutzerbereich des Host-Betriebssystems ausgeführt. (Außer in Hyper-V-Containern, in denen jeder Container innerhalb einer speziellen virtuellen Maschine pro Container ausgeführt wird.) \cite{docker}
+
+\subsection{Begriffe}\label{docker-terminology}
+
+Im Laufe der Arbeit werden folgende Begriffe erwähnt:
+
+\begin{enumerate}
+    \item \textbf{Container}:
+    
+    Ein Container ist eine Instanz eines Images. Er repräsentiert die Ausführung einer einzelnen Anwendung, eines Prozesses oder eines Dienstes. 
+
+    \item \textbf{Image}:
+    
+    Ein Image ist ein Paket mit allen Abhängigkeiten und Informationen, die zum Erstellen eines Containers erforderlich sind. Ein Image enthält alle Abhängigkeiten (z. B. Frameworks) sowie die Bereitstellungs- und Ausführungskonfiguration, die von einer Container-Laufzeit verwendet werden soll. 
+
+    \item \textbf{Volume}:
+    
+    Ein Volume ist ein beschreibbares Dateisystem, das der Container verwenden kann. Da Images schreibgeschützt sind fügen Volumes eine beschreibbare Ebene über dem Image hinzu, sodass die Programme Zugriff auf ein beschreibbares Dateisystem haben. 
+
+    \item \textbf{Network}:
+
+    In einem Docker Network können Container auf sich gegenseitig mittels ihren Namen referenziern. Dies erleichtert das miteinander Arbeiten von verschiedenen Containern.
+\end{enumerate}
 
 \section{Docker Compose}\label{sec:docker-compose}
 
-Docker-compose ist ein Tool zum Definieren und Ausführen von Docker-Anwendungen mit mehreren Containern. Mit Compose verwenden Sie eine YAML-Datei, um die Dienste Ihrer Anwendung zu konfigurieren. Anschließend erstellen und starten Sie mit einem einzigen Befehl alle Dienste in Ihrer Konfiguration. \cite{docker_compose_description}
+Docker-compose ist ein Tool zum Definieren und Ausführen von Docker-Anwendungen mit mehreren Containern. Mit Compose wird eine YAML-Datei verwendet, um die Dienste von Anwendung zu konfigurieren. Anschließend werden alle Dienste mit einem einzigen Befehl erstellt und gestartet. \cite{docker_compose_description}
 
 \subsection{Docker Compose Beispiel}
 
@@ -145,6 +250,7 @@ Docker-compose ist ein Tool zum Definieren und Ausführen von Docker-Anwendungen
     \begin{center}
         \includegraphics[scale=0.8]{images/docker_compose_example.png}
         \caption{Docker Compose Beispiel (Quelle: eigene Darstellung)}
+        \label{abb:docker-compose-example}
     \end{center}
 \end{figure}
 
@@ -157,7 +263,7 @@ Die Struktur eines docker-compose files ist im Normalfall immer gleich. Am Anfan
     \item PgAdmin4
 \end{enumerate}
 
-In diesem Beispiel wird das Netzwerk explizit erstellt. Es ist auch möglich das Netwerk implizit zu erstellen, indem man den networks Bereich von ganz unten entfernt.
+In Abbildung \ref{abb:docker-compse-example} wird ein Netzwerk explizit erstellt. Es ist auch möglich das Netwerk implizit zu erstellen, indem man den networks Bereich von ganz unten entfernt.
 
 \subsubsection{Postgres}
 
