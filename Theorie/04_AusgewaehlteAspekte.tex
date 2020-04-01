@@ -888,13 +888,13 @@ Bevor das Programm auf den ESPs laufen kann, muss es hochgeladen werden.
 Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp-idf-toolchain} beschrieben.
 
 \subsection{Ergebnis}\label{sec:example-result}
-% TODO: Explain Result
+
 \subsubsection{Mesh Visualizer}
 
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
-        \caption{Example Ergebnis Mesh Visualizer (Quelle: eigene Darstellung)}
+        \caption{Beispiel Ergebnis Mesh Visualizer (Quelle: eigene Darstellung)}
         \label{abb:example_result_mesh_visualizer}
     \end{center}
 \end{figure}
@@ -908,14 +908,24 @@ Die MAC Addressen stehen für den jeweiligen ESP, der zu diesem Netzwerk verbund
 Die Knoten sind in einer baumartigen Struktur abgebildet. Der Knoten an der Spitz des Diagramms ist der \textbf{Root Knoten}
 
 \subsubsection{Mqtt Fx}
-% TODO: Display mqtt messages
+
+Wie in der nachstehenden Abbildung zu sehen ist, wird regelmäßig die aktuelle Temperatur und Luftfeuchtigkeit an den MQTT Broker gesendet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.5]{images/example_result_mqtt.png}
+        \caption{Beispiel Ergebnis Mqtt (Quelle: eigene Darstellung)}
+        \label{abb:example_result_mqtt}
+    \end{center}
+\end{figure}
+
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
 
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.8]{images/example_code_structure_overview.png}
-        \caption{Example Code Struktur Übersicht (Quelle: eigene Darstellung)}
+        \caption{Beispiel Code Struktur Übersicht (Quelle: eigene Darstellung)}
         \label{abb:example_code_structure_overview}
     \end{center}
 \end{figure}
