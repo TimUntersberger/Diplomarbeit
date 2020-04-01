@@ -255,6 +255,8 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 
 \section{Mesh Netzwerk}\label{sec:mesh}
 
+% TODO: Start
+
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
 % TODO: Start
@@ -264,8 +266,9 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 \subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
 
 \subsubsection{freertos}\label{sec:esp-idf-libraries-freertos}
-% TODO: write about esp tasks and other functionality we used
-% Task
+
+% TODO: write about tasks and other functionality we used
+
 \subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
 In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert. Wie in der folgenden Abbildung zu sehen ist.
 
@@ -441,7 +444,7 @@ Es werden folgende Typen definiert:
 
     \item \textbf{void mesh\_connected\_cb(bool is\_root)}:
     
-    
+    Wenn sicher der Knoten, auf welchem dieses Programm läuft, mit dem Mesh-Netzwerk verbindet, wird diese Funktion aufgerufen. Sie bekommt als Argument mit, ob dieser Knoten der Root Knoten ist.
 \end{itemize}
 
 \begin{itemize}

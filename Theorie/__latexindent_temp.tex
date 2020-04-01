@@ -255,6 +255,8 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 
 \section{Mesh Netzwerk}\label{sec:mesh}
 
+% TODO: Start
+
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
 % TODO: Start
@@ -264,10 +266,45 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 \subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
 
 \subsubsection{freertos}\label{sec:esp-idf-libraries-freertos}
-% TODO: write about esp tasks and other functionality we used
-% Task
-\subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
 
+% TODO: write about tasks and other functionality we used
+
+\subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
+In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert. Wie in der folgenden Abbildung zu sehen ist.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/dht22_functions.png}
+        \caption{DHT22 Funktionen (Quelle: eigene Darstellung)}
+        \label{abb:dht22_funcionts}
+    \end{center}    
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{void dht22\_set\_gpio(int gpio)}:
+
+    Dieser Funktion wird der Index des ESP Pins, mit dem data Pin verbunden ist mitgegeben. Dieser Index wird anschließend intern vermerkt, damit der ESP weiß auf welchem Pin er die Sensordaten des DHT22 erhalten wird.
+    
+    Diese Funktion sollte aufgerufen werden bevor mit dem DHT22 versucht wird Daten zu messen, da dies sonst fehlschlagen wird.
+    \item \textbf{int dht22\_read()}:
+
+    Um diese Funktion aufzurufen ist kein Parameter notwendig.
+
+    Sie dient dazu die Luftfeuchtigkeit und Tempereatur zu messen und schreibt diese in interne Variablen auf die Benutzer keinen Zugriff haben.
+
+    Der Rückgabewert der \textbf{dht22\_read} Funktion ist ein Fehlercode. Dieser Fehlercode gibt Auskunft über den Verlauf der Funktion.
+    \item \textbf{void dht22\_handle\_error(int response)}:
+
+    Als Parameter nimmt die \textbf{dht22\_handle\_error} Funktion Fehlercodes entgegen.
+
+    Das Ziel dieser Funktion ist es den Fehlercode zu umschreiben und auf die Console zu loggen.
+    \item \textbf{float dht22\_get\_humidity()}:
+
+    Diese Funktion gibt, den Wert, der internen Luftfeuchtigkeits Variable, in welche \textbf{dht22\_read()} die Luftfeuchtigkeits Daten des Sensors schreibt, in der Gleitkommadarstellung zurück.
+    \item \textbf{float dht22\_get\_temperature()}:
+
+    Diese Funktion gibt, den Wert, der internen Temperatur Variable, in welche \textbf{dht22\_read()} die Temperatur Daten des Sensors schreibt, in der Gleitkommadarstellung zurück.
+\end{itemize}
 % TODO: Write about DHT22 library
 
 
@@ -407,7 +444,7 @@ Es werden folgende Typen definiert:
 
     \item \textbf{void mesh\_connected\_cb(bool is\_root)}:
     
-    
+    Wenn sicher der Knoten, auf welchem dieses Programm läuft, mit dem Mesh-Netzwerk verbindet, wird diese Funktion aufgerufen. Sie bekommt als Argument mit, ob dieser Knoten der Root Knoten ist.
 \end{itemize}
 
 \begin{itemize}
