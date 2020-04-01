@@ -300,9 +300,13 @@ Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folg
     
     Ein \textbf{Parent Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textbf{über} einem anderem Knoten befindet.
 
+    \item \textbf{Intermediate Parent Node}
+    
+    Ein \textbf{Intermediate Parent Node} ist ein \textbf{Parent Node}, der gleichzeitig kein \textbf{Root Node} ist.
+
     \item \textbf{Descendant Node}
     
-    Ein \textbf{descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist
+    Ein \textbf{Descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist
 
     \item \textbf{Sibling Node}
     
@@ -320,6 +324,7 @@ Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folg
     
     Unter einer \textbf{Connection} versteht man eine herkömliche Wi-Fi Verbindung
 
+    \pagebreak
     \item \textbf{Upstream Connection}
     
     Darunter wird eine \textbf{Connection} von einem \textbf{Child Node} zu einem \textbf{Parent Node} verstanden.
@@ -327,8 +332,6 @@ Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folg
     \item \textbf{Downstream Connection}
     
     Darunter wird eine \textbf{Connection} von einem \textbf{Parent Node} zu einem \textbf{Child Node} verstanden. Es ist das Gegeteil zu einer \textbf{Upstream Connection}.
-
-    \pagebreak
 
     \item \textbf{Wireless Hop}
     
@@ -368,7 +371,6 @@ Wenn sich mehrere mögliche \textbf{Parent Nodes} auf der gleichen Ebene befinde
     \caption{Bevorzuget Parent Node \cite{esp-mesh}}
     \end{center}    
 \end{figure}
-\pagebreak
 
 \subsubsection{Node Versagen}
 Wenn ein Knoten versagt können Zwei Situationen entstehen:
@@ -387,15 +389,21 @@ Wenn ein Knoten versagt können Zwei Situationen entstehen:
     
     Mittels der Received Signal Strength Indicator (RSSI) ermittelt nun jeder \textbf{Child Node} die Signalstärke des Routers und der \textbf{Child Node} mit der stärksten Verbindung wird der neue \textbf{Root Node} zu dem sich die \textbf{Child Nodes} verbinden.
 
-    \item Der Knoten ist kein \textbf{Root Node} aber ein \textbf{Parent Node}:
-    \item \begin{figure}[H] \begin{center}
+    \item Der Knoten ist ein \textbf{Intermediate Parent Node}:
+    
+    \begin{figure}[H] \begin{center}
         \includegraphics[scale=0.5]{diagrams/mesh-parent-node-failure.png}
-        \caption{Parent Node Versagen\cite{esp-mesh}}
+        \caption{Intermediate Parent Node Versagen\cite{esp-mesh}}
         \end{center}    
     \end{figure}
-\end{itemize}
 
+    Wenn ein \textbf{Intermediate Parent Node} versagt, versuchen dessen \textbf{Child Nodes} sich mehrmals neu zu verbinden. Nach mehrfachen fehlgeschlagen Versuchen werden die \textbf{Child Nodes} beginnen nach neuen potentiellen \textbf{Parent Nodes} zu suchen. Dies geschieht nach dem gleichen Prinzip wie beim \textbf{Root Node Versagen}.
+
+    Jeder \textbf{Child Node} wird selbständig einen neuen \textbf{Parent Node} aussuchen. Findet ein Knoten keinen neuen \textbf{Parent Node} so wird dieser Knoten ein \textbf{Idle Node}.
+\end{itemize}
 \cite{esp-mesh}
+
+\pagebreak
 
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
