@@ -393,11 +393,23 @@ Mit Cytoscape ist es möglich auf einfacher Art und Weise umfangreiche interakti
 
 Cytoscape wird in dieser Arbeit zur Visualisiserung des Mesh Netzwerkes verwendet.
 
-Da Cytoscape.js dem Benutzer die Interaktion mit dem Diagramm ermöglicht und die Bibliothek dem Client die Einbindung in Benutzerereignisse ermöglicht. 
+Die Distrubtion dieser Library verlauft über die Website von \textit{Node Packager Manager (NPM)}, welcher der zentrale Ort für alle veröffentlichten Nodejs packages ist.
 
-Cytoscape.js ist ein Open-Source-Projekt, und jeder kann einen Beitrag leisten. Weitere Informationen finden Sie in der GitHub README.
+Für die Visualisierung des Mesh Netzwerks existieren mehrere Möglichkeiten.
 
-Die Bibliothek wurde im Donnelly Center der University of Toronto erstellt. Es ist der Nachfolger von Cytoscape Web.
+Für die Entwicklung der Website kamen folgende Algorithmen in Frage:
+
+\begin{itemize}
+    \item Dagre (Kapitel \ref{sec:cytoscape-dagre})
+    \item Euler (Kapitel \ref{sec:cytoscape-euler})
+    \item Spread (Kapitel \ref{sec:cytoscape-spread})
+\end{itemize}
+
+Die Entscheidung fiel letztendlich auf Dagre.
+
+Letztendlich wurde auf den Dagre Algorithmus zurückgegriffen.
+
+Weitere Informationen über wie jeder Algorithmus funktioniert und warum \textit{Dagre} gewählt wurde, sind in den jeweiligen Kapiteln zu finden.
 
 \subsubsection{Dagre}\label{sec:cytoscape-dagre}
 
@@ -409,6 +421,11 @@ Die Bibliothek wurde im Donnelly Center der University of Toronto erstellt. Es i
     \end{center}    
 \end{figure}
 
+Dagre ist ein Algorithmus zur Ordnung von Knoten in einem Diagramm. Das resultierende Diagramm ist ein baumförmiges Netzwerk.
+Ein Beispiel zu diesem Diagramm ist in Abbildung \ref{abb:cytoscape-dagre_example} dargestellt.
+
+Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Algorithmus der Kandidaten ist. Ein Mesh Netzwerk ist baumförmig Aufgebaut, deswegen ist es auch wichtig, dass die Knoten in einer baumförmigen Art dargestellt werden.
+
 \subsubsection{Euler}\label{sec:cytoscape-euler}
 
 \begin{figure}[H] 
@@ -419,6 +436,9 @@ Die Bibliothek wurde im Donnelly Center der University of Toronto erstellt. Es i
     \end{center}    
 \end{figure}
 
+Euler ist ein Algorithmus, welcher ein physikbasiertes Diagramm erstellt.
+Dieser Algorithmus ist leider nicht geignet für die Visualisierung des Mesh Netzwerks, da der Status quo einen Memory Leak hat und ein Warten auf die Behebung dieses Problems nicht realistisch war.
+
 \subsubsection{Spread}\label{sec:cytoscape-spread}
 
 \begin{figure}[H] 
@@ -428,6 +448,8 @@ Die Bibliothek wurde im Donnelly Center der University of Toronto erstellt. Es i
         \label{abb:cytoscape-spread-example}
     \end{center}    
 \end{figure}
+
+Der Spread Algorithmus ist wie Euler (Kapitel \ref{sec:cytoscape-euler}) physikbasiert. Dazu kommt auch noch, dass dieser versucht die Knoten so weit wie möglich auseinander zu halten. Letztendlich wurde aus visuellen Gründen dieser Kandidat nicht gewählt.
 
 \section{Libraries}\label{sec:libraries}
 
@@ -579,18 +601,10 @@ Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche i
 
 Das Enum beinhaltet folgende mögliche Werte:
 
-\begin{itemize}
-    \item \textbf{HTTP\_METHOD\_GET}
-    \item \textbf{HTTP\_METHOD\_POST}
-    \item \textbf{HTTP\_METHOD\_PUT}
-    \item \textbf{HTTP\_METHOD\_PATCH}
-    \item \textbf{HTTP\_METHOD\_DELETE}
-\end{itemize}
-
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=1]{images/http_client_methods.png}
-        \caption{HTTP Client Methoden}%\cite{esp_idf_http_client_methods}}
+        \caption{HTTP Client Methoden}% TODO: fix \cite{esp_idf_http_client_methods}}
         \label{abb:http_client_methods}
     \end{center}    
 \end{figure}
@@ -598,6 +612,7 @@ Das Enum beinhaltet folgende mögliche Werte:
 % TODO: Rewrite
 
 GET 11 4 
+
 
 Dabei ist zu erwähnen, dass das Enum an sich mehr mögliche Werte besitzt, als in der oben angeführten Liste zu sehen sind.
 
