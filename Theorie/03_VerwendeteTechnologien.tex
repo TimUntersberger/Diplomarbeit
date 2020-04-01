@@ -186,7 +186,28 @@ Die Software binded automatisch auf den Port 80, was für Entwicklungszwecke seh
 
 Mit den Umgebungsvariablen \textit{PGADMIN\_DEFAULT\_EMAIL} und 
 \textit{PGADMIN\_DEFAULT\_PASSWORD} werden die default Logindaten für PgAdmin4 definiert. 
+\pagebreak
 
-\section{ESP IDF Utility lib}\label{sec:esp-idf-utility-lib}
+\section{Utility lib Köck}\label{sec:utility-lib-koeck}
+Dies ist Professor Köcks Library Sammlung, welche er persönlich verfasste. Sämtliche Technologien, welche durch die Libraries untersützt werden, sind in folgender Abbildung zu sehen.
 
-% TODO: Start
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.9]{images/utility_lib_köck_own.PNG}
+        \caption{Technologien Utility lib (Quelle: eigene Darstellung)}
+    \end{center}
+\end{figure}
+
+\pagebreak
+Dazu sind folgende Sensor Libraries ebenfalls enthalten:
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.9]{images/utility_lib_köck_sensors.PNG}
+        \caption{Sensoren und Aktoren Utility lib (Quelle: eigene Darstellung)}
+    \end{center}
+\end{figure}
+
+Im Laufe der Arbeit erfolgte ein Umstieg auf die offiziellen Espressif Libraries, da Professor Köcks Library Sammlung aufgrund fehlender Funktionalität für diese Diplomarbeit nicht mehr geeignet war.
+
+Da alle Espressif Libraries in der Programmiersprache C geschrieben sind, ist es nicht möglich diese mit den Libraries von Professor Köck gleichzeitig zu verwenden. Da diese in C++ geschrieben sind und die Espressif Libraries Funktionen aus C verwenden, welche in C++ nicht unterstützt werden. Um Kompatibilität herzustellen ist es bei jeder Anwendung notwendig die Espressif Libraries anzupassen.
