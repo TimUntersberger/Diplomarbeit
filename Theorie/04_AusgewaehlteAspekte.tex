@@ -255,6 +255,8 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 
 \section{Mesh Netzwerk}\label{sec:mesh}
 
+% TODO: Start
+
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
 % TODO: Start
@@ -409,7 +411,6 @@ Wichtig ist noch zu wissen, dass die \textit{mqtt\_publish\_msg} Funktion synchr
 
 Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche in  Abbildung \ref{abb:http_functions} zu sehen sind.
 
-
 \textit{http\_request} nimmt einen Enum-Wert \textit{method} als erstes Argument und einen String Pointer als zweites.
 
 Das Enum beinhaltet folgende möglichen Werte:
@@ -434,7 +435,7 @@ Die Funktionen \textit{http\_get\_response\_body} und \textit{http\_get\_respons
 
 \subsubsection{Mesh}\label{sec:own-libraries-mesh}
 
-Die Mesh Library wurde um das \textit{mesh\_cmd\_t} Konstrukt, welches in Abbildung \ref{abb:mesh_cmd_t} dargestellt wird, gebaut. Es existiert eine globale Warteschlange von Commands, welche nach dem First-In-First-Out (FIFO) Prinizip versendet werden.
+Die Mesh Library wurde um das \textit{mesh\_cmd\_t} Konstrukt, welches in Abbildung \ref{abb:mesh_cmd_t} dargestellt wird, gebaut. Es existiert eine globale Warteschlange von Commands, welche nach dem First-In-First-Out (FIFO) Prinizip versendet werden. Die Warteschlange wird nach dem Starten des Mesh-Netzwerkes periodisch entleert und jeder Command in der Warteschlange versendet.
 
 \begin{figure}[H]
     \begin{center}
@@ -475,7 +476,7 @@ Es werden folgende Typen definiert:
 
     \item \textbf{void mesh\_connected\_cb(bool is\_root)}:
     
-    
+    Wenn sicher der Knoten, auf welchem dieses Programm läuft, mit dem Mesh-Netzwerk verbindet, wird diese Funktion aufgerufen. Sie bekommt als Argument mit, ob dieser Knoten der Root Knoten ist.
 \end{itemize}
 
 \begin{itemize}
@@ -492,11 +493,21 @@ Es werden folgende Typen definiert:
     Mithilfe dieser Funktion kann die Funktion geändert werden, welche aufgerufen wird, wenn dieser Knoten einen neuen Command erhält.
 
     Sie bekommt eine Funktion vom Typen \textit{mesh\_cmd\_cb}, welcher am Anfang von diesem Kapitel beschrieben wurde, als Argument.
+
+    \item \textbf{void mesh\_on\_connected(mesh\_connected\_cb)}:
+    
+    Diese Funktion setzt die globale Referenz auf eine Funktion, welche aufgerufen wird wenn dieser Knoten sich mit einen Mesh-Netzwerk verbindet.
+    
+    Sie bekommt eine Funktion vom Typen \textit{mesh\_connected\_cb}, welcher am Anfang von diesem Kapitel beschrieben wurde, als Argument.
+
+    \item \textbf{void mesh\_set\_cmd\_payload(mesh\_cmd\_t *cmd, uint8\_t *payload)}:
+    
+    Dies ist eine Hilfsfunktion, welche den inhalt des Payload Buffers des übergebenen Commands auf den übergebenen Payload setzt.
+
+    \item \textbf{void mesh\_init()}:
+    
+    Diese Funktion muss nach der \textit{mesh\_create\_network\_interface()} Funktion aufgerufen werden. Sie initialisiert das Mesh Netzwerk, was bedeutet, dass sie vor jeder anderen Funktion aufgerufen werden muss.
 \end{itemize}
-
-
-% was ist ein mesh command erklären
-% command architektur erlären
 
 \section{Bedienungsanleitung}
 
