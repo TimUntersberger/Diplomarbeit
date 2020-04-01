@@ -51,15 +51,6 @@ void DHT_task(void *pvParameter)
     }
 }
 
-void on_connected(bool is_root)
-{
-    if (is_root)
-    {
-        dht22_set_gpio(27);
-        xTaskCreate(&DHT_task, "DHT_task", 2048, NULL, 5, NULL);
-    }
-}
-
 void on_cmd(mesh_cmd_t *cmd)
 {
     if (esp_mesh_is_root())
@@ -118,7 +109,13 @@ void app_main(void)
     mesh_init();
 
     mesh_on_cmd(&on_cmd);
-    mesh_on_connected(&on_connected);
+
+    if (!esp_mesh_is_root())
+    {
+        vTaskDelay(1000 / portTICK_RATE_MS);
+        dht22_set_gpio(27);
+        xTaskCreate(&DHT_task, "DHT_task", 2048, NULL, 5, NULL);
+    }
 
     mesh_start();
 }
