@@ -19,7 +19,7 @@ Leonding, \duedateen \\[5em]
 \ifthenelse{\isundefined{\fourthauthor}}{}{\kern-1ex, \fourthauthor} \\[5em]
 
 \begin{abstract}
-	Die Konzentration der Schüler während des Unterrichts ist wichtig. Doch Sehr oft kommt es vor, dass in einm Klassenraum Sauerstoffmangel herrscht. Deswegen wurde von der HTBLA-Leonding ein Mesh-Netzwerk aus Mikrocontrollern in Auftrag gegeben. Dieses Mesh-Netzwerk agiert als Infrastruktur für sämtliche Sensoren und Aktoren und ermöglich ihnen Nachrichten untereinander zu versenden.
+	Die Konzentration der Schüler während des Unterrichts ist wichtig. Doch Sehr oft kommt es vor, dass in einm Klassenraum Sauerstoffmangel herrscht. Deswegen wurde von der HTBLA-Leonding ein Mesh-Netzwerk aus Mikrocontrollern in Auftrag gegeben. Dieses Mesh-Netzwerk agiert als Infrastruktur für sämtliche Sensoren und Aktoren, die in der Schule untergebracht sind und ermöglich ihnen Nachrichten untereinander zu versenden.
 
 	Die Vorteile eines Mesh-Netzwerkes gegenüber einem normalen Wi-Fi Netzwerk sind, dass:
 	\begin{itemize}
@@ -28,15 +28,52 @@ Leonding, \duedateen \\[5em]
 		\item Mesh-Netzwerke leicht skalierbar sind, da um die Reichweite des Netzwerkes anzupassen nur Mikrocontroller hinzugefügt oder entfernt werden müssen
 		\item der Benutzer sich nicht darum kümmern muss mit welchem Knoten er sich verbindet. Vom Standpunkt des Benutzers sehen die verschiedenen Accesspoints der Mikrocontroller wie ein großes Wi-Fi Netzwerk aus.
 	\end{itemize}
-	Zusammenfassung in Deutsch + Bild am Ende
+	\begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.31]{images/meshnetwork-esp32.png}
+            \caption{Mikrocontroller in einem Meshnetzwerk (Quelle: eigene Darstellung)}
+        \end{center}
+    \end{figure}
 \end{abstract}
 
 \begin{otherlanguage}{english}
 \begin{abstract}
-	Zusammenfassung in Englisch + Bild am Ende
+	
+	The concentration of the students during class is very important. But often it happens that there is a lack of oxygen in a classroom. That is why the HTBLA-Leonding commissioned a mesh network of microcontrollers to be designed. This mesh network acts as an infrastructure for all sensors and actuators in the school and enables them to send messages to one another.
+
+	The advantages of a mesh network over a normal Wi-Fi network are the following:
+	\begin{itemize}
+		\item each microcontroller opens its own access point thus making the mesh network reache a greater range
+		\item a mesh network can react independently to failing nodes and automatically adjusts the network structure
+		\item Mesh networks are easily scalable, to adjust the range of the network only microcontrollers have to be added or removed
+		\item the user does not have to worry about which node to connect to. From the user's point of view, the various access points of the microcontrollers look like a large Wi-Fi network.
+	\end{itemize}
+	\begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.31]{images/meshnetwork-esp32.png}
+            \caption{microcontroller in a meshnetwork (source: own source)}
+        \end{center}
+    \end{figure}
 \end{abstract}
 \end{otherlanguage}
+
+
 \section*{Autoren der Diplomarbeit}
+\subsection{Tim Untersberger}
+\subsubsection{Aufgabenbereich}
+%TODO ASK stütz
+\begin{figure}[H]
+	\includegraphics[scale=0.3]{images/tim_untersberger.jpg}
+\end{figure}
+\pagebreak
+\subsection{Stefan Waldl}
+\subsubsection{Aufgabenbereich}
+%TODO ASK stütz
+\begin{figure}[H]
+	\includegraphics[scale=1]{images/stefan_waldl.jpg}
+\end{figure}
+\pagebreak
+ 
 
 \section*{Danksagung}
 If you feel like saying thanks to your grandma and/or other relatives.
