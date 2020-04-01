@@ -268,15 +268,52 @@ Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung
     \end{center}    
 \end{figure}
 
-
-
 Sie verwendet die Graphen Library \textit{cytoscapejs} für die Darstellung der Knoten. Weitere Informationen sind dem Kapitel \ref{sec:cytoscape} zu entnehmen. 
 
 Die Benutzung in der Praxis ist in dem Kapitel \ref{sec:example-mesh-visualizer} näher beschrieben.
 
 \subsection{Cytoscape}\label{sec:cytoscape}
 
-% TODO: Start
+Cytoscapejs ist eine in JS geschriebene Open-Source-Library für Graphentheorie.
+Mit Cytoscape ist es möglich auf einfacher Art und Weise umfangreiche interaktive Diagramme anzuzeigen und bearbeiten. \cite{cytoscape_intro}
+
+Cytoscape wird in dieser Arbeit zur Visualisiserung des Mesh Netzwerkes verwendet.
+
+Da Cytoscape.js dem Benutzer die Interaktion mit dem Diagramm ermöglicht und die Bibliothek dem Client die Einbindung in Benutzerereignisse ermöglicht. 
+
+Cytoscape.js ist ein Open-Source-Projekt, und jeder kann einen Beitrag leisten. Weitere Informationen finden Sie in der GitHub README.
+
+Die Bibliothek wurde im Donnelly Center der University of Toronto erstellt. Es ist der Nachfolger von Cytoscape Web.
+
+\subsubsection{Dagre}\label{sec:cytoscape-dagre}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[scale=0.5]{images/cytoscape-dagre-example.png}
+        \caption{Cytoscape Dagre Beispiel \cite{cytoscape_dagre}}
+        \label{abb:cytoscape-dagre_example}
+    \end{center}    
+\end{figure}
+
+\subsubsection{Euler}\label{sec:cytoscape-euler}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[scale=0.5]{images/cytoscape-euler-example.png}
+        \caption{Cytoscape Euler Beispiel \cite{cytoscape_euler}}
+        \label{abb:cytoscape-spread-example}
+    \end{center}    
+\end{figure}
+
+\subsubsection{Spread}\label{sec:cytoscape-spread}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[scale=0.7]{images/cytoscape-spread-example.png}
+        \caption{Cytoscape Spread Beispiel \cite{cytoscape_spread}}
+        \label{abb:cytoscape-spread-example}
+    \end{center}    
+\end{figure}
 
 \section{Libraries}\label{sec:libraries}
 
@@ -318,9 +355,7 @@ Wie zu sehen werden der Funktion folgende Parameter übergeben:
     
     \textbf{pvCreatedTask} wird verwendet, um ein \textit{handle} zurückzugeben, mit dem auf den erstellten Task verwiesen werden kann. Um den Task beispielsweise zu löschen.
 \end{itemize}
-
-% TODO: write about esp tasks and other functionality we used
-% Task
+\cite{xTaskCreate_definition}
 
 \subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
 In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert. Wie in der folgenden Abbildung zu sehen ist.
@@ -490,7 +525,7 @@ Es werden die Funktion, welche in folgender Abbildung (\ref{abb:mesh_functions})
     \end{center}
 \end{figure}
 
-In der obbigen Abbildung sind verschiedene Funktionstypen definiert, welche das jeweilige Interface eines Callbacks definiert.
+In der obigen Abbildung sind verschiedene Funktionstypen definiert, welche das jeweilige Interface eines Callbacks definiert.
 
 Es werden folgende Typen definiert:
 
