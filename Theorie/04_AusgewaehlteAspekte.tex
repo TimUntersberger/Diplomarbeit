@@ -253,8 +253,10 @@ Auf eine \textbf{factory} Partition wurde verzichtet, um Speicher für die ota P
 Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. Weiters behandelt die \textbf{phy\_init} Partition nur Ethernetdaten, welche in diesem Beispiel überflüssig sind.
 
 \section{ESP-MESH}\label{sec:mesh}
+
+Die folgenden Informationen sind eine Zusammenfassung von der offiziellen Espressif Website \cite{esp-mesh}.
+
 \textbf{ESP-MESH} ist ein Netzwerkprotokoll, das auf dem Wi-Fi-Protokoll basiert. Mit \textbf{ESP-MESH} können zahlreiche Geräte (im Folgenden als Knoten bezeichnet), die über einen großen physischen Bereich (sowohl drinnen als auch draußen) verteilt sind, unter einem einzigen WLAN (Wireless Local Area Network) miteinander verbunden werden. \textbf{ESP-MESH} ist selbstorganisierend und selbstheilend, was bedeutet, dass das Netzwerk autonom aufgebaut und gepflegt werden kann.
-\cite{esp-mesh}
 
 \subsection{Wi-Fi vs Mesh}
 
@@ -267,13 +269,10 @@ Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. 
 \end{figure}
 
 Ein herkömmliches Wi-Fi-Netzwerk ist ein Punkt-zu-Mehrpunkt-Netzwerk, in dem ein einzelner zentraler Knoten, der als Access Point (AP) bezeichnet wird, direkt mit allen anderen Knoten verbunden ist, die als Stationen bezeichnet werden.
-\cite{esp-mesh}
 
 Der AP ist für die Schlichtung und Weiterleitung von Übertragungen zwischen den Stationen verantwortlich. Einige APs leiten auch Übertragungen von oder zu einem externen IP-Netzwerk über einen Router weiter.
-\cite{esp-mesh}
 
 Herkömmliche Wi-Fi-Netzwerke haben den Nachteil eines begrenzten Versorgungsbereichs, da jede Station in Reichweite sein muss, um eine direkte Verbindung mit dem AP herzustellen. Darüber hinaus sind herkömmliche Wi-Fi-Netzwerke anfällig für Überlastung, da die maximal zulässige Anzahl von Stationen im Netzwerk durch die Kapazität des AP begrenzt ist.
-\cite{esp-mesh}
 
 \subsubsection{Mesh}
 \begin{figure}[H] \begin{center}
@@ -283,12 +282,8 @@ Herkömmliche Wi-Fi-Netzwerke haben den Nachteil eines begrenzten Versorgungsber
 \end{figure}
 
 \textbf{ESP-MESH} unterscheidet sich von herkömmlichen Wi-Fi-Netzwerken darin, dass Knoten keine Verbindung zu einem zentralen Knoten herstellen müssen. Stattdessen dürfen Knoten eine Verbindung zu benachbarten Knoten herstellen.
-\cite{esp-mesh}
 
 Knoten sind gegenseitig für die Weiterleitung der Übertragungen verantwortlich. Dies ermöglicht es einem \textbf{ESP-MESH}-Netzwerk, einen viel größeren Versorgungsbereich zu haben, da Knoten immer noch mit verbunden sein können, ohne sich in Reichweite des zentralen Knotens befinden zu müssen. Ebenso ist \textbf{ESP-MESH} weniger anfällig für Überlastung, da die Anzahl der im Netzwerk zulässigen Knoten nicht mehr durch einen einzelnen zentralen Knoten begrenzt ist.
-\cite{esp-mesh}
-
-Sämtliche Unterpunkte sind eine Zusammenfassung von \cite{esp-mesh}
 
 Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folgende Begriffe zu verstehen:
 \begin{itemize}
@@ -363,7 +358,6 @@ In Folgender Abbildung ist ein \textbf{ESP-MESH} Netzwerk, mit gekennzeichneten 
 
 \subsubsection{Connection eines Idle Nodes}
 Wenn ein \textbf{Idle Node} nur einen möglichen \textbf{Parent Node} in Reichweite erkennt, so verbindet er sich zu diesem. Tritt der Fall ein, dass mehrere Möglichkeiten für einen \textbf{Parent Node} existieren, so hängt die Wahl des \textbf{Paren Nodes} von volgenden Faktoren ab:
-\cite{esp-mesh}
 
 \begin{itemize}
     \item Auf der wievielten Ebene sitzt der \textbf{Parent Node}
@@ -371,10 +365,8 @@ Wenn ein \textbf{Idle Node} nur einen möglichen \textbf{Parent Node} in Reichwe
 \end{itemize}
 
 Der \textbf{Idle Node} bevorzugt jedes Mal den \textbf{Parent Node} auf der niedrigsten Ebene, so wird die Anzahl der verschiedenen Ebenen im \textbf{ESP-MESH} Netzwerk möglichst niedrig gehalten.
-\cite{esp-mesh}
 
 Wenn sich mehrere mögliche \textbf{Parent Nodes} auf der gleichen Ebene befinden, verbindet sich der \textbf{Idle Node} zu dem mit den wenigsten \textbf{Child Nodes}.
-\cite{esp-mesh}
 
 \begin{figure}[H] \begin{center}
     \includegraphics[scale=0.5]{diagrams/mesh-preferred-parent-node.png}
@@ -394,7 +386,6 @@ Wenn ein Knoten versagt können Zwei Situationen entstehen:
     \end{figure}
 
     Wenn der \textbf{Root Node} versagt, wird dies von seinen \textbf{Child Nodes} sofort erkannt. Die \textbf{Child Nodes} werden zuerst mehrmals versuchen sich erneut mit den ehemaligen \textbf{Root Node} zu verbinden, wenn dies fehlschlägt wird es zwischen den \textbf{Child Nodes} eine neue \textbf{Root Noode} Wahl geben. Mittels der Received Signal Strength Indicator (RSSI) ermittelt nun jeder \textbf{Child Node} die Signalstärke des Routers und der \textbf{Child Node} mit der stärksten Verbindung wird der neue \textbf{Root Node} zu dem sich die \textbf{Child Nodes} verbinden.
-    \cite{esp-mesh}
 
     \item Der Knoten ist ein \textbf{Intermediate Parent Node}:
     
@@ -407,7 +398,6 @@ Wenn ein Knoten versagt können Zwei Situationen entstehen:
     Wenn ein \textbf{Intermediate Parent Node} versagt, versuchen dessen \textbf{Child Nodes} sich mehrmals neu zu verbinden. Nach mehrfachen fehlgeschlagen Versuchen werden die \textbf{Child Nodes} beginnen nach neuen potentiellen \textbf{Parent Nodes} zu suchen. Dies geschieht nach dem gleichen Prinzip wie beim \textbf{Root Node Versagen}.
 
     Jeder \textbf{Child Node} wird selbständig einen neuen \textbf{Parent Node} aussuchen. Findet ein Knoten keinen neuen \textbf{Parent Node} so wird dieser Knoten ein \textbf{Idle Node}.
-    \cite{esp-mesh}
 \end{itemize}
 
 \pagebreak
@@ -535,8 +525,6 @@ Wie zu sehen werden der Funktion folgende Parameter übergeben:
 \cite{xTaskCreate_definition}
 
 \subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
-
-% TODO: Write who made this library and give him credit
 
 In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert. Wie in der folgenden Abbildung zu sehen ist.
 
@@ -1395,6 +1383,9 @@ Binärformate werden beim Austausch über verschiedene Plattformen hinweg (beisp
 Zu beachten ist, dass man unter einer Binärdatei bzw. unter Binärformat nicht Daten versteht, die nur aus den (sichtbaren) Zeichen „0“ und „1“ aufgebaut sind – wie die Namensanalogie zu Hex(adezimal)datei nahelegen könnte. Binärdatei bedeutet auch nicht, dass die Daten nur aus binären „0“ und „1“ bestehen – weil das auch bei Text-Zeichensätzen der Fall ist. Auch ist eine Datei, die von einem Textverarbeitungsprogramm erzeugt wurde, meist (abhängig vom Dateiformat) keine reine Textdatei im engeren Sinn, sondern eine Binärdatei, in der zum Beispiel Formatangaben und andere Steuerzeichen nicht mit einem lesbaren Zeichensatz codiert sind. Solche Dateien, zum Beispiel im Rich-Text-Format, sind insofern eine Mischform aus Text- und Binärdatei.\cite{bin_wikipedia}
 
 \subsection{ELF}
+
+Das Folgende ist eine Zusammenfassung der wichtigsten Aspekte und Eckpunkte der Website \cite{elf_linux_audit}
+
 ELF ist die Abkürzung für Executable and Linkable Format und definiert die Struktur für Binärdateien, Bibliotheken und Core-Dateien. Die formale Spezifikation ermöglicht es dem Betriebssystem, die zugrunde liegenden Maschinenanweisungen korrekt zu interpretieren. ELF-Dateien sind normalerweise die Ausgabe eines Compilers oder Linkers und haben ein Binärformat.
 \newline
 \newline
@@ -1496,4 +1487,4 @@ ELF-Dateien dienen zur Ausführung oder zum Verknüpfen. Abhängig vom primären
 
 Der ELF-Dateityp ist sehr flexibel und bietet Unterstützung für mehrere CPU-Typen, Maschinenarchitekturen und Betriebssysteme. Es ist auch sehr erweiterbar: Jede Datei ist je nach den erforderlichen Teilen unterschiedlich aufgebaut.
 
-Header bilden einen wichtigen Teil der Datei und beschreiben genau den Inhalt einer ELF-Datei. Mit den richtigen Tools erhalten Sie ein grundlegendes Verständnis des Zwecks der Datei. Von dort aus können Sie die Binärdateien weiter überprüfen. Dies kann durch Bestimmen der zugehörigen Funktionen oder der in der Datei gespeicherten Zeichenfolgen erfolgen.\cite{elf_linux_audit}
+Header bilden einen wichtigen Teil der Datei und beschreiben genau den Inhalt einer ELF-Datei. Mit den richtigen Tools erhalten Sie ein grundlegendes Verständnis des Zwecks der Datei. Von dort aus können Sie die Binärdateien weiter überprüfen. Dies kann durch Bestimmen der zugehörigen Funktionen oder der in der Datei gespeicherten Zeichenfolgen erfolgen.

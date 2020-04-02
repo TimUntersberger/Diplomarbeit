@@ -26,11 +26,11 @@ Im Laufe der Arbeit werden folgende Begriffe erwähnt, welche hier erklärt werd
 
 \subsection{QoS}\label{sec:mqtt-qos}
 
-In der nachstehenden Aufzählung werden die 3 verschiedenen Arten von QoS näher erläutert.
+In der nachstehenden Aufzählung werden die drei verschiedenen Arten von QoS näher erläutert, welche von der HiveMq Website\cite{hivemq} zusammengefasst wurden.
 
 \begin{enumerate}
     \item \textbf{QoS 0 - maximal einmal}:
-    Die minimale QoS-Stufe ist 0. Dieser Service-Level garantiert eine bestmögliche Lieferung. Es gibt keine Liefergarantie. Der Empfänger bestätigt den Empfang der Nachricht nicht und die Nachricht wird vom Absender nicht gespeichert und erneut gesendet. QoS-Stufe 0 wird oft als "fire and forget" bezeichnet und bietet die gleiche Garantie wie das zugrunde liegende TCP-Protokoll. \cite{hivemq}
+    Die minimale QoS-Stufe ist 0. Dieser Service-Level garantiert eine bestmögliche Lieferung. Es gibt keine Liefergarantie. Der Empfänger bestätigt den Empfang der Nachricht nicht und die Nachricht wird vom Absender nicht gespeichert und erneut gesendet. QoS-Stufe 0 wird oft als "fire and forget" bezeichnet und bietet die gleiche Garantie wie das zugrunde liegende TCP-Protokoll. 
 
     \begin{figure}[H]
         \begin{center}
@@ -41,7 +41,7 @@ In der nachstehenden Aufzählung werden die 3 verschiedenen Arten von QoS näher
 
     \item \textbf{QoS 1 - mindestens einmal}:
     
-    QoS Level 1 garantiert, dass eine Nachricht mindestens einmal an den Empfänger übermittelt wird. Der Absender speichert die Nachricht, bis er vom Empfänger ein Rückmeldung erhält, das den Empfang der Nachricht bestätigt. Es ist möglich, dass eine Nachricht mehrmals gesendet oder zugestellt wird. \cite{hivemq}
+    QoS Level 1 garantiert, dass eine Nachricht mindestens einmal an den Empfänger übermittelt wird. Der Absender speichert die Nachricht, bis er vom Empfänger ein Rückmeldung erhält, das den Empfang der Nachricht bestätigt. Es ist möglich, dass eine Nachricht mehrmals gesendet oder zugestellt wird.
 
     \begin{figure}[H]
         \begin{center}
@@ -52,7 +52,7 @@ In der nachstehenden Aufzählung werden die 3 verschiedenen Arten von QoS näher
 
     \item \textbf{QoS 2 - genau einmal}:
     
-    QoS 2 ist das höchste Servicelevel in MQTT. Diese Stufe garantiert, dass jede Nachricht nur einmal von den vorgesehenen Empfängern empfangen wird. QoS 2 ist die sicherste und langsamste Servicequalität. Die Garantie wird durch mindestens zwei request/response flows zwischen dem Sender und dem Empfänger bereitgestellt. \cite{hivemq}
+    QoS 2 ist das höchste Servicelevel in MQTT. Diese Stufe garantiert, dass jede Nachricht nur einmal von den vorgesehenen Empfängern empfangen wird. QoS 2 ist die sicherste und langsamste Servicequalität. Die Garantie wird durch mindestens zwei request/response flows zwischen dem Sender und dem Empfänger bereitgestellt. 
 
     \begin{figure}[H]
         \begin{center}
