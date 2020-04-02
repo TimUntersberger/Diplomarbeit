@@ -63,7 +63,6 @@ In der nachstehenden Aufzählung werden die drei verschiedenen Arten von QoS nä
 \end{enumerate}
 
 \section{ESP-IDF Toolchain}\label{sec:esp-idf-toolchain}
-%TODO: Erklären was ESP-IDF bedeutet und allgemeines dazu
 
 Das Espressif IoT-Development-Framework (ESP-IDF) ist das offizielle Framework für die ESP32 Chips. \cite{esp-idf-github}
 
@@ -95,10 +94,10 @@ Dieses Konfigurationsprogramm wird verwendet, um projektspezifische Variablen zu
     \item \dots und viele mehr
 \end{itemize}
 
-
-%TODO beispiele für projbuild
 \subsection{KConfig.projbuild}\label{sec:esp-idf-projbuild}
 Sind die von Espressif zur Verfügung gestellten Menüs nicht genug, so ist es möglich, eine \textbf{KConfig.projbuild} Datei anzulegen. Mit dieser Datei ist es möglich, neue Top-Level Menüeinträge und Untermenüeinträge zu generieren. Dies wird benötigt, da in der standarmäßigen \textbf{menuconfig} nur der Großteil der gebrauchten Konfigurations-Felder zur Verfügung gestellt werden. 
+
+Nachstehender Ausschnitt einer \textbf{KConfig.projbuild} Datei bietet einen Überblick über die Struktur dieser Datei.
 
 \pagebreak
 \textbf{KConfig.projbuild}
@@ -128,6 +127,25 @@ Sind die von Espressif zur Verfügung gestellten Menüs nicht genug, so ist es m
             Mqtt broker url.
     endmenu
 \end{verbatim}
+
+Der Name einer zusätzlichen Konfigurationsoption wird mithilfe des \textit{name} Schlüsselwortes definiert, dieses nimmt eine beliebige Zeichenkette entgegen.
+
+Diese Zeichenkette stellt den Namen der Option dar.
+
+In einer Menuconfig kann zwischen folgenden Eingabetypen entschieden werden:
+
+\begin{itemize}
+    \item \textbf{choice}
+    
+    Dieser Typ erwartet einen oder mehrere \textbf{config} Typen, welche die möglichen Optionen dieser Auswahl definieren.
+    \item \textbf{config}
+    
+    Der \textbf{config} Typ ist ein textbasiertes Eingabefeld.
+\end{itemize}
+
+Der Defaultwert eines Eingabefeldes kann mittels des \textit{default} Schlüsselwortes geändert werden. 
+
+Das Schlüsselwort \textit{help} dient zur Vergabe einer Beschreibung für ein Eingabefeld.
 
 \subsection{Kompilieren}
 Damit die fertigen Espressif Beispiele auf einem Dual-Core ESP funktionieren, muss sich dieser im Single-Core Modus befinden.
@@ -169,7 +187,7 @@ Mit dem nachstehenden Befehl kann das Programm gebuildet, geflasht und upgeloade
 % Nodejs ist eine Laufzeit die auf der Javascript Engine von Chrome aufbaut. Nodejs wurde für das Backend des OTA Servers verwendet.
 
 % \subsection{Warum Nodejs?}
-% %TODO umändern
+% %T O D O umändern
 % %bei Vergleich Aufgabe erwähnen
 
 % Bei der Überlegung welche Sprache bzw. welches Framework für das Backend gewählt wird, war die Entscheidung sehr leicht.
