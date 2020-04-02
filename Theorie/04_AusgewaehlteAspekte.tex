@@ -12,8 +12,8 @@
 \end{figure}
 
 Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibrierkammer kalibriert. 
-%TODO: Korrektur
-Dieser Kalibrierkoeffizient wird dann im am Bord eingebauten, One-Time-Programmable - Speicher (OTP Memory \ref{sec:otp}) gespeichert.
+
+Dieser Kalibrierkoeffizient wird auf dem, am Mikrocontroller eingebauten, One-Time-Programmable - Speicher (OTP Memory \ref{sec:otp}) gespeichert.
 
 \pagebreak
 
@@ -169,7 +169,6 @@ Das Namensfeld kann beliebig gewählt werden. Es ist für den Mikrocontroller ni
 \subsubsection{Type Feld}
 Das Partitionstypfeld kann folgende Werte beinhalten:
 
-%TODO: Korrektur
 \begin{enumerate}
     \item App (0)
     \item Data (1)
@@ -813,7 +812,9 @@ Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt, schick
 
 \subsection{Nodejs Setup}
 
-% TODO: Wie installiert man Node js
+Der offiziellen Website von NPM \cite{nodejs-install} ist der Installationsvorgang für Nodejs zu entnehmen.
+
+Für den \textbf{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}) und \textbf{OTA Server} (Kapitel \ref{sec:ota}) wird eine Installation von Nodejs 10 benötigt.
 
 \subsection{ESP-IDF Setup}
 
