@@ -1,40 +1,1502 @@
-\chapter{Ausgangssituation und Zielsetzung}
+\chapter{Ausgewählte Aspekte}
 
-\section{Ausgangssituation}
-Die HTBLA-Leonding ist eine BHS im Raum Oberösterreich, welche für ihre gute Ausbildung und interessanten Projekte im Bereich der Informationstechnologie bekannt ist.
+\section{Verwendete Hardware}
 
-\section{Beschreibung des Problembereichs}
-In den Klassenräumen fehlt es oft an Sauerstoff, manchmal ist auch die Temperatur nicht adäquat. Dieseh kann eine Reihe von unerwünschten Symptomen hervorrufen, wie zum Beispiel: 
+\subsection{DHT22}
 
-\begin{itemize}
-    \item Kopfschmerzen
-    \item Ermüdung
-    \item Schwindel
-    \item Übelkeit
-    \item mehr Probleme mit Asthma und Allergien
-\end{itemize}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/dht22.png}
+        \caption{Bild DHT22 \cite{dht22_picture}}
+    \end{center}    
+\end{figure}
 
-Die oben gennannten Symptome sind in einer Umgebung wie der Schule unbedingt zu vermeiden, da es ansonsten zu einem Konzentrationsverlust der Schüler führt.
+Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibrierkammer kalibriert. 
 
-
-Informationen zu einzelne Klassenräume
-Grundlagen zur Regelung der Heizung
-feststellen ob Fenster offen (schäden verhinder)
+Dieser Kalibrierkoeffizient wird auf dem, am Mikrocontroller eingebauten, One-Time-Programmable - Speicher (OTP Memory \ref{sec:otp}) gespeichert.
 
 \pagebreak
-%TODO
-\section{Aufgabenstellung}
-drei Ebenen
-nodes senden Nachrichten
-ota
-systemarchitektur
-dann einzelne Komponente
+
+Die technischen Daten des Sensors sind:
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{images/dht22_datasheet.png}
+        \caption{technische Daten Dht22 \cite{dht22_datasheet_sparkfun}}
+    \end{center}
+\end{figure}
+
+Zu den Vorteilen des DHT22 zählen:
+\begin{itemize}
+    \item Kleiner Formfaktor (15,1mm x 25,1mm x 7,7mm)
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.6]{images/dht22_formfaktor.png}
+            \caption{Formfaktor Dht22 \cite{dht22_datasheet_sparkfun}}
+        \end{center}
+    \end{figure}
+    \item Niedriger Stromverbrauch (3,3-6 Volt)
+    \item Lange Übertragungsdistanz (20 Meter)
+\end{itemize}
+
+Der Nachteil des Sensors ist:
+\begin{itemize}
+    \item Wartezeit zwischen neuen Sensordaten (mindestens 2 Sekunden)
+\end{itemize}
+
+\subsubsection{OTP Memory}\label{sec:otp}
+OTP Speicher ist eine spezielle Form von nicht flüchtigem Speicher, der es genau einmal erlaubt, auf den Speicher zu schreiben. Wenn der Speicher einmal programmiert ist, behält er seine Informationen für immer, auch über Stromverlust.
+
+Beispiele dafür sind:
+\begin{itemize}
+    \item Boot code
+    \item Encryption keys
+    \item Konfigurationsparameter für analoge Sensoren
+\end{itemize}
+
+\subsection{NodeMCU ESP32}
+\label{sec:nodemcu_esp32}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/NodeMCU-ESP32.png}
+        \caption{Bild NodeMCU ESP32 \cite{nodemcu_picture_joy-it}}
+    \end{center}
+\end{figure}
+
+Das NodeMCU ESP32 ist ein prototyping Board. Die wichtigste Komponente dieses ESPs ist das ESP-WROOM-32 \ref{sec:esp-wroom-32}, es stellt das Gehirn dieses Mikrocontrollers dar.
+
+\subsubsection{ESP-WROOM-32}\label{sec:esp-wroom-32}
+
+Das ESP-WROOM-32 ist ein generisches MCU Modul mit integriertem Wi-Fi, Bluetooth und Bluetooth low energy. So ermöglicht einem dieses Modul, sich beispielsweise mit Wlan-Routern oder einem Handy zu verbinden. Weiters ist es durch den niedrigen Schlafstrom von 5 µA gut für den Bateriebetrieb geeignet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.78]{images/esp32-wroom-32.png}
+        \caption{ESP32-WROOM-32 Spezifikationen\cite{esp32-wroom-32_secifications}}
+    \end{center}
+\end{figure}
+
+\section{Over The Air Update (OTA)}\label{sec:ota}
+
+\subsection*{Problemstellung}\label{sec:problem}
+Mikrocontroller befinden sich in einem laufendem System meist an ungünstigen Orten, an die man nur mit hohem Aufwand gelangt.
+Bis jetzt musste man den Computer physisch mit einem Kabel mit dem Mikrocontroller verbinden um neue Firmware auf den Kontroller zu spielen.
+OTA ermöglicht es, den Mikrocontroller über das Netzwerk mit neuer Firmware zu versorgen. Dabei muss der selektierte Microcomputer lediglich mit einem Wlan-Router verbunden sein und ein physisches Kabel wird überflüssig.
+
+\subsection*{Wie OTA funktioniert}
+Bei dem OTA-Vorgang wird zuallererst die Config-Datei des jeweiligen Mikrocontrollers ausgelesen. In dieser Datei steht, welche Firmware der OTA Client herunterladen soll. Nun sendet der Mikrocontroller eine Anfrage mit dem in der Config-Datei eingetragen Namen der Firmware. Diese Anfrage dient dazu, den Timestamp an dem die Firmware das letzte Mal am Server geändert worden ist, herauszufinden.\newline
+Darauf antwortet der Server mit dem Timestamp.\newline
+Nun überprüft der Mikrocontroller den Timestamp der letzten Änderung des Servers mit dem Timestamp der letzten Änderung der Firmware, die gerade installiert ist.\newline
+
+Nun gibt es zwei Szenarien, die eintreten können:
+
+\begin{itemize}
+    \item \textbf{Die Timestamps sind gleich}. Das bedeutet, dass der Server und der Mikrocontroller beide die gleiche Firmware besitzen und es besteht kein Grund diese vom Server herunterzuladen.
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{diagrams/ota_sequence_same_timestamp.png}
+            \caption{OTA Sequenz Timestamp gleich (Quelle: eigene Darstellung)}
+        \end{center}
+    \end{figure}
+    \newpage
+    \item \textbf{Die Timestamps sind unterschiedlich}. Das bedeutet, dass die Firmware am Server geändert wurde und der Mikrocontroller eine ältere Version besitzt.\newline
+    Da davon ausgegangen wird, dass der Server immer die letzte Version der Firmware besitzt, lädt der Mikrocontroller diese herunter und startet von der soeben heruntergeladenen Firmware neu.
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.8]{diagrams/ota_sequence_different_timestamp.png}
+            \caption{OTA Sequenz Timestamp anders (Quelle: eigene Darstellung)}
+        \end{center}
+    \end{figure}
+\end{itemize}
+
+\subsubsection{Übersicht}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.6]{diagrams/ota_deployment.png}
+        \caption{OTA Deployment (Quelle: eigene Darstellung)}
+    \end{center}
+\end{figure}
+
+Um OTA zu ermöglichen, ist auf einem \textit{Digital Ocean Droplet} der OTA Server deployed. 
+
+Dieser stellt eine API zur Verwaltung von den existierenden Firmwares zur Verfügung.  
+
+Wenn eine Firmware geändert, entfernt oder eine neue hinzugefügt werden soll, geschieht dies über die OTA-Web Applikation.
+
+Die OTA-Web Applikation stellt eine Benutzeroberfläche für die Verwaltung der Firmwares bereit.
+
+Einem Mikrocontroller ist es nun ermöglicht, mithilfe des \textit{OTA Servers} zu überprüfen, ob der Mikrocontroller die aktuelle Version seiner Firmware besitzt.
+
+\subsection{Partition Table}\label{sec:ota-partition-table}
+Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen.
+Konfiguriert man diese Tabelle nicht richtig, so würde das Programm nicht einmal starten. 
+Um OTA zu ermöglichen, ist es notwendig, in der Partitionstabelle mindestens eine ausreichend große OTA-Partition zu vergeben.
+
+\subsubsection{Übersicht}
+Der Flash eines einzelnen ESP32 kann mehrere Apps sowie viele verschiedene Arten von Daten (Kalibrierungsdaten, Dateisysteme, Parameterspeicherung usw.) enthalten. Aus diesem Grund wird eine Partitionstabelle im Flash auf (Standardoffset) 0x8000 geflasht.
+
+Die Länge der Partitionstabelle beträgt 0xC00 Byte (maximal 95 Partitionstabelleneinträge). Nach den Tabellendaten wird eine MD5-Prüfsumme angehängt, mit der die Integrität der Partitionstabelle überprüft wird. Wenn die Partitionstabelle aufgrund eines sicheren Starts signiert ist, wird die Signatur nach der Partitionstabelle angehängt.
+
+Jeder Eintrag in der Partitionstabelle hat einen Namen (Bezeichnung), einen Typ (app, data, ota oder etwas anderes), einen SubType und den Offset im Flash, in dem die Partition geladen wird.
+
+\subsubsection{Custom Partition Tables}
+Bei komplexeren Anwendungen reicht die default Partitionstabelle nicht mehr aus und es muss eine angepasste Tabelle erstellt werden.
+
+Wenn ausgewählt wird, dass eine benutzerdefinierte Partitionstabelle verwendet werden soll, muss manuell eine CSV-Datei erstellt werden, in welcher dann eine beliebige Anzahl von Partitionen mit folgenden Punkten eingetragen werden können:
+
+\begin{itemize}
+    \item Name
+    \item SubType
+    \item Offset
+    \item Size
+    \item Flags
+\end{itemize}
+
+\begin{verbatim}
+    # Name,   Type, SubType,  Offset,   Size,  Flags
+    nvs,      data, nvs,      0x9000,  0x4000
+    otadata,  data, ota,      0xd000,  0x2000
+    phy_init, data, phy,      0xf000,  0x1000
+    factory,  app,  factory,  0x10000,  1M
+    ota_0,    app,  ota_0,    ,         1M
+    ota_1,    app,  ota_1,    ,         1M
+    nvs_key,  data, nvs_keys, ,        0x1000
+\end{verbatim}
+
+\subsubsection{Name Feld}
+Das Namensfeld kann beliebig gewählt werden. Es ist für den Mikrocontroller nicht von Bedeutung. Namen, die länger als 16 Zeichen sind, werden jedoch abgeschnitten.
+
+\subsubsection{Type Feld}
+Das Partitionstypfeld kann folgende Werte beinhalten:
+
+\begin{enumerate}
+    \item App (0)
+    \item Data (1)
+    \item Eine beliebige Zahl zwischen 0 und 254
+\end{enumerate}
+
+Die Typen 0x00-0x3F sind für esp-idf-Kernfunktionen reserviert.
+
+Wenn eine Anwendung Daten speichern muss, muss ein benutzerdefinierter Partitionstyp im Bereich 0x40-0xFE hinzugefügt werden.
+
+Der Bootloader ignoriert alle anderen Partitionstypen als App (0) und Data (1).
+
+\subsubsection{SubType}
+Das 8-Bit-SubType-Feld ist spezifisch für einen bestimmten Partitionstyp. Esp-idf gibt derzeit nur die Bedeutung des Subtypfelds für die Partitionstypen \textit{App} und \textit{Data} an (Stand 09.03.2020).
+
+Wenn der Typ \textit{App} ist, kann das Subtypfeld als
+\begin{itemize}
+    \item \textit{factory (0)}
+    \item \textit{ota\_0 (0x10)} bis \textit{ota\_15 (0x1F)}
+    \item \textit{test (0x20)}
+\end{itemize}
+angegeben werden.
+
+\begin{itemize}
+    \item \textit{Factory (0)} ist die Standard-App-Partition. Der Bootloader führt die Factory-App aus, es sei denn, er sieht eine Partition vom Typ data / ota. In diesem Fall liest er diese Partition, um zu bestimmen, welches OTA-Image gestartet werden soll.
+    \begin{itemize}
+        \item Weiters sei vermekt, dass OTA niemals die \textit{factory} Partition aktualisiert.
+        \item Wenn die Flash-Nutzung in einem OTA-Projekt beibehalten werden soll, kann die Factory-Partition entfernt und stattdessen \textit{ota\_0} verwendet werden.
+    \end{itemize}
+    \item \textit{ota\_0 (0x10)\dots ota\_15 (0x1F)} sind die OTA-App-Slots. Sie verwenden dann die \textit{ota\_data} Partition, um zu konfigurieren, welchen App-Slot der Bootloader starten soll.
+    \item Bei der Verwendung von OTA sollte eine Anwendung über mindestens zwei OTA-Applikationslots verfügen (\textit{ota\_0} und \textit{ota\_1}).
+    \item \textit{test (0x20)} ist ein reservierter Subtyp für werkseitige Testverfahren. Es wird als Fallback-Boot-Partition verwendet, wenn keine andere gültige App-Partition gefunden wird. Es ist auch möglich, den Bootloader so zu konfigurieren, dass er bei jedem Start einen general-purpose input/output(\textmd{GPIO}) Pin liest, und diese Partition zu starten, wenn der GPIO \glqq low\grqq{} gehalten wird.
+    \pagebreak
+    \item Wenn der Typ \textit{data} ist, kann das Subtypfeld mit folgenden Werten befüllt werden:
+    \begin{itemize}
+        \item \textit{ota (0)}
+        \item \textit{phy (1)}
+        \item \textit{nvs (2)}
+        \item \textit{nvs\_key (4)}
+    \end{itemize}
+    \item \textit{ota (0)} ist die OTA-Datenpartition, in der Informationen zur aktuell ausgewählten OTA-Anwendung gespeichert werden. Diese Partition sollte mindestens 0x2000 Bytes groß sein.
+    \item \textit{phy (1)} dient zum Speichern von PHY-Initialisierungsdaten.
+    In der Standardkonfiguration wird die Phy-Partition nicht verwendet und die PHY-Initialisierungsdaten werden in der App selbst kompiliert. Daher wird diese Partition aus Platzgründen meist aus der Partitionstabelle entfernt.
+    \item \textit{nvs (2)} steht für die Non-Volatile Storage-API (\textbf{NVS}).
+    \begin{itemize}
+        \item \textbf{NVS} wird zum Speichern von PHY-Kalibrierungsdaten pro Gerät verwendet (anders als Initialisierungsdaten).
+        \item \textbf{NVS} wird unter anderem zum Speichern von WiFi-Daten verwendet, wenn die Initialisierungsfunktion esp\_wifi\_set\_storage (WIFI\_STORAGE\_FLASH) verwendet wird.
+        \item Die \textbf{NVS}-API kann auch für andere Anwendungsdaten verwendet werden.
+        \item Es wird dringend empfohlen, eine \textbf{NVS}-Partition von mindestens 0x3000 Byte aufzunehmen, da sonst einige unerwartete Fehler auftreten können.
+        \item Wenn die \textbf{NVS}-API zum Speichern vieler Daten verwendet wird, wird empfohlen, diese über den standardmäßig 0x6000 konfigurierten Bytes zu erhöhen.
+    \end{itemize}
+    \item \textit{nvs\_keys (4)} ist die \textmd{NVS}-Key-Partition.
+    \begin{itemize}
+        \item Sie wird zum Speichern von \textmd{NVS} encryption keys verwendet, wenn das \textmd{NVS} Encryption feature aktiviert ist.
+        \item Die Größe dieser Partition sollte 4096 Byte betragen (minimale Partitionsgröße).
+    \end{itemize}
+\end{itemize}
+
+\subsection{Offset}
+Partitionen mit leeren Offsets beginnen automatisch nach der vorherigen Partition. 
+
+App-Partitionen müssen an Offsets sein, die auf 0x10000 (64 KB) ausgerichtet sind.
+
+Wenn ein nicht ausgerichtetes Offset für eine App-Partition angegeben wird, wird ein Fehler zurückgegeben.
+
+Größen und Offsets können als Dezimalzahlen, Hexadezimalzahlen mit dem Präfix 0x oder Größenmultiplikatoren K oder M (1024 und 1024 * 1024 Byte) angegeben werden.
+
+Das Default-Offset für die erste Partition kann mithilfe der \textit{CONFIG\_PARTITION\_TABLE\_OFFSET} Konfigurationsvariable gesetzt werden. Diese wird nur respektiert, wenn die erste Partition kein Offset definiert.
+
+\subsubsection{Flags}
+Derzeit wird nur ein Flag unterstützt: encrypted. Wenn dieses Feld auf encrypted eingestellt ist, wird diese Partition verschlüsselt, wenn die Flash-Verschlüsselung aktiviert ist.
+
+Partitionen vom App-Typ werden immer verschlüsselt unabhängig, ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
+
+\subsubsection{OTA Partition Tables}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.7]{diagrams/ota_partition_table.png}
+        \caption{OTA Partition Table (Quelle: eigene Darstellung)}
+        \label{abb:ota_partition_table}
+    \end{center}    
+\end{figure}
+Der Partition Table des OTA Clients ist in Abbildung (\ref{abb:ota_partition_table}) zu sehen.
+
+Insgesamt stehen allen Partitionen \textbf{4MB} zur Verfügung, da dies der gesamte Flash-Speicher des NodeMCU ESP32 (\ref{sec:nodemcu_esp32}) ist. Dieser enthält folgende Partitionen:
+\begin{itemize}
+    \item Der \textbf{nvs}-Partition stehen \textbf{16KB} zur Verfügung, hier werden die notwendigen Config Daten gespeichert.
+    \item Um OTA Updates durchführen zu können, ist auch eine \textbf{otadata} Partition notwendig, welcher in diesem Fall \textbf{8KB} zur Verfügung stehen. Hier wird gespeichert welche der beiden ota Partitionen gestartet werden muss.
+    \item \textbf{ota\_0} und \textbf{ota\_1} sind mit jeweils \textbf{1MB} die beiden ota Partitionen. Hier wird die Firmware gespeichert, welche der Mikrocontroller dann ausführt.
+    \item \textbf{nvs\_key} erhält \textbf{4KB} Speicher. Da das NVS Filesystem aus Key-Value Paaren besteht, wird zusätzlich zur Value (\textbf{nvs}) auch ein Key gebraucht (\textbf{nvs\_key}).
+\end{itemize}
+
+Auf eine \textbf{factory} Partition wurde verzichtet, um Speicher für die ota Partitionen zu sparen. Außerdem wird, wenn keine \textbf{factory} Partition existiert, die \textbf{ota} Partition mit dem niedrigsten Index gestartet. Hier ist das \textbf{ota\_0}.
+
+Die \textbf{phy\_init} Partition wird ebenfalls weggelassen um Platz zu sparen. Weiters behandelt die \textbf{phy\_init} Partition nur Ethernetdaten, welche in diesem Beispiel überflüssig sind.
+
+\section{ESP-MESH}\label{sec:mesh}
+
+Die folgenden Informationen sind eine Zusammenfassung von der offiziellen Espressif Website \cite{esp-mesh}.
+
+\textbf{ESP-MESH} ist ein Netzwerkprotokoll, das auf dem Wi-Fi-Protokoll basiert. Mit \textbf{ESP-MESH} können zahlreiche Geräte (im Folgenden als Knoten bezeichnet), die über einen großen physischen Bereich (sowohl drinnen als auch draußen) verteilt sind, unter einem einzigen WLAN (Wireless Local Area Network) miteinander verbunden werden. \textbf{ESP-MESH} ist selbstorganisierend und selbstheilend, was bedeutet, dass das Netzwerk autonom aufgebaut und gepflegt werden kann.
+
+\subsection{Wi-Fi vs Mesh}
+
+\subsubsection{Wi-Fi}
+
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/wifi-network-architecture.png}
+    \caption{Wi-Fi Netzwerk Struktur \cite{esp-mesh}}
+    \end{center}    
+\end{figure}
+
+Ein herkömmliches Wi-Fi-Netzwerk ist ein Punkt-zu-Mehrpunkt-Netzwerk, in dem ein einzelner zentraler Knoten, der als Access Point (AP) bezeichnet wird, direkt mit allen anderen Knoten verbunden ist, die als Stationen bezeichnet werden.
+
+Der AP ist für die Schlichtung und Weiterleitung von Übertragungen zwischen den Stationen verantwortlich. Einige APs leiten auch Übertragungen von oder zu einem externen IP-Netzwerk über einen Router weiter.
+
+Herkömmliche Wi-Fi-Netzwerke haben den Nachteil eines begrenzten Versorgungsbereichs, da jede Station in Reichweite sein muss, um eine direkte Verbindung mit dem AP herzustellen. Darüber hinaus sind herkömmliche Wi-Fi-Netzwerke anfällig für Überlastung, da die maximal zulässige Anzahl von Stationen im Netzwerk durch die Kapazität des AP begrenzt ist.
+
+\subsubsection{Mesh}
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/esp-mesh-network-architecture.png}
+    \caption{ESP-Netzwerk Struktur \cite{esp-mesh}}
+    \end{center}    
+\end{figure}
+
+\textbf{ESP-MESH} unterscheidet sich von herkömmlichen Wi-Fi-Netzwerken darin, dass Knoten keine Verbindung zu einem zentralen Knoten herstellen müssen. Stattdessen dürfen Knoten eine Verbindung zu benachbarten Knoten herstellen.
+
+Knoten sind gegenseitig für die Weiterleitung der Übertragungen verantwortlich. Dies ermöglicht es einem \textbf{ESP-MESH}-Netzwerk, einen viel größeren Versorgungsbereich zu haben, da Knoten immer noch mit verbunden sein können, ohne sich in Reichweite des zentralen Knotens befinden zu müssen. Ebenso ist \textbf{ESP-MESH} weniger anfällig für Überlastung, da die Anzahl der im Netzwerk zulässigen Knoten nicht mehr durch einen einzelnen zentralen Knoten begrenzt ist.
+
+Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können, ist es notwendig folgende Begriffe zu verstehen:
+\begin{itemize}
+    \item \textbf{Node (Knoten)}
+    
+    Jedes Gerät, das Teil eines ESP-MESH-Netzwerks ist.
+    \item \textbf{Root Node}
+    
+    Der \textbf{Root Node} ist der oberste Knoten eines Netzwerk.
+
+    \item \textbf{Child Node}
+    
+    Ein \textbf{Child Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stufe \textbf{unter} einem anderen Knoten befindet.
+
+    \item \textbf{Parent Node}
+    
+    Ein \textbf{Parent Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stufe \textbf{über} einem anderen Knoten befindet.
+
+    \item \textbf{Intermediate Parent Node}
+    
+    Ein \textbf{Intermediate Parent Node} ist ein \textbf{Parent Node}, der gleichzeitig kein \textbf{Root Node} ist.
+
+    \item \textbf{Descendant Node}
+    
+    Ein \textbf{Descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist.
+
+    \item \textbf{Sibling Node}
+    
+    Ein \textbf{Sibling Node} ist ein Knoten der sich mit einem anderen Knoten den selben \textbf{Parent Node} teilt.
+
+    \item \textbf{Leaf Node}
+    
+    Ein \textbf{Leaf Node} ist ein \textbf{Node}, welchem es nicht erlaubt ist, \textbf{Child Nodes} zu besitzen.
+
+    \item \textbf{Idle Node}
+    
+    Ein \textbf{Idle Node} ist ein Knoten, welcher sich noch nicht mit dem Netzwerk verbunden hat. Er wird jedoch versuchen, eine \textbf{Connection} mit einem \textbf{Parent Node} herzustellen.
+
+    \item \textbf{Connection}
+    
+    Unter einer \textbf{Connection} versteht man eine herkömmliche Wi-Fi Verbindung.
+
+    \pagebreak
+    \item \textbf{Upstream Connection}
+    
+    Darunter wird eine \textbf{Connection} von einem \textbf{Child Node} zu einem \textbf{Parent Node} verstanden.
+
+    \item \textbf{Downstream Connection}
+    
+    Darunter wird eine \textbf{Connection} von einem \textbf{Parent Node} zu einem \textbf{Child Node} verstanden. Es ist das Gegenteil zu einer \textbf{Upstream Connection}.
+
+    \item \textbf{Wireless Hop}
+    
+    Dies ist der Teil des Pfades zwischen Ursprungs- und Zielknoten, der einer einzelnen drahtlosen Verbindung entspricht. Ein Datenpaket, das eine einzelne Verbindung durchläuft, wird als \textit{Single-Hop} bezeichnet, während das Durchlaufen mehrerer Verbindungen als \textit{Multi-Hop} bezeichnet wird.
+    
+    \item \textbf{Subnetwork}
+    
+    Ein \textbf{Subnetwork} ist die Unterteilung eines \textbf{ESP-MESH-Netzwerks}, das aus einem Knoten und allen seinen untergeordneten Knoten besteht. Daher besteht das Subnetz des Stammknotens aus allen Knoten in einem \textbf{ESP-MESH-Netzwerks}.
+
+    \item \textbf{media access control(MAC) Address}
+    
+    Eine \textbf{MAC Addresse} ist eine Adresse, welche eine Netzwerkkarte eindeutig bestimmen kann.
+\end{itemize}
+
+In folgender Abbildung ist ein \textbf{ESP-MESH} Netzwerk, mit gekennzeichneten Node Typen dargestellt.
+
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/mesh-node-types.png}
+    \caption{Node Typen \cite{esp-mesh}}
+    \end{center}    
+\end{figure}
+
+\subsubsection{Connection eines Idle Nodes}
+Wenn ein \textbf{Idle Node} nur einen möglichen \textbf{Parent Node} in Reichweite erkennt, so verbindet er sich zu diesem. Tritt der Fall ein, dass mehrere Möglichkeiten für einen \textbf{Parent Node} existieren, so hängt die Wahl des \textbf{Parent Nodes} von folgenden Faktoren ab:
+
+\begin{itemize}
+    \item auf der wievielten Ebene sitzt der \textbf{Parent Node}
+    \item die Anzahl der \textbf{Child Nodes} eines \textbf{Parent Nodes}
+\end{itemize}
+
+Der \textbf{Idle Node} bevorzugt jedes Mal den \textbf{Parent Node} auf der niedrigsten Ebene, so wird die Anzahl der verschiedenen Ebenen im \textbf{ESP-MESH} Netzwerk möglichst niedrig gehalten.
+
+Wenn sich mehrere mögliche \textbf{Parent Nodes} auf der gleichen Ebene befinden, verbindet sich der \textbf{Idle Node} zu dem mit den wenigsten \textbf{Child Nodes}.
+
+\begin{figure}[H] \begin{center}
+    \includegraphics[scale=0.5]{diagrams/mesh-preferred-parent-node.png}
+    \caption{Bevorzuget Parent Node \cite{esp-mesh}}
+    \end{center}    
+\end{figure}
+
+\subsubsection{Node Versagen}
+Wenn ein Knoten versagt, können zwei Situationen entstehen:
+\begin{itemize}
+    \item Der Knoten ist ein \textbf{Root Node}:
+    
+    \begin{figure}[H] \begin{center}
+        \includegraphics[scale=0.5]{diagrams/mesh-root-node-failure.png}
+        \caption{Root Node Versagen\cite{esp-mesh}}
+        \end{center}    
+    \end{figure}
+
+    Wenn der \textbf{Root Node} versagt, wird dies von seinen \textbf{Child Nodes} sofort erkannt. Die \textbf{Child Nodes} werden zuerst mehrmals versuchen, sich erneut mit dem ehemaligen \textbf{Root Node} zu verbinden, wenn dies fehlschlägt, wird es zwischen den \textbf{Child Nodes} eine neue \textbf{Root Noode} Wahl geben. Mittels dem Received Signal Strength Indicator (RSSI) ermittelt nun jeder \textbf{Child Node} die Signalstärke des Routers und der \textbf{Child Node} mit der stärksten Verbindung wird der neue \textbf{Root Node}, zu dem sich die \textbf{Child Nodes} verbinden.
+
+    \item Der Knoten ist ein \textbf{Intermediate Parent Node}:
+    
+    \begin{figure}[H] \begin{center}
+        \includegraphics[scale=0.5]{diagrams/mesh-parent-node-failure.png}
+        \caption{Intermediate Parent Node Versagen\cite{esp-mesh}}
+        \end{center}    
+    \end{figure}
+
+    Wenn ein \textbf{Intermediate Parent Node} versagt, versuchen dessen \textbf{Child Nodes} sich mehrmals neu zu verbinden. Nach mehrfachen fehlgeschlagen Versuchen werden die \textbf{Child Nodes} beginnen, nach neuen potentiellen \textbf{Parent Nodes} zu suchen. Dies geschieht nach dem gleichen Prinzip wie beim \textbf{Root Node Versagen}.
+
+    Jeder \textbf{Child Node} wird selbständig einen neuen \textbf{Parent Node} aussuchen. Findet ein Knoten keinen neuen \textbf{Parent Node}, so wird dieser Knoten ein \textbf{Idle Node}.
+\end{itemize}
+
+\pagebreak
+
+\section{Mesh Visualizer}\label{sec:mesh-visualizer}
+
+Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung eines Mesh-Netzwerks. 
+
+\begin{figure}[H] \begin{center}
+        \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
+        \caption{Mesh Visualizer (Quelle: eigene Darstellung)}
+        \label{abb:mesh_visualizer}
+    \end{center}    
+\end{figure}
+
+Sie verwendet die Graphen Library \textit{cytoscapejs} für die Darstellung der Knoten. Weitere Informationen sind dem Kapitel \ref{sec:cytoscape} zu entnehmen. 
+
+Die Benutzung in der Praxis ist im Kapitel \ref{sec:example-mesh-visualizer} näher beschrieben.
+
+\subsection{Cytoscape}\label{sec:cytoscape}
+
+Cytoscape ist eine in Javascript geschriebene Open-Source-Library für Graphentheorie.
+Mit Cytoscape ist es möglich, auf einfacher Art und Weise umfangreiche interaktive Diagramme anzuzeigen und bearbeiten. \cite{cytoscape_intro}
+
+Cytoscape wird in dieser Arbeit zur Visualisiserung des Mesh-Netzwerks verwendet.
+
+Die Distribution dieser Library verläuft über die Website von \textit{Node Packager Manager (NPM)} \cite{npm}, welcher der zentrale Ort für alle veröffentlichten Javascript packages ist.
+
+Für die Visualisierung des Mesh-Netzwerks existieren mehrere Möglichkeiten.
+
+Für die Entwicklung der Website kamen folgende Algorithmen in Frage:
+
+\begin{itemize}
+    \item Dagre (Kapitel \ref{sec:cytoscape-dagre})
+    \item Euler (Kapitel \ref{sec:cytoscape-euler})
+    \item Spread (Kapitel \ref{sec:cytoscape-spread})
+\end{itemize}
+
+Letztendlich wurde auf den Dagre Algorithmus zurückgegriffen.
+
+Weitere Informationen daüber wie jeder Algorithmus funktioniert und warum \textit{Dagre} gewählt wurde, sind in den jeweiligen Kapiteln zu finden.
+
+\subsubsection{Dagre}\label{sec:cytoscape-dagre}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[scale=0.5]{images/cytoscape-dagre-example.png}
+        \caption{Cytoscape Dagre Beispiel \cite{cytoscape_dagre}}
+        \label{abb:cytoscape-dagre_example}
+    \end{center}    
+\end{figure}
+
+Dagre ist ein Algorithmus zur Ordnung von Knoten in einem Diagramm. Das resultierende Diagramm ist ein baumförmiges Netzwerk.
+Ein Beispiel zu diesem Diagramm ist in Abbildung \ref{abb:cytoscape-dagre_example} dargestellt.
+
+Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Algorithmus der Kandidaten ist. Ein Mesh-Netzwerk ist baumförmig aufgebaut, deswegen ist es auch wichtig, dass die Knoten in einer baumförmigen Art dargestellt werden.
+
+\subsubsection{Euler}\label{sec:cytoscape-euler}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[scale=0.5]{images/cytoscape-euler-example.png}
+        \caption{Cytoscape Euler Beispiel \cite{cytoscape_euler}}
+        \label{abb:cytoscape-spread-example}
+    \end{center}    
+\end{figure}
+
+Euler ist ein Algorithmus, welcher ein physikbasiertes Diagramm erstellt.
+Dieser Algorithmus war leider nicht für die Visualisierung des Mesh-Netzwerks geignet, da der Status quo einen Memory Leak hatte und ein Warten auf die Behebung dieses Problems nicht realistisch war.
+
+\subsubsection{Spread}\label{sec:cytoscape-spread}
+
+\begin{figure}[H] 
+    \begin{center}
+        \includegraphics[scale=0.7]{images/cytoscape-spread-example.png}
+        \caption{Cytoscape Spread Beispiel \cite{cytoscape_spread}}
+        \label{abb:cytoscape-spread-example}
+    \end{center}    
+\end{figure}
+
+Der Spread Algorithmus ist wie Euler (Kapitel \ref{sec:cytoscape-euler}) physikbasiert. Dazu kommt auch noch, dass dieser versucht, die Knoten so weit wie möglich auseinander zu halten. Letztendlich wurde aus visuellen Gründen dieser Kandidat nicht gewählt.
+
+\section{Libraries}\label{sec:libraries}
+
+\subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
+
+\subsubsection{freertos}\label{sec:esp-idf-libraries-freertos}
+Diese Library ist notwendig, um auf einem ESP Code parallel laufen lassen zu können.
+
+Mit folgender Funktion wird ein Task angelegt:
+\begin{verbatim}
+    static inline IRAM_ATTR BaseType_t xTaskCreate(
+            TaskFunction_t pvTaskCode,
+            const char * const pcName,
+            const uint32_t usStackDepth,
+            void * const pvParameters,
+            UBaseType_t uxPriority,
+            TaskHandle_t * const pvCreatedTask)
+\end{verbatim}
+
+Wie zu sehen ist, werden der Funktion folgende Parameter übergeben:
+\begin{itemize}
+    \item \textbf{pvTaskCode}
+
+    Hier wird die Addresse der Funktion eingetragen, welche im Task laufen soll. 
+    
+    \item \textbf{pcName}
+    
+    Dieser Parameter ist der beschreibende Name des Tasks. Er wird verwendet, um debugging zu erleichtern.
+
+    \item \textbf{usStackDepth}
+    
+    Diese Variable definiert die Größe des Task-Stacks. Die Zahl, die hier übergeben wird, entspricht der Anzahl der Variablen, die der Task zugleich halten kann, nicht der Anzahl der Bytes.
+    \item \textbf{pvParameters}
+    
+    Dies ist der Pointer einer Variablen, die an den Task übergeben wird.
+    \item  \textbf{uxPriority}
+    
+    \textbf{uxPriority} stellt die Priorität des Tasks dar. Systeme mit MPU-Unterstützung können optional Tasks in einem privilegierten (System-) Modus erstellen, indem das Bit \textit{portPRIVILEGE\_BIT} des Prioritätsparameters gesetzt wird.
+    \item \textbf{pvCreatedTask}
+    
+    \textbf{pvCreatedTask} wird verwendet, um ein \textit{handle} zurückzugeben, mit dem auf den erstellten Task verwiesen werden kann, um den Task beispielsweise zu löschen.
+\end{itemize}
+\cite{xTaskCreate_definition}
+
+\subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
+
+In der \textbf{Dht22} Library sind insgesamt sechs öffentliche Funktionen definiert, wie in der folgenden Abbildung zu sehen ist:
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/dht22_functions.png}
+        \caption{DHT22 Funktionen (Quelle: eigene Darstellung)}
+        \label{abb:dht22_funcionts}
+    \end{center}    
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{void dht22\_set\_gpio(int gpio)}:
+
+    Dieser Funktion wird der Index des ESP Pins, mit dem data Pin verbunden ist mitgegeben. Dieser Index wird anschließend intern vermerkt, damit der ESP weiß auf welchem Pin er die Sensordaten des DHT22 erhalten wird.
+    
+    Diese Funktion sollte aufgerufen werden, bevor mit dem DHT22 versucht wird, Daten zu messen, da dies sonst fehlschlagen wird.
+    \item \textbf{int dht22\_read()}:
+
+    Um diese Funktion aufzurufen, ist kein Parameter notwendig.
+
+    Sie dient dazu, die Luftfeuchtigkeit und Tempereatur zu messen und schreibt diese in interne Variablen, auf die Benutzer keinen Zugriff haben.
+
+    Der Rückgabewert der \textbf{dht22\_read} Funktion ist ein Fehlercode. Dieser Fehlercode gibt Auskunft über den Verlauf der Funktion.
+    \item \textbf{void dht22\_handle\_error(int response)}:
+
+    Als Parameter nimmt die \textbf{dht22\_handle\_error} Funktion Fehlercodes entgegen.
+
+    Das Ziel dieser Funktion ist es, den Fehlercode zu umschreiben und auf die Console zu loggen.
+    \item \textbf{float dht22\_get\_humidity()}:
+
+    Diese Funktion gibt den Wert der internen Luftfeuchtigkeits-Variablen, in welche \textbf{dht22\_read()} die Luftfeuchtigkeits-Daten des Sensors schreibt, in Gleitkommadarstellung zurück.
+    \item \textbf{float dht22\_get\_temperature()}:
+
+    Diese Funktion gibt den Wert der internen Temperatur Variablen, in welche \linebreak \textbf{dht22\_read()} die Temperatur-Daten des Sensors schreibt, in Gleitkommadarstellung zurück.
+\end{itemize}
+\cite{dht22-lib}
+
+\subsection{Eigene Libraries}\label{sec:own-libraries}
+
+Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
+
+Das Application Programming Interface (API) dieser Libraries und wie man diese benutzt wird in diesem Kapitel erklärt.
+
+\subsubsection{MQTT}\label{sec:own-libraries-mqtt}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{diagrams/mqtt_msg_t.png}
+        \caption{Mqtt Message Klassendiagramm (Quelle: eigene Darstellung)}
+        \label{abb:mqtt_msg_t_diagram}
+    \end{center}    
+\end{figure}
+
+Die MQTT Library definiert einen eigenen Struct namens \textit{mqtt\_msg\_t}, welcher in Abbildung \ref{abb:mqtt_msg_t_diagram} als Klassendiagramm zu sehen ist.
+
+Dieser besitzt die folgenden Felder:
+
+\begin{itemize}
+    \item \textbf{topic}, ein 20 Zeichen (1 Byte) langer Buffer.
+    \item \textbf{payload}, ein 100 Zeichen langer Buffer.
+\end{itemize}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/mqtt_msg_t.png}
+        \caption{Mqtt Message (Quelle: eigene Darstellung)}
+        \label{abb:mqtt_msg_t}
+    \end{center}
+\end{figure}
+
+In der obigen Abbildung (\ref{abb:mqtt_msg_t}) ist die selbe Struktur im Source Code dargestellt.
+
+Hier ist zu sehen, dass die Längen der jeweiligen Buffers mithilfe einer \textit{preprocessor directive} definiert wurden. 
+
+Eine \textit{preprocessor directive} ist in der Programmiersprache C ein Weg, wie man Makros definieren kann. 
+
+Makrodefinitionen sind keine Variablen und können nicht wie Variablen von ihrem Programmcode geändert werden. Im Allgemeinen wird diese Syntax verwendet, wenn Konstanten erstellt werden sollen, die Zahlen, Zeichenfolgen oder Ausdrücke darstellen.
+
+Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche in der nachstehenden Abbildung (\ref{abb:mqtt_functions}) zu sehen sind.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/mqtt_functions.png}
+        \caption{Mqtt Funktionen (Quelle: eigene Darstellung)}
+        \label{abb:mqtt_functions}
+    \end{center}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{void mqtt\_publish\_msg(mqtt\_msg\_t *msg)}:
+    
+    Als einziges Argument wird die Addresse einer MQTT Message erwartet.
+
+    Diese wird anschließend synchron an den definierten MQTT Broker gesendet.
+
+    \item \textbf{void mqtt\_start()}:
+    
+    Nach dem Aufrufen dieser Funktion wird versucht, eine Verbindung mit dem definierten MQTT Broker herzustellen.
+
+\end{itemize}
+
+\subsubsection{Hypertext Transfer Protocol (HTTP)}\label{sec:own-libraries-http}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/http_functions.png}
+        \caption{HTTP Funktionen(Quelle: eigene Darstellung)}
+        \label{abb:http_functions}
+    \end{center}    
+\end{figure}
+
+Die HTTP Library definiert und implementiert drei verschiedene Funktionen, welche in  Abbildung \ref{abb:http_functions} zu sehen sind.
+
+\begin{itemize}
+    \item \textbf{esp\_err\_t http\_request(esp\_http\_client\_method\_t method, const char* url)}:
+
+    Diese Funktion nimmt folgende zwei Argumente entgegen:
+
+    \begin{itemize}
+        \item method
+        
+        Dieses Argument erwartet einen in Abbildung \ref{abb:http_client_methods} dargestellten Enum-Wert.
+
+        \begin{figure}[H]
+            \begin{center}
+                \includegraphics[scale=1]{images/http_client_methods.png}
+                \caption{HTTP Client Methoden\cite{http_methods}}
+                \label{abb:http_client_methods}
+            \end{center}    
+        \end{figure}
+
+        Die HTTP Library unterstützt ausschließlich die \textit{HTTP\_METHOD\_GET} Methode, da dies den minimalen Anforderungen des Mesh-Netzwerks entspricht.
+
+        \item url
+        
+        Durch dieses Argument wird definiert an welche Adresse dieser HTTP Request verschickt wird.
+
+        Die URL kann auch Query Parameter beinhalten. 
+
+        In der folgenden URL ist ein Query Parameter mit einem Schlüssel namens \textit{hello} und einem Wert von \textit{world} definiert.
+
+        \begin{verbatim}
+            https://www.github.com?hello=world
+        \end{verbatim}
+    \end{itemize}
+    
+    Nach dem Aufrufen dieser Funktion wird ein synchroner HTTP Request verschickt und anschließend ein Fehlercode zurückgegeben.
+
+    \item \textbf{char* http\_get\_response\_body()}:
+    
+    Diese Funktion gibt die Addresse des Body des letzten HTTP Request zurück.
+
+    \item \textbf{int http\_get\_response\_body\_size()}:
+    
+    Diese Funktion gibt die Länge des Body des letzten HTTP Request zurück.
+\end{itemize}
+
+\subsubsection{Mesh}\label{sec:own-libraries-mesh}
+
+Die Mesh Library wurde um das \textit{mesh\_cmd\_t} Konstrukt, welches in Abbildung \ref{abb:mesh_cmd_t} dargestellt wird, gebaut. Es existiert eine globale Warteschlange von Commands, welche nach dem First-In-First-Out (FIFO) Prinizip versendet werden. Die Warteschlange wird nach dem Starten des Mesh-Netzwerkes periodisch entleert und jeder Command in der Warteschlange versendet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/mesh_cmd_t.png}
+        \caption{Mesh Command Type (Quelle: eigene Darstellung)}
+        \label{abb:mesh_cmd_t}
+    \end{center}
+\end{figure}
+
+Ein \textit{mesh\_cmd} besteht hauptsächlich aus dem \textit{type} und einem \textit{payload}. Dazu werden noch verschiedene Metadaten über diesen Command gespeichert.
+
+Es werden folgende Metadaten gespeichert:
+
+\begin{itemize}
+    \item wenn \textbf{is\_broadcasted} gesetzt ist, dann verteilt ein Knoten den neuen Command an alle Unter-Knoten. 
+    \item ist \textbf{send\_to\_self} gesetzt, wird der versendete Command auch an sich selber verschickt.
+    \item das \textbf{from} Feld gibt an, welcher Knoten diesen Command konstruiert ist.
+\end{itemize}
+
+Es werden die Funktion, welche in folgender Abbildung (\ref{abb:mesh_functions}) zu sehen sind, zur Verfügung gestellt.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/mesh_functions.png}
+        \caption{Mesh Funktionen (Quelle: eigene Darstellung)}
+        \label{abb:mesh_functions}
+    \end{center}
+\end{figure}
+
+In der obigen Abbildung sind verschiedene Funktionstypen dargestellt, welche das jeweilige Interface eines Callbacks beschreiben.
+
+Es werden folgende Typen definiert:
+
+\begin{itemize}
+    \item \textbf{void mesh\_cmd\_cb(mesh\_cmd\_t* cmd)}:
+
+    Dieser Callback wird aufgerufen, wenn der Knoten, auf dem dieses Programm läuft, einen neuen Command erhält. Ihm wird die Address dieses Commands übergeben.
+
+    \item \textbf{void mesh\_connected\_cb(bool is\_root)}:
+    
+    Wenn sich der Knoten, auf welchem dieses Programm läuft, mit dem Mesh-Netzwerk verbindet, wird diese Funktion aufgerufen. Sie bekommt als Argument mit, ob dieser Knoten der Root Knoten ist.
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{void mesh\_create\_network\_interface()}:
+    
+    Diese Funktion erstellt die Netzwerkschnittstelle des Mesh-Netzwerks, welche für die Verbindung mit dem Wi-Fi benötigt wird. Daher ist es wichtig, dass diese Funktion aufgerufen wird bevor das Wi-Fi initialisiert wird.
+
+    \item \textbf{void mesh\_queue\_cmd(mesh\_cmd\_t *cmd)}:
+
+    Die \textit{mesh\_queue\_cmd} Funktion nimmt die Adresse eines Mesh Commands als einiziges Argument an, welches an die Warteschlange angehängt wird. 
+
+    \item \textbf{void mesh\_on\_cmd(mesh\_cmd\_cb)}:
+    
+    Mithilfe dieser Funktion kann die Funktion geändert werden, welche aufgerufen wird, wenn dieser Knoten einen neuen Command erhält.
+
+    Sie bekommt eine Funktion vom Typen \textit{mesh\_cmd\_cb}, welche am Anfang dieses Kapitels beschrieben wurde, als Argument.
+
+    \item \textbf{void mesh\_on\_connected(mesh\_connected\_cb)}:
+    
+    Diese Funktion setzt die globale Referenz auf eine Funktion, welche aufgerufen wird, wenn dieser Knoten sich mit einen Mesh-Netzwerk verbindet.
+    
+    Sie bekommt eine Funktion vom Typen \textit{mesh\_connected\_cb}, welche am Anfang dieses Kapitels beschrieben wurde, als Argument.
+
+    \item \textbf{void mesh\_set\_cmd\_payload(mesh\_cmd\_t *cmd, uint8\_t *payload)}:
+    
+    Dies ist eine Hilfsfunktion, welche den Inhalt des Payload Buffers des übergebenen Commands auf den übergebenen Payload setzt.
+
+    \item \textbf{void mesh\_init()}:
+    
+    Diese Funktion muss nach der \textit{mesh\_create\_network\_interface()} Funktion aufgerufen werden. Sie initialisiert das Mesh-Netzwerk, was bedeutet, dass sie vor jeder anderen Funktion aufgerufen werden muss.
+\end{itemize}
+
+\section{Erläuterung der Verwendung des Mesh-Netzwerks}
+
+\subsection{Übersicht}
+
+\vspace*{50px}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_deployment.png}
+        \caption{Deployment Diagramm (Quelle: eigene Darstellung)}
+        \label{abb:dht22_deployment_diagram}
+    \end{center}    
+\end{figure}
+
+In diesem kleinen Beispiel gibt es insgesamt 2 Mikrocontroller. 
+
+\begin{itemize}
+    \item Ein \textbf{Mikrocontroller}, welcher mit einem DHT22 verbunden ist und regelmäßig die Sensordaten weiterschickt.
+    \item Ein \textbf{Root Mikrocontroller}, welcher für das Weiterleiten der Nachrichten zuständig ist und mit einem MQTT-Broker (\textbf{Mosquitto}) verbunden ist.
+\end{itemize}
+
+Der Root Mikrocontroller ist mit einem MQTT Broker (\textbf{Mosquitto}) verbunden.
+
+Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} (Bsp.: Digital Ocean Droplet).
+
+\vspace*{50px}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_sequence.png}
+        \caption{Sequence Diagramm (Quelle: eigene Darstellung)}
+        \label{abb:dht22_sequence_diagram}
+    \end{center}
+\end{figure}
+\vspace*{50px}
+
+Die Abbildung \ref{abb:dht22_sequence_diagram} zeigt den Verlauf einer Iteration dieses Beispieles.
+Der \textbf{dhtmc} (der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) liest die aktuellen Werte des DHT22, welche er dann im Mesh-Netzwerk mittels einem MQTT Command (\ref{sec:own-libraries-mqtt}) verschickt.
+
+Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt, schickt dieser die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
+
+\subsection{Nodejs Setup}
+
+Der offiziellen Website von NPM \cite{nodejs-install} ist der Installationsvorgang für Nodejs zu entnehmen.
+
+Für den \textbf{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}) und \textbf{OTA Server} (Kapitel \ref{sec:ota}) wird eine Installation von Nodejs 10 benötigt.
+
+\subsection{ESP-IDF Setup}
+
+Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem voraus. Es wird nicht garantiert, dass dies unter Alternativen wie zum Beispiel dem \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktioniert. 
+
+\subsubsection{Dependencies}
+
+Zuallererst müssen die Dependencies von ESP-IDF installiert werden. Dafür gibt es den folgenden shell command.
+
+\vspace*{10px}
+\begin{verbatim}
+    sudo apt-get install git wget flex bison gperf python python-pip 
+    python-setuptools cmake ninja-build ccache libffi-dev libssl-dev
+\end{verbatim}
+\vspace*{10px}
+
+\subsubsection{Libraries}\label{sec:libraries}
+
+Damit man die ESP-IDF Libraries benutzen kann, muss man diese zuerst herunterladen.
+
+\vspace*{10px}
+\begin{verbatim}
+    mkdir $HOME/esp &&
+    cd $HOME/esp &&
+    git clone --recursive https://github.com/espressif/esp-idf.git
+\end{verbatim}
+\vspace*{10px}
+
+Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis des aktuell eingeloggten Benutzers und wechselt in diesen. 
+Anschließend wird das offizielle Repository von ESP-IDF heruntergeladen.
+
+Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries installieren. Dies erfolgt durch folgende Bash Befehle.
+
+\vspace*{10px}
+\begin{verbatim}
+    cd $HOME/esp/esp-idf &&
+    ./install.sh
+\end{verbatim}
+\vspace*{10px}
+
+Mit diesen Befehlen wird das Arbeitsverzeichnis auf das vorher installierte Repository gesetzt und die \textbf{install.sh} Datei von ESP-IDF ausgeführt.
+
+Dies kann einige Minuten dauern.
+
+\subsubsection{Umgebungsvariablen}
+
+Damit die Toolchain nun verwendet werden kann, müssen noch ein paar Umgebungsvariablen definiert werden. 
+
+\vspace*{10px}
+\begin{verbatim}
+    export IDF_PATH=$HOME/esp/esp-idf
+\end{verbatim}
+\vspace*{10px}
+
+Die \textit{IDF\_PATH} Variable gibt den Pfad des Repositories von ESP-IDF an.
+
+\vspace*{10px}
+\begin{verbatim}
+    . $HOME/esp/esp-idf/export.sh
+\end{verbatim}
+\vspace*{10px}
+
+Danach müssen noch weitere Umgebungsvariablen von ESP-IDF selbst gesetzt werden, dafür muss man den oben angeführten Befehl ausführen.
+
+Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es sinnvoll, diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis einzutragen.
+
+\vspace*{10px}
+\begin{verbatim}
+    export IDF_PATH=$HOME/esp/esp-idf
+    . $HOME/esp/esp-idf/export.sh
+\end{verbatim}
+\vspace*{10px}
+
+Es ist auch möglich, eine eigene Funktion dafür zu definieren, wenn man die Toolchain nur bei Bedarf benutzen möchte.
+
+\vspace*{10px}
+\begin{verbatim}
+    function loadEspIdf() {
+        export IDF_PATH=$HOME/esp/esp-idf
+        . $HOME/esp/esp-idf/export.sh
+    }
+\end{verbatim}
+\vspace*{10px}
+
+Anschließend muss der Terminal neu gestartet werden, um die \textbf{.bashrc} Datei ausführen zu können.
+
+\subsubsection{WSL}\label{sec:wsl}
+
+WSL unterstützt bis zum Stand vom 29.03.2020 das Linux USB Interface nicht. Dies bedeutet, dass für eine fehlerfreie Nutzung der ESP-IDF-Toolchain nicht garantiert wird.
+
+\subsection{Source Code}\label{sec:example-source-code}
+
+Der Source Code der für dieses Beispiel benötigt wird, lebt im folgenden Repository.
+
+\vspace*{10px}
+\begin{verbatim}
+    https://github.com/TimUntersberger/Diplomarbeit
+\end{verbatim}
+\vspace*{10px}
+
+Für die erfolgreiche Absolvierung des Beispieles ist es notwendig, das Repository zu clonen.
+
+\vspace*{10px}
+\begin{verbatim}
+    git clone https://github.com/TimUntersberger/Diplomarbeit
+\end{verbatim}
+\vspace*{10px}
+
+Nachdem der Befehl fertig ausgeführt ist, befinden sich mehrere Unterordner in dem neu erstellten Ordner namens \textit{Diplomarbeit}. Die einzigen relevanten Ordner für das Beispiel sind \textbf{Dht22Example} und \textbf{MeshVisualizer}.
+
+Nach Bedarf können die anderen gelöscht werden.
+
+Die zwei Dateien, welche in Kapitel \ref{sec:mosquitto} beschrieben werden, befinden sich in dem Unterordner \textbf{MeshVisualizer}.
+
+Genauere Anweisungen zu \textbf{MeshVisualizer} befinden sich in dem Kapitel \ref{sec:example-mesh-visualizer}.
+
+Die Struktur und wie der Code von \textbf{Dht22Example} benutzt werden kann, wird im Kapitel \ref{sec:code} beschrieben.
+
+\subsection{Mosquitto}\label{sec:mosquitto}
+
+\textbf{mosquitto.conf}
+\begin{verbatim}
+    listener 1883
+    protocol mqtt
+
+    listener 1884
+    protocol websockets
+\end{verbatim}
+\vspace*{10px}
+
+Die \textbf{mosquitto.conf} Datei konfiguriert den Mosquitto Broker so, dass er auf 2 Ports zu hört.
+
+\begin{enumerate}
+    \item 1883
+    \item 1884
+\end{enumerate}
+
+Auf dem Port \textbf{1883} hört ein Websocket Server zu, welcher für die Nutzung von dem \textbf{Mesh Visualizer} \ref{sec:mesh-visualizer} konfiguriert wurde. 
+
+Der Port 1883 ist wie üblich eine MQTT-Schnittstelle.
+
+\textbf{docker-compose.yml}
+\begin{verbatim}
+    version: '3'
+    services:
+      mosquitto:
+        image: eclipse-mosquitto
+        ports:
+          - '1883:1883'
+          - '1884:1884'
+        volumes:
+            - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+\end{verbatim}
+\vspace*{10px}
+
+Diese \textbf{docker-compose.yml} Datei verwendet die Version 3 von docker-compose. Insgesamt wird nur ein einziger Service benötigt für dieses Beispiel. Der Name des Services ist \textit{mosquitto} und benützt das offizielle Image von eclipse namens \textit{eclipse-mosquitto}.
+
+Wie schon bei der \textbf{mosquitto.conf} Datei erwähnt, benötigt Mosquitto zwei offene Ports. Diese werden hier mit den selben äußeren Ports verbunden.
+
+Die Konfigurationsdatei wird mittels eines Volumens in den Container injected.
+
+In der folgenden Abbildung (\ref{abb:example_mosquitto_start}) ist zu sehen, wie man den Mosquitto nun startet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_mosquitto_start.png}
+        \caption{Example Mosquitto Start (Quelle: eigene Darstellung)}
+        \label{abb:example_mosquitto_start}
+    \end{center}
+\end{figure}
+
+\subsection{Mesh Visualizer}\label{sec:example-mesh-visualizer}
+
+Nach der erfolgreichen Absolvierung der in Kapitel \ref{sec:example-source-code} beschriebenen Anweisungen befindet sich nun der Unterordner namens \textbf{MeshVisualizer} im Ordner Diplomarbeit.
+
+Bevor der \textbf{MeshVisualizer} gestartet werden kann, muss das Arbeitsverzeichnis auf den Pfad des \textbf{MeshVisualizer} Ordners gesetzt werden.
+
+Anschließend ist es notwendig, die Dependencies des Projekts zu installieren.
+
+Dies erfolgt durch den in Abbildung \ref{abb:example_mesh_visualizer_installation_cmd} angeführten Command.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_mesh_visualizer_installation_cmd.png}
+        \caption{Example Mesh Visualizer Installation Command (Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_installation_cmd}
+    \end{center}
+\end{figure}
+
+\pagebreak
+In der nachstehenden Abbildung (\ref{abb:example_mesh_visualizer_installation_output}) wird das Ergebnis visualisiert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{images/example_mesh_visualizer_installation_output.png}
+        \caption{Example Mesh Visualizer Installation Output(Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_installation_output}
+    \end{center}
+\end{figure}
+
+Das Starten des Visualizers geschieht wie in der nachstehenden Abbildung (\ref{abb:example_mesh_visualizer_start}).
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{images/example_mesh_visualizer_start.png}
+        \caption{Example Mesh Visualizer Start (Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_start}
+    \end{center}
+\end{figure}
+
+Nachdem der Server auf dem Port \textit{1234} läuft, ist nun die Website, welche in Abbildung \ref{abb:example_mesh_visualizer_website} zu sehen ist, auf der URL \textit{http://localhost:1234/} verfügbar.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.3]{images/example_mesh_visualizer_website.png}
+        \caption{Example Mesh Visualizer Website (Quelle: eigene Darstellung)}
+        \label{abb:example_mesh_visualizer_website}
+    \end{center}
+\end{figure}
+
+Auf der Website ist momentan nur ein Eingabefeld zusammen mit einem Knopf direkt daneben zu sehen.
+
+Durch das Eingabefeld wird die URL des Mosquittos gesetzt. 
+Die Definition des verwendeten Protokolls darf nicht außer Acht gelassen werden.\newline
+
+Da Javascript im Browser nicht in der Lage ist, mit dem MQTT Protokoll zu kommunizieren, muss man sich mit dem vorher definierten Websocket Port (1884) des Brokers verbinden.
+
+Beispiel
+\begin{verbatim}
+    ws://localhost:1884
+\end{verbatim}
+
+Mit dem Drücken des \textit{connect} Knopfes wird versucht, eine Verbindung mit dem Broker herzustellen.
+
+Die Benutzung der Website wird in Kapitel \ref{sec:example-result} genauer erläutert.
+
+\subsection{Partition Table}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=.6]{diagrams/mqtt_dht22_example_partitions.png}
+        \caption{Example Partiton Table (Quelle: eigene Darstellung)}
+        \label{abb:example-partitions}
+    \end{center}
+\end{figure}
+
+Der verwendete Mikrocontroller besitzt insgesamt \textbf{4MB} an Speicher.
+
+Für das Programm sind \textbf{2MB} reserviert, da der default Wert von \textbf{1MB} für dieses Beispiel nicht ausreichend ist. 
+
+Mehr Informationen zu \textit{Partition Tables} sind in Kapitel \ref{sec:ota-partition-table} zu finden.
+
+\subsection{Config}
+
+Die Konfiguration eines ESP-IDF Projekts wird im Normalfall mittels der menuconfig gelöst, wie in Kapitel \ref{sec:esp-idf-toolchain} erwähnt wurde.
+
+\pagebreak
+
+Nach dem Öffnen der menuconfig sind die folgenden Optionen abgebildet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_overview.png}
+        \caption{Example Config Übersicht (Quelle: eigene Darstellung)}
+        \label{abb:example_config_overview}
+    \end{center}
+\end{figure}
+
+Die folgenden Optionen werden im Laufe dieses Kapitels erklärt:
+
+\begin{enumerate}
+    \item Example Configuration (Kapitel \ref{sec:example-example-config})
+    \item Serial flasher config (Kapitel \ref{sec:example-serial-flasher-config})
+    \item Partition Table (Kapitel \ref{sec:example-partition-table})
+\end{enumerate}
+
+Nachdem das Programm fertig konfiguriert ist, kann die menuconfig geschlossen werden.
+
+\pagebreak
+
+\subsubsection{Example Configuration}\label{sec:example-example-config}
+
+In der \textbf{Example Configuration} Option wird das Mesh-Netzwerk und der MQTT-Client konfiguriert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_example_config.png}
+        \caption{Example Config Example Configuration (Quelle: eigene Darstellung)}
+        \label{abb:example_config_example_config}
+    \end{center}
+\end{figure}
+
+Folgende Werte müssen angepasst werden:
+
+\begin{itemize}
+    \item \textbf{Router SSID} \newline
+        Die SSID des WLAN Routers, womit sich der Mikrocontroller verbinden soll.
+    \item \textbf{Router password} \newline
+        Das Passwort des WLAN Routers, womit sich der Mikrocontroller verbinden soll.
+    \item \textbf{Mesh AP Password} \newline
+        Das Mesh-Netzwerk interne Passwort. Das Passwort muss mindestens acht Zeichen lang sein und mindestens eine Zahl beinhalten.
+    \item \textbf{MQTT broker url} \newline
+        Die URL des MQTT Brokers. Hier ist es wichtig, dass nicht localhost eingegeben wird, da dieses Programm auf dem esp läuft (dies ist am Anfang der Arbeit passiert).\newline
+        Das Schema muss der URL im Beispiel unten in Abbildung \ref{abb:example_config_example_config} folgen.
+\end{itemize}
+
+\pagebreak
+
+\subsubsection{Serial flasher config}\label{sec:example-serial-flasher-config}
+
+In der \textbf{Serial flasher config} Option wird der Serial Flasher konfiguriert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_serial_flasher_config.png}
+        \caption{Example Config Serial Flasher Config (Quelle: eigene Darstellung)}
+        \label{abb:example_config_serial_flasher_config}
+    \end{center}
+\end{figure}
+
+Hier muss nur die \textbf{Flash size} angepasst werden. Die Größe hängt vom jeweiligen Modell des ESPs ab.
+
+\subsubsection{Partition Table}\label{sec:example-partition-table}
+
+In der \textbf{Partition Table} Option wird der verwendete \textit{Partition Table} konfiguriert.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_config_partition_table.png}
+        \caption{Example Config Partition Table (Quelle: eigene Darstellung)}
+        \label{abb:example_config_partition_table}
+    \end{center}
+\end{figure}
+
+In dieser Konfiguration muss der Typ des \textbf{Partition Table} Felds auf \textit{Custom partition table CSV} gesetzt werden.
+
+\subsection{Hardware}
+
+\subsubsection{DHT22 mit ESP32 verbinden}
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.36]{images/DHT22-ESP32-Connection.png}
+        \caption{Verbindung ESP32-DHT22 \cite{dht22_picture, nodemcu_picture_joy-it}}
+        \label{abb:esp32-dht22}
+    \end{center}
+\end{figure}
+
+Um die zwei in Abbildung \ref{abb:esp32-dht22} dargestellten Module miteinander zu verbinden, sind drei weiblich zu weiblich Dupont-Kabel notwendig.
+
+Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen, für den GND Pin immer ein schwarzes und für den 3.3V Pin immer ein rotes Kabel zu verwenden, da ansonsten die Übersicht verloren geht. 
+
+Nun werden folgende Pins miteinander verbuden:
+\begin{itemize}
+    \item Der - Pin des DHT22 mit dem GND Pin des Mikrocontrollers (in Abbildung \ref{abb:esp32-dht22} schwarz markiert)
+    \item Der + Pin des DHT22 mit dem 3.3V Pin des Mikrocontrollers (in Abbildung \ref{abb:esp32-dht22} rot markiert)
+    \item Der out Pin des DHT22 mit einem beliebigem data Pin des Mikrocontrollers (in Abbildung \ref{abb:esp32-dht22} blau markiert)
+\end{itemize}
+\pagebreak
+
+\subsubsection{ESP32 mit Computer verbinden}
+Um den ESP mit dem Computer zu verbinden, wird ein gewöhnliches USB zu Micro-USB Kabel verwendet.
+
+Das Micro-USB-Ende des Kabels wird in den seriellen Ausgang des Mikrocontrollers gesteckt und das USB-Ende des Kabels in einen beliebigen USB-Port des gewünschten Computer.
+
+\subsection{Flashen}
+
+Bevor das Programm auf den ESPs laufen kann, muss es hochgeladen werden.
+
+Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp-idf-toolchain} beschrieben.
+
+\subsection{Ergebnis}\label{sec:example-result}
+
+\subsubsection{Mesh Visualizer}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
+        \caption{Beispiel Ergebnis Mesh Visualizer (Quelle: eigene Darstellung)}
+        \label{abb:example_result_mesh_visualizer}
+    \end{center}
+\end{figure}
+
+In Abbildung \ref{abb:example_result_mesh_visualizer} sieht man, wie sich die Mesh Visualizer Website verändert hat.
+
+In dieser Abbildung sind zwei Knoten mit jeweils einer MAC Addresse zu sehen.
+
+Die MAC Addressen stehen für den jeweiligen ESP, der zu diesem Netzwerk verbunden ist.
+
+Die Knoten sind in einer baumartigen Struktur abgebildet. Der Knoten an der Spitz des Diagramms ist der \textbf{Root Knoten}.
+
+\subsubsection{Mqtt Fx}
+
+Wie in der nachstehenden Abbildung zu sehen ist, wird regelmäßig die aktuelle Temperatur und Luftfeuchtigkeit an den MQTT Broker gesendet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.5]{images/example_result_mqtt.png}
+        \caption{Beispiel Ergebnis Mqtt (Quelle: eigene Darstellung)}
+        \label{abb:example_result_mqtt}
+    \end{center}
+
+\end{figure}
+
+Der MQTT Client, welcher in Abbildung \ref{abb:example_result_mqtt} zu sehen ist, wurde von hivemq entwickelt und dient zur Kommunizierung mit einem MQTT-Broker.
+
+\subsection{Code}\label{sec:code}
+\subsubsection{Struktur}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_structure_overview.png}
+        \caption{Beispiel Code Struktur Übersicht (Quelle: eigene Darstellung)}
+        \label{abb:example_code_structure_overview}
+    \end{center}
+\end{figure}
+
+Die Übersicht in Abbildung \ref{abb:example_code_structure_overview} zeigt einen kleinen Ausschnitt der Struktur.
+
+Der Stammordner beinhaltet die Konfigurations Dateien sowie den \textbf{main} Ordner, welcher den Source Code beinhaltet.
+
+Die \textbf{.editorconfig} Datei ist dazu da, die Formatierung des Source Codes in allen Text-Editoren uniform zu halten.
+
+In der \textbf{partitions.csv} Datei befindet sich die Beschreibung des in Kapitel \ref{sec:example-partition-table} erwähnten Partition Tables.
+
+Die nachstehende Abbildung zeigt die Struktur des \textbf{main} Ordners.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_structure_main.png}
+        \caption{Example Code Struktur Main (Quelle: eigene Darstellung)}
+        \label{abb:example_code_structure_main}
+    \end{center}
+\end{figure}
+
+Dieser beinhaltet nicht nur den Source Code sondern auch die \textit{menuconfig} Datei, welche in Kapitel \ref{sec:esp-idf-toolchain} genauer beschrieben ist.
+
+Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstanden sind (wie zum Beispiel \textit{mqtt.h}), befinden sich im Kapitel \ref{sec:own-libraries}.
+
+\subsubsection{Setup}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_setup.png}
+        \caption{Example Code Setup (Quelle: eigene Darstellung)}
+        \label{abb:example_code_setup}
+    \end{center}
+\end{figure}
+
+Die in Abbildung \ref{abb:example_code_setup} dargestellte Funktion \textit{app\_main} ist für die Initialisierung des Programms zuständig.
+
+Sie initialisiert folgende Komponenten:
+
+\begin{itemize}
+    \item nvs flasher
+    \item netif
+    \item event loop
+    \item wifi
+    \item mesh
+\end{itemize}
+
+Anschließend startet sie das Mesh-Netzwerk.
+
+\subsubsection{Wifi Setup}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.7]{images/example_code_setup_wifi.png}
+        \caption{Example Code Setup Wifi (Quelle: eigene Darstellung)}
+        \label{abb:example_code_setup_wifi}
+    \end{center}
+\end{figure}
+
+In Abbildung \ref{abb:example_code_setup_wifi} ist eine Funktion namens \textit{wifi\_init} zu sehen. Diese ist für die Initialisierung des Wifis zuständig.
+
+Die Funktion verwendet die default Werte von ESP-IDF für die Initialisierung des Wifis.
+Es wird nicht nur das wifi gestartet sondern auch ein \textit{Callback} für das \linebreak \textit{IP\_EVENT\_STA\_GOT\_IP} Event registriert.
+
+Der \textit{Callback} wird in Kapitel \ref{sec:example-code-event-handler} beschrieben.
+
+\subsubsection{IP Event Handler}\label{sec:example-code-event-handler}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_event_handler.png}
+        \caption{Example Code Event Handler (Quelle: eigene Darstellung)}
+        \label{abb:example_code_event_handler}
+    \end{center}
+\end{figure}
+
+Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_code_event_handler} zu sehen ist, startet den MQTT-Client, nachdem sie die globale Variable \textit{is\_connected\_to\_router} setzt.
+
+\textit{is\_connected\_to\_router} steht für den aktuellen Status des Wifis. Normalerweise ist dieser immer auf \textit{false} gesetzt, da nur der \textit{Root Mikrocontroller} eine Verbindung mit dem externen Netz aufbauen kann.
+
+\subsubsection{Command Callback}
+
+Der \textit{Command Callback} wird aufgerufen, wenn ein neuer \textit{Command} an diesen Knoten verschickt wird.
+
+Was ein \textit{Command} ist und wie er funktioniert, ist in Kapitel \ref{sec:own-libraries-mesh} beschrieben.
+
+Der Callback reagiert nur auf neue Commands, wenn der aktuelle Knoten der \textit{Root Knoten} ist.
+
+Das Beispiel Programm reagiert auf folgende Command Typen:
+
+\begin{itemize}
+    \item \textbf{MQTT}
+    \item \textbf{ADD NODE}
+    \item \textbf{REMOVE NODE}
+\end{itemize}
+
+\textbf{ADD\_NODE} und \textbf{REMOVE\_NODE} sind Commands, die automatisch von der Mesh Library verschickt werden.
+
+Das Programm reagiert auf diese beiden Commands und schickt sie dann über MQTT im JSON Format weiter.
+
+Dies ist wichtig für den \textit{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}).
+
+Erreicht ein MQTT Command den Root Knoten, so versendet dieser mithilfe der MQTT Library (Kapitel \ref{sec:own-libraries-mqtt}) den Payload, welcher die MQTT Message beinhaltet.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_on_cmd_one.png}
+        \caption{Example Code Command Callback 1 (Quelle: eigene Darstellung)}
+        \label{abb:example_code_on_cmd_one}
+    \end{center}
+\end{figure}
+
+\subsubsection{DHT22 Task}
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_dht22_task.png}
+        \caption{Example Code DHT22 Task (Quelle: eigene Darstellung)}
+        \label{abb:example_code_dht22_task}
+    \end{center}
+\end{figure}
+
+\textit{DHT\_task} ist eine Funktion, welche als Task (Kapitel \ref{sec:esp-idf-libraries-freertos}) gestartet wird. 
+
+Sie ist für das regelmäßige Einlesen der aktuellen DHT22 Werte und das Verschicken dieser an den spezifizierten MQTT Broker zuständig.
+
+Ungefähr alle drei Sekunden läuft dieser Task die in Abbildung \ref{abb:dht22_sequence_diagram} zu sehende Sequenz durch.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_dht22_task_one.png}
+        \caption{Example Code DHT22 Task 1 (Quelle: eigene Darstellung)}
+        \label{abb:example_code_dht22_task_one}
+    \end{center}
+\end{figure}
+
+Am Anfang einer Iteration werden die aktuellen Werte des DHT22 Sensors gelesen. Funktioniert etwas beim Einlesen der Werte nicht, so wird dies mithilfe der \textit{dht22\_handle\_error} Funktion behandelt und die aktuelle Iteration übersprungen.
+
+Wenn das Einlesen erfolgreich ist, holt sich das Programm die gespeicherte Feuchtigkeit und Temperatur (Kapitel \ref{sec:esp-idf-libraries-dht22}) und gibt diese aus.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.8]{images/example_code_dht22_task_two.png}
+        \caption{Example Code DHT22 Task 2 (Quelle: eigene Darstellung)}
+        \label{abb:example_code_dht22_task_two}
+    \end{center}
+\end{figure}
+
+Anschließend wird die Temperatur und Feuchtigkeit in eine MQTT Message umgewandelt und verschickt.
+
+\section{ELF vs. Bin}
+
+\subsection{Bin}
+Die Dateierweiterung .bin wird am häufigsten mit komprimierten Binärdateien verknüpft. Diese Dateien werden von vielen verschiedenen Computeranwendungen und für eine Vielzahl von Zwecken verwendet. Die Erweiterung .bin wird häufig für CD- und DVD-Backup-Image-Dateien verwendet.
+
+In einigen Fällen werden die BIN-Dateien im einfachen Binärformat gespeichert und können mit einem Texteditor geöffnet werden. Es gibt jedoch einige BIN-Dateien, die von bestimmten Computeranwendungen erstellt werden und mit der Software geöffnet werden müssen, mit der sie erstellt wurden, oder mit einer kompatiblen Softwareanwendung.\cite{file.org_bin}
+
+\subsection{Hintergrund}
+Grundsätzlich sind Binärdateien als solche daran erkennbar, dass der Dateiinhalt, mit einem üblichen Texteditor angezeigt, keine oder überwiegend keine lesbaren Zeichen enthält. Der Versuch, eine Binärdatei als Textdatei zu interpretieren (beispielsweise durch Öffnen mit einem Texteditor), ergibt dann unleserlichen bzw. unsinnigen Text. Für die meisten der heute verwendeten 8-Bit-Zeichensätze gilt: nicht lesbare Steuerzeichen umfassen Zeichen mit ASCII-Werten von 0 bis 31, lesbare Zeichen die mit Werten von 32 bis 126. Die Lesbarkeit von Zeichen mit Werten ab 127 ist abhängig vom verwendeten Zeichensatz. Textdateien können auch gewisse Steuerzeichen enthalten, ohne dass sie deshalb als Binärdatei gelten; dazu gehören Steuerzeichen für Zeilenvorschub, Wagenrücklauf, Seitenumbruch (Seitenvorschub) und Tabulatorzeichen.
+
+Weil Binärdateien alle möglichen Bit-Kombinationen nutzen, bieten sie eine höhere Informationsdichte als Textdateien. Deshalb benötigen sie meist weniger Speicherplatz auf Massenspeichern und lassen sich schneller laden und speichern. Ferner lassen sich darin verschiedene Objekttypen (beispielsweise Text mit Bildern) relativ einfach ablegen.
+
+Binärformate werden beim Austausch über verschiedene Plattformen hinweg (beispielsweise Windows, Macintosh, Linux) nicht beschädigt, da die jeweiligen Softwarekomponenten nicht versuchen, die Dateien für die Zielplattform zu konvertieren. Andererseits wird der systemübergreifende Datenaustausch erschwert, da Binärdateien häufig Daten in einem systemabhängigen Format enthalten. (Beispielsweise Zahlen im Big- oder Little-Endian-Format.) Die Spezifikation des Dateiformats einer Binärdatei legt fest, wie mit der Datei zu verfahren ist. Zum Lesen, Bearbeiten und Speichern binärer Datenformate benötigt man im Allgemeinen spezielle, auf das Dateiformat abgestimmte Editoren (beispielsweise Textverarbeitung für Office-Texte, ein Bildbearbeitungsprogramm für Fotos, regedit für die Windows-Registrierungsdatenbank).
+
+Zu beachten ist, dass man unter einer Binärdatei bzw. unter Binärformat nicht Daten versteht, die nur aus den (sichtbaren) Zeichen „0“ und „1“ aufgebaut sind – wie die Namensanalogie zu Hex(adezimal)datei nahelegen könnte. Binärdatei bedeutet auch nicht, dass die Daten nur aus binären „0“ und „1“ bestehen – weil das auch bei Text-Zeichensätzen der Fall ist. Auch ist eine Datei, die von einem Textverarbeitungsprogramm erzeugt wurde, meist (abhängig vom Dateiformat) keine reine Textdatei im engeren Sinn, sondern eine Binärdatei, in der zum Beispiel Formatangaben und andere Steuerzeichen nicht mit einem lesbaren Zeichensatz codiert sind. Solche Dateien, zum Beispiel im Rich-Text-Format, sind insofern eine Mischform aus Text- und Binärdatei.\cite{bin_wikipedia}
+
+\subsection{ELF}
+
+Das Folgende ist eine Zusammenfassung der wichtigsten Aspekte und Eckpunkte der Website \cite{elf_linux_audit}
+
+ELF ist die Abkürzung für Executable and Linkable Format und definiert die Struktur für Binärdateien, Bibliotheken und Core-Dateien. Die formale Spezifikation ermöglicht es dem Betriebssystem, die zugrunde liegenden Maschinenanweisungen korrekt zu interpretieren. ELF-Dateien sind normalerweise die Ausgabe eines Compilers oder Linkers und haben ein Binärformat.
+
+Ein häufiges Missverständnis ist, dass ELF-Dateien nur für Binärdateien oder ausführbare Dateien bestimmt sind. Es ist jedoch möglich, sie für Teilstücke (Objektcode) verwendet zu können. Ein weiteres Beispiel sind gemeinsam genutzte Bibliotheken oder sogar Core-Dumps (Core- oder a.out-Dateien). Die ELF-Spezifikation wird auch unter Linux für den Kernel selbst und die Linux-Kernelmodule verwendet.
 
 
-Um die Sensoren in der Schlule platzieren zu können, ist es erforderlich, zuerst eine Infrastruktur für die Auswertung der Sensoren zu gestalten.
+\subsection{Struktur}
+Aufgrund des erweiterbaren Designs von ELF-Dateien unterscheidet sich die Struktur je nach Datei. Eine ELF-Datei besteht aus:
 
-\section{Zielbestimmung}
-Unterricht findet in einer Lernumgebung statt
-Schüler lernen
+\begin{itemize} 
+\item ELF-Header
+\item Dateidaten
+\end{itemize}
 
-Die Knoten eines Mesh-Netzwerks können gegenseitig Nachrichten versenden und reagieren automatisch auf ausfallende Knoten.
+Mit dem Befehl readelf können wir uns die Struktur einer Datei ansehen und sie sieht ungefähr so aus:
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.5]{images/elf-header-linux-binary.png}
+        \caption{Details einer Elf-binary \cite{details_of_Elf_binary}}
+        \label{abb:details-elf}
+    \end{center}
+\end{figure}
+
+\subsection{ELF-Header}
+Wie in Abbildung \ref{abb:details-elf} zu sehen ist, beginnt der ELF-Header mit etwas Magic. Diese ELF-Header-Magic liefert Informationen über die Datei. Die ersten 4 hexadezimalen Teile definieren, dass dies eine ELF-Datei ist (45 = E, 4c = L, 46 = F), der der Wert 7f vorangestellt ist.
+ 
+Dieser ELF-Header ist obligatorisch. Es stellt sicher, dass Daten während der Verknüpfung oder Ausführung korrekt interpretiert werden. Um die innere Funktionsweise einer ELF-Datei besser zu verstehen, ist es hilfreich zu wissen, dass diese Header-Informationen verwendet werden.
+ 
+\subsubsection{Class}
+Nach der ELF-Typdeklaration ist ein Class-feld definiert. Dieser Wert bestimmt die Architektur für die Datei. Es kann sich um eine 32-Bit- (= 01) oder 64-Bit- (= 02) Architektur handeln. Magic zeigt eine 02, die vom Befehl readelf als ELF64-Datei übersetzt wird, mit anderen Worten, eine ELF-Datei, die die 64-Bit-Architektur verwendet.
+
+\subsubsection{Data}
+Der nächste Teil ist das Data-Feld. Es kennt zwei Optionen: 01 für LSB (Least Significant Bit), auch als Little-Endian bekannt. Dann gibt es den Wert 02 für MSB (Most Significant Bit, Big-Endian). Dieser spezielle Wert hilft dabei, die verbleibenden Objekte in der Datei korrekt zu interpretieren. Dies ist wichtig, da verschiedene Prozessortypen unterschiedlich mit den eingehenden Anweisungen und Datenstrukturen umgehen. In diesem Fall wird LSB verwendet, was für Prozessoren vom Typ AMD64 üblich ist.
+
+\subsubsection{Version}
+Als nächstes folgt eine weitere {\grqq}01{\grqq} in der Magic, die die Versionsnummer ist. Derzeit gibt es nur einen Versionstyp: dies ist momentan der Wert "01".
+
+\subsubsection{OS / ABI}
+Jedes Betriebssystem hat eine große Überlappung in gemeinsamen Funktionen. Darüber hinaus hat jedes von ihnen spezifische oder zumindest geringfügige Unterschiede. Die Definition des richtigen Sets erfolgt über eine Application Binary Interface (ABI). Auf diese Weise wissen sowohl das Betriebssystem als auch die Anwendungen, was zu erwarten ist, und die Funktionen werden korrekt weitergeleitet. Diese beiden Felder beschreiben, für was ABI verwendet wird und die zugehörige Version. In diesem Fall ist der Wert 00, was bedeutet, dass keine bestimmte Erweiterung verwendet wird. Die Ausgabe zeigt dies als System V.
+
+\subsubsection{ABI-Version}
+Bei Bedarf kann eine Version für das ABI angegeben werden.
+
+\subsubsection{Machine}
+Den Maschinentyp (AMD64) finden wir auch im Header.
+
+\subsubsection{Type}
+Das Typfeld gibt an, wozu die Datei dient. Es gibt einige gängige Dateitypen.
+
+\begin{itemize}
+\item CORE (Wert 4)
+\item DYN (Shared Object File) für Bibliotheken (Wert 3)
+\item EXEC (ausführbare Datei) für Binärdateien (Wert 2)
+\item REL (verschiebbare Datei), bevor sie in eine ausführbare Datei gelinkt wird (Wert 1)
+\end{itemize}
+
+\subsection{File Data}
+Neben dem ELF-Header bestehen ELF-Dateien aus drei Teilen.
+
+\begin{itemize}
+\item Program Headers oder Segments (9)
+\item Section Headers oder Sections (28)
+\item Data
+\end{itemize}
+
+Außerdem ist es gut zu wissen, dass ELF zwei sich ergänzende „Ansichten“ hat. Eine Benutzeroberfläche muss für den Linker verwendet werden, um die Ausführung zu ermöglichen (segments), die andere zum Kategorisieren von Anweisungen und Daten (sections). Je nach Ziel werden also die zugehörigen Headertypen verwendet.
+
+\subsubsection{Programm-Header}
+Eine ELF-Datei besteht aus null oder mehr Segmenten und beschreibt, wie ein process/memory image für die Laufzeitausführung erstellt wird. Wenn der Kernel diese Segmente sieht, verwendet er sie, um sie mithilfe des Systemaufrufs mmap (2) dem virtuellen Adressraum zuzuordnen. Mit anderen Worten, es konvertiert vordefinierte Anweisungen in ein Speicherbild. Wenn eine ELF-Datei eine normale Binärdatei ist, sind diese Programmheader erforderlich. Andernfalls wird es einfach nicht ausgeführt. Diese Header mit der zugrunde liegenden Datenstruktur werden verwendet, um einen Prozess zu bilden. Dieser Vorgang ist für shared libraries ähnlich.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=0.5]{images/elf-program-headers-segments.png}
+        \caption{Programm Header einer Elf binary \cite{program_headers_of_Elf_binary}}
+    \end{center}
+\end{figure}
+
+\subsubsection{GNU\_EH\_FRAME}
+Dies ist eine sorted queue, die vom GNU C-Compiler (gcc) verwendet wird. Es speichert Ausnahmebehandlungsroutinen. Wenn also etwas schief geht, kann es diesen Bereich verwenden, um richtig damit umzugehen.
+
+\subsubsection{GNU\_STACK}
+Dieser Header wird zum Speichern von stack-Informationen verwendet. Der stack ist ein Puffer oder eine Arbeitsstelle, an der Elemente wie lokale Variablen gespeichert werden. Dies geschieht bei LIFO (Last In, First Out). Beim Starten einer Prozessfunktion wird ein Baustein reserviert. Wenn die Funktion beendet ist, wird sie wieder als frei markiert. Der interessante Teil ist nun, dass ein Stack nicht ausführbar sein sollte, da dies zu Sicherheitslücken führen kann. Durch Manipulation des Speichers könnte man auf diesen ausführbaren Stack verweisen und beabsichtigte Anweisungen ausführen.
+
+Wenn das Segment GNU\_STACK nicht verfügbar ist, wird normalerweise ein executable stack verwendet.
+Die Tools scanelf und execstack sind zwei Beispiele, um die stack-Details anzuzeigen.
+
+\begin{figure}[H]
+    \begin{center}
+        \includegraphics[scale=1]{images/example_gnustack.png}
+        \caption{Beispiel GNU\_STACK \cite{example_gnustack}}
+    \end{center}
+\end{figure}
+
+\subsection{Static vs. Dynamic binaries}
+Beim Umgang mit ELF-Binärdateien ist es gut zu wissen, dass es zwei Typen gibt und wie sie verknüpft sind. Der Typ ist entweder statisch oder dynamisch und bezieht sich auf die verwendeten Bibliotheken. Zu Optimierungszwecken stellen wir häufig fest, dass Binärdateien „dynamisch“ sind, was bedeutet, dass externe Komponenten für die ordnungsgemäße Ausführung erforderlich sind. Häufig handelt es sich bei diesen externen Komponenten um normale Bibliotheken, die allgemeine Funktionen wie das Öffnen von Dateien oder das Erstellen eines Netzwerk-Sockets enthalten. In statischen Binärdateien sind dagegen alle Bibliotheken enthalten. Dadurch werden sie größer und dennoch tragbarer (z. B. wenn sie auf einem anderen System verwendet werden).
+
+\subsection{Fazit}
+ELF-Dateien dienen zur Ausführung oder zum Verknüpfen. Abhängig vom primären Ziel enthält es die erforderlichen Segmente oder Abschnitte. Segmente werden vom Kernel angeschaut und auf den Speicher gemappt (mithilfe von mmap). Abschnitte werden vom Linker angeschaut, um ausführbaren Code oder freigegebene Objekte zu erstellen.
+
+Der ELF-Dateityp ist sehr flexibel und bietet Unterstützung für mehrere CPU-Typen, Maschinenarchitekturen und Betriebssysteme. Es ist auch sehr erweiterbar: Jede Datei ist je nach den erforderlichen Teilen unterschiedlich aufgebaut.
+
+Header bilden einen wichtigen Teil der Datei und beschreiben genau den Inhalt einer ELF-Datei. Mit den richtigen Tools erhalten Sie ein grundlegendes Verständnis des Zwecks der Datei. Von dort aus können Sie die Binärdateien weiter überprüfen. Dies kann durch Bestimmen der zugehörigen Funktionen oder der in der Datei gespeicherten Zeichenfolgen erfolgen.
