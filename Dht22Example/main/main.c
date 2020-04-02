@@ -58,6 +58,7 @@ void on_cmd(mesh_cmd_t *cmd)
         if (cmd->type == MESH_CMD_MQTT && is_connected_to_router)
         {
             mqtt_msg_t *mqtt_msg = (mqtt_msg_t *)cmd->payload;
+            memcpy(mqtt_msg->from, cmd->from, 6);
             mqtt_publish_msg(mqtt_msg);
         }
         else if (cmd->type == MESH_CMD_ADD_NODE && is_connected_to_router)
