@@ -69,14 +69,14 @@ Um die Toolchain verwenden zu können muss man sich in einem ESP-IDF Projektverz
     idf.py menuconfig
 \end{verbatim}
 
-Dieser Befehl sollte zu folgendem Menü führen:
+Dieser Befehl startet folgendes Konfigurationsprogramm:
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.5]{images/menuconfig.png}
         \caption{menuconfig \cite{menuconfig_picture}}
     \end{center}
 \end{figure}
-Dieses Menü wird verwendet um Projekt spezifische Variablen zu setzten. Wie zum Beispiel:
+Dieses Konfigurationsprogramm wird verwendet, um projektspezifische Variablen zu setzen, wie zB
 \begin{itemize}
     \item Netzwerkname
     \item Netzwerkpasswort
@@ -85,6 +85,8 @@ Dieses Menü wird verwendet um Projekt spezifische Variablen zu setzten. Wie zum
     \item \dots und viele mehr
 \end{itemize}
 
+
+%TODO beispiele für projbuild
 \subsection{KConfig.projbuild}\label{sec:esp-idf-projbuild}
 Sind die, von Espressif, zur Verfügung gestellten Menüs nicht genug, so ist es möglich eine \textbf{KConfig.projbuild} Datei anzulegen. Mit dieser Datei ist es möglich neue Top-Level Menüeinträge und Untermenüeinträge zu generieren. Dies wird benötigt, da in der standarmäßigen \textbf{menuconfig} nur der Großteil der gebrauchten Konfigurations-Felder zur Verfügung gestellt werden.
 
@@ -130,8 +132,10 @@ Mit dem nachstehenden Befehl kann das Programm gebuildet, geflasht und upgeloade
 Nodejs ist eine Laufzeit die auf der Javascript Engine von Chrome aufbaut. Nodejs wurde für das Backend des OTA Servers verwendet.
 
 \subsection{Warum Nodejs?}
+%TODO umändern
+bei Vergleich Aufgabe erwähnen
 
-Bei der Überlegung welche Sprache bzw. welches Framework für das backend gewählt wird, war die Entscheidung sehr leicht.
+Bei der Überlegung welche Sprache bzw. welches Framework für das Backend gewählt wird, war die Entscheidung sehr leicht.
 Die Anforderungen des OTA Servers sind sehr einfach. Der Server dient nur zur Bereitstellung der Firmwares und beschreibende Informationen über die Firmwares selber.
 Da dies nicht CPU intensiv ist sondern I/O intensiv, wurde in diesem Fall Nodejs gewählt.
 
