@@ -12,6 +12,7 @@
 \end{figure}
 
 Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibriekammer kalibriert. Dieser Kalibrierkoeffizient wird dann im am Bord one time programmable Speicher (OTP Memory \ref{sec:otp}) gespeichert.
+
 \pagebreak
 
 Die Technischen Daten des Sensors sind:
@@ -413,7 +414,7 @@ Wenn ein Knoten versagt können Zwei Situationen entstehen:
 
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
-Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung eines Mesh Netzwerkes. 
+Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung eines Mesh-Netzwerks. 
 
 \begin{figure}[H] \begin{center}
         \includegraphics[scale=0.3]{images/example_result_mesh_visualizer.png}
@@ -431,11 +432,11 @@ Die Benutzung in der Praxis ist in dem Kapitel \ref{sec:example-mesh-visualizer}
 Cytoscapejs ist eine in JS geschriebene Open-Source-Library für Graphentheorie.
 Mit Cytoscape ist es möglich auf einfacher Art und Weise umfangreiche interaktive Diagramme anzuzeigen und bearbeiten. \cite{cytoscape_intro}
 
-Cytoscape wird in dieser Arbeit zur Visualisiserung des Mesh Netzwerkes verwendet.
+Cytoscape wird in dieser Arbeit zur Visualisiserung des Mesh-Netzwerks verwendet.
 
 Die Distrubtion dieser Library verlauft über die Website von \textit{Node Packager Manager (NPM)}, welcher der zentrale Ort für alle veröffentlichten Nodejs packages ist.
 
-Für die Visualisierung des Mesh Netzwerks existieren mehrere Möglichkeiten.
+Für die Visualisierung des Mesh-Netzwerks existieren mehrere Möglichkeiten.
 
 Für die Entwicklung der Website kamen folgende Algorithmen in Frage:
 
@@ -464,7 +465,7 @@ Weitere Informationen über wie jeder Algorithmus funktioniert und warum \textit
 Dagre ist ein Algorithmus zur Ordnung von Knoten in einem Diagramm. Das resultierende Diagramm ist ein baumförmiges Netzwerk.
 Ein Beispiel zu diesem Diagramm ist in Abbildung \ref{abb:cytoscape-dagre_example} dargestellt.
 
-Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Algorithmus der Kandidaten ist. Ein Mesh Netzwerk ist baumförmig Aufgebaut, deswegen ist es auch wichtig, dass die Knoten in einer baumförmigen Art dargestellt werden.
+Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Algorithmus der Kandidaten ist. Ein Mesh-Netzwerk ist baumförmig Aufgebaut, deswegen ist es auch wichtig, dass die Knoten in einer baumförmigen Art dargestellt werden.
 
 \subsubsection{Euler}\label{sec:cytoscape-euler}
 
@@ -477,7 +478,7 @@ Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Alg
 \end{figure}
 
 Euler ist ein Algorithmus, welcher ein physikbasiertes Diagramm erstellt.
-Dieser Algorithmus ist leider nicht geignet für die Visualisierung des Mesh Netzwerks, da der Status quo einen Memory Leak hat und ein Warten auf die Behebung dieses Problems nicht realistisch war.
+Dieser Algorithmus ist leider nicht geignet für die Visualisierung des Mesh-Netzwerks, da der Status quo einen Memory Leak hat und ein Warten auf die Behebung dieses Problems nicht realistisch war.
 
 \subsubsection{Spread}\label{sec:cytoscape-spread}
 
@@ -670,7 +671,7 @@ Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche i
             \end{center}    
         \end{figure}
 
-        Die HTTP Library unterstützt ausschließlich die \textit{HTTP\_METHOD\_GET} Methode, da dies den minimalen Anforderungen des Mesh Netzwerks entspricht.
+        Die HTTP Library unterstützt ausschließlich die \textit{HTTP\_METHOD\_GET} Methode, da dies den minimalen Anforderungen des Mesh-Netzwerks entspricht.
 
         \item url
         
@@ -769,10 +770,10 @@ Es werden folgende Typen definiert:
 
     \item \textbf{void mesh\_init()}:
     
-    Diese Funktion muss nach der \textit{mesh\_create\_network\_interface()} Funktion aufgerufen werden. Sie initialisiert das Mesh Netzwerk, was bedeutet, dass sie vor jeder anderen Funktion aufgerufen werden muss.
+    Diese Funktion muss nach der \textit{mesh\_create\_network\_interface()} Funktion aufgerufen werden. Sie initialisiert das Mesh-Netzwerk, was bedeutet, dass sie vor jeder anderen Funktion aufgerufen werden muss.
 \end{itemize}
 
-\section{Bedienungsanleitung}
+\section{Erläuterung der Verwendung des Mesh-Netzwerks}
 
 \subsection{Übersicht}
 
@@ -807,7 +808,7 @@ Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} 
 \vspace*{50px}
 
 Die Abbildung \ref{abb:dht22_sequence_diagram} zeigt den Verlauf einer Iteration dieses Beispieles.
-Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh Netzwerk mittels einem MQTT Command (\ref{sec:own-libraries-mqtt}) verschickt.
+Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh-Netzwerk mittels einem MQTT Command (\ref{sec:own-libraries-mqtt}) verschickt.
 
 Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
 
@@ -1096,7 +1097,7 @@ Nachdem das Programm fertig konfiguriert ist, kann die menuconfig geschlossen we
 
 \subsubsection{Example Configuration}\label{sec:example-example-config}
 
-In der \textbf{Example Configuration} Option wird das Mesh Netzwerk und der MQTT-Client konfiguriert.
+In der \textbf{Example Configuration} Option wird das Mesh-Netzwerk und der MQTT-Client konfiguriert.
 
 \begin{figure}[H]
     \begin{center}
@@ -1274,7 +1275,7 @@ Sie initialisiert folgende Komponenten:
     \item mesh
 \end{itemize}
 
-Anschließend startet sie das Mesh Netzwerk.
+Anschließend startet sie das Mesh-Netzwerk.
 
 \subsubsection{Wifi Setup}
 
