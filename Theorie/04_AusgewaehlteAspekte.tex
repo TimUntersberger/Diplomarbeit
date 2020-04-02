@@ -11,15 +11,17 @@
     \end{center}    
 \end{figure}
 
-Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibriekammer kalibriert. Dieser Kalibrierkoeffizient wird dann im am Bord one time programmable Speicher (OTP Memory \ref{sec:otp}) gespeichert.
+Der DHT22, oder auch AM2302, ist ein digitaler Temperatur und Feuchtigkeissensor, welcher ein digitales Signal der Sensordaten über den Daten-Pin ausgibt. Jedes Exemplar dieses Sensor Modells wurde in einer Kalibrierkammer kalibriert. 
+%TODO: Korrektur
+Dieser Kalibrierkoeffizient wird dann im am Bord eingebauten, One-Time-Programmable - Speicher (OTP Memory \ref{sec:otp}) gespeichert.
 
 \pagebreak
 
-Die Technischen Daten des Sensors sind:
+Die technischen Daten des Sensors sind:
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.6]{images/dht22_datasheet.png}
-        \caption{Daten Dht22 \cite{dht22_datasheet_sparkfun}}
+        \caption{technische Daten Dht22 \cite{dht22_datasheet_sparkfun}}
     \end{center}
 \end{figure}
 
@@ -33,7 +35,7 @@ Zu den Vorteilen des DHT22 zählen:
         \end{center}
     \end{figure}
     \item Niedriger Stromverbrauch (3,3-6 Volt)
-    \item Lange Übertragunsdistanz (20 Meter)
+    \item Lange Übertragungsdistanz (20 Meter)
 \end{itemize}
 
 Der Nachteil des Sensors ist:
@@ -42,7 +44,7 @@ Der Nachteil des Sensors ist:
 \end{itemize}
 
 \subsubsection{OTP Memory}\label{sec:otp}
-OTP Speicher ist eine spezielle Form von nicht flüchtigem Speicher, der es genau ein Mal erlaubt auf den Speicher zu schreiben. Wenn der Speicher einmal programmiert ist behält er seine Informationen für immer, auch über Stromverlust.
+OTP Speicher ist eine spezielle Form von nicht flüchtigem Speicher, der es genau einmal erlaubt, auf den Speicher zu schreiben. Wenn der Speicher einmal programmiert ist, behält er seine Informationen für immer, auch über Stromverlust.
 
 Beispiele dafür sind:
 \begin{itemize}
@@ -61,11 +63,11 @@ Beispiele dafür sind:
     \end{center}
 \end{figure}
 
-Das NodeMCU ESP32 ist ein prototyping Board. Die wichtigste Komponente dieses ESPs ist das ESP-WROOM-32 \ref{sec:esp-wroom-32}, es stell das Gehirn dieses Mikrocontrollers dar.
+Das NodeMCU ESP32 ist ein prototyping Board. Die wichtigste Komponente dieses ESPs ist das ESP-WROOM-32 \ref{sec:esp-wroom-32}, es stellt das Gehirn dieses Mikrocontrollers dar.
 
 \subsubsection{ESP-WROOM-32}\label{sec:esp-wroom-32}
 
-Das ESP-WROOM-32 ist ein generisches MCU Modul mit integriertem Wi-Fi, Bluetooth und Bluetooth low energy. So ermöglicht einem dieses Modul sich beispielsweise mit Wlan-Router oder einem Handy zu verbinden. Weiters ist es durch den niedrigen Schlafstrom von 5 µA gut für den Bateriebetrieb geeignet.
+Das ESP-WROOM-32 ist ein generisches MCU Modul mit integriertem Wi-Fi, Bluetooth und Bluetooth low energy. So ermöglicht einem dieses Modul, sich beispielsweise mit Wlan-Routern oder einem Handy zu verbinden. Weiters ist es durch den niedrigen Schlafstrom von 5 µA gut für den Bateriebetrieb geeignet.
 
 \begin{figure}[H]
     \begin{center}
@@ -77,12 +79,12 @@ Das ESP-WROOM-32 ist ein generisches MCU Modul mit integriertem Wi-Fi, Bluetooth
 \section{Over The Air Update (OTA)}\label{sec:ota}
 
 \subsection*{Problemstellung}\label{sec:problem}
-Mikrocontroller befinden sich, wenn sie sich in einem laufendem System befinden meist an ungünstigen Orten, an die man nur mit hohem Aufwand gelangt.
+Mikrocontroller befinden sich in einem laufendem System meist an ungünstigen Orten, an die man nur mit hohem Aufwand gelangt.
 Bis jetzt musste man den Computer physisch mit einem Kabel mit dem Mikrocontroller verbinden um neue Firmware auf den Kontroller zu spielen.
-OTA ermöglicht es den Mikrocontroller über das Netzwerk mit neuer Firmware zu versorgen, dabei muss der selektierte Microcomputer lediglich mit einem Wlan-Router verbunden sein und ein physisches Kabel wird überflüssig.
+OTA ermöglicht es, den Mikrocontroller über das Netzwerk mit neuer Firmware zu versorgen. Dabei muss der selektierte Microcomputer lediglich mit einem Wlan-Router verbunden sein und ein physisches Kabel wird überflüssig.
 
 \subsection*{Wie OTA funktioniert}
-Bei dem OTA-Vorgang wird zu aller erst die Config-Datei, des jeweiligen Mikrocontrollers, ausgelesen. In dierser Datei steht welche Firmware OTA herunterladen soll. Nun sendet der Mikrocontroller eine Anfrage mit dem, in der Config-Datei eingetragen, Namen der Firmware. Diese Anfrage dient dazu den Timestamp, an dem die Firmware das letzte Mal am Server geändert worden ist herauszufinden.\newline
+Bei dem OTA-Vorgang wird zuallererst die Config-Datei des jeweiligen Mikrocontrollers ausgelesen. In dieser Datei steht, welche Firmware der OTA Client herunterladen soll. Nun sendet der Mikrocontroller eine Anfrage mit dem in der Config-Datei eingetragen Namen der Firmware. Diese Anfrage dient dazu, den Timestamp an dem die Firmware das letzte Mal am Server geändert worden ist, herauszufinden.\newline
 Darauf antwortet der Server mit dem Timestamp.\newline
 Nun überprüft der Mikrocontroller den Timestamp der letzten Änderung des Servers mit dem Timestamp der letzten Änderung der Firmware, die gerade installiert ist.\newline
 
@@ -97,8 +99,8 @@ Nun gibt es zwei Szenarien, die eintreten können:
         \end{center}
     \end{figure}
     \newpage
-    \item \textbf{Die Timstamps sind unterschiedlich}. Das bedeutet, dass die Firmware am Server geändert wurde und der Mikrocontroller eine ältere Version besitzt.\newline
-    Da davon ausgegangen wird, dass der Server immer die beste Version der Firmware bestitz, lädt der Mikrocontroller diese herunter und startet von der soeben heruntergeladenen Firmware neu.
+    \item \textbf{Die Timestamps sind unterschiedlich}. Das bedeutet, dass die Firmware am Server geändert wurde und der Mikrocontroller eine ältere Version besitzt.\newline
+    Da davon ausgegangen wird, dass der Server immer die letzte Version der Firmware besitzt, lädt der Mikrocontroller diese herunter und startet von der soeben heruntergeladenen Firmware neu.
     \begin{figure}[H]
         \begin{center}
             \includegraphics[scale=0.8]{diagrams/ota_sequence_different_timestamp.png}
@@ -115,19 +117,20 @@ Nun gibt es zwei Szenarien, die eintreten können:
     \end{center}
 \end{figure}
 
-Um OTA zu ermöglichen ist auf einem \textit{Digital Ocean Droplet} der OTA Server deployed. 
+Um OTA zu ermöglichen, ist auf einem \textit{Digital Ocean Droplet} der OTA Server deployed. 
 
 Dieser stellt eine API zur Verwaltung von den existierenden Firmwares zur Verfügung.  
 
-Wenn eine Firmware geändert, entfernt oder eine neue hinzugefügt werden soll, geschieht dies über der OTA-Web Applikation.
+Wenn eine Firmware geändert, entfernt oder eine neue hinzugefügt werden soll, geschieht dies über die OTA-Web Applikation.
 
-Die OTA-Web Applikation stellt eine Benutzeroberfläche zur Verwaltung der Firmwares bereit.
+Die OTA-Web Applikation stellt eine Benutzeroberfläche für die Verwaltung der Firmwares bereit.
 
-Einem Mikrocontroller ist es nun ermöglicht mithilfe des \textit{OTA Servers} zu überprüfen, ob dieser die aktuelle Version einer Firmware besitzt und diese eventuell herunterzuladen.
+Einem Mikrocontroller ist es nun ermöglicht, mithilfe des \textit{OTA Servers} zu überprüfen, ob der Mikrocontroller die aktuelle Version seiner Firmware besitzt.
 
 \subsection{Partition Table}\label{sec:ota-partition-table}
-Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen. Würde man diese Tabelle nicht richtig konfigurieren würde das Programm nicht einmal starten. Dazu kommt noch eine erschwerte Fehlersuche, da Errormeldungen bei der Arbeit mit Mikrocontrollern zu wünschen lassen.
-Die Standard-Partitionstabelle ist je nach Hersteller anders. Um OTA zu ermöglichen ist es notwendig im Partitionstabelle mindestens eine, ausreichend große, OTA-Partition zu vergeben. Dabei ist es wichtig, dass diese Partition ausreichend Speicher für die gewünschte Firmware hat, da sonst der ganze Vorgang abgebrochen wird.
+Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen.
+Konfiguriert man diese Tabelle nicht richtig, so würde das Programm nicht einmal starten. 
+Um OTA zu ermöglichen, ist es notwendig, in der Partitionstabelle mindestens eine ausreichend große OTA-Partition zu vergeben.
 
 \subsubsection{Übersicht}
 Der Flash eines einzelnen ESP32 kann mehrere Apps sowie viele verschiedene Arten von Daten (Kalibrierungsdaten, Dateisysteme, Parameterspeicherung usw.) enthalten. Aus diesem Grund wird eine Partitionstabelle im Flash auf (Standardoffset) 0x8000 geflasht.
@@ -137,9 +140,9 @@ Die Länge der Partitionstabelle beträgt 0xC00 Byte (maximal 95 Partitionstabel
 Jeder Eintrag in der Partitionstabelle hat einen Namen (Bezeichnung), einen Typ (app, data, ota oder etwas anderes), einen SubType und den Offset im Flash, in dem die Partition geladen wird.
 
 \subsubsection{Custom Partition Tables}
-Bei komplexeren Anwendungen reichen die default Partitionstabellen nicht mehr aus und es muss eine angepasste Tabelle erstellt werden, welche aber auch genau auf die Bedürfnisse von gewissen Firmwares zugeschnitten werden kann.
+Bei komplexeren Anwendungen reicht die default Partitionstabelle nicht mehr aus und es muss eine angepasste Tabelle erstellt werden.
 
-Wenn die Option der Benutzerdefinierte Partitionstabelle ausgewählt wird. Muss manuel eine CSV-Datei erstellt werden, in der dann eine beliebige Anzahl von Partitionen mit folgenden Punkten eingetragen werden können:
+Wenn ausgewählt wird, dass eine benutzerdefinierte Partitionstabelle verwendet werden soll, muss manuell eine CSV-Datei erstellt werden, in welcher dann eine beliebige Anzahl von Partitionen mit folgenden Punkten eingetragen werden können:
 
 \begin{itemize}
     \item Name
@@ -161,17 +164,26 @@ Wenn die Option der Benutzerdefinierte Partitionstabelle ausgewählt wird. Muss 
 \end{verbatim}
 
 \subsubsection{Name Feld}
-Das Namensfeld kann beliebig gewählt werden. Es ist für den Mikrocontroller nicht von Bedeutung. Namen die länger als 16 Zeichen sind werden jedoch abgeschnitten.
+Das Namensfeld kann beliebig gewählt werden. Es ist für den Mikrocontroller nicht von Bedeutung. Namen, die länger als 16 Zeichen sind, werden jedoch abgeschnitten.
 
 \subsubsection{Type Feld}
-Das Partitionstypfeld kann als App (0) oder Daten (1) angegeben werden. Oder es kann eine Zahl 0-254 sein (oder als Hex 0x00-0xFE). Die Typen 0x00-0x3F sind für esp-idf-Kernfunktionen reserviert.
+Das Partitionstypfeld kann folgende Werte beinhalten:
 
-Wenn eine Anwendung Daten speichern muss, muss einen benutzerdefinierten Partitionstyp im Bereich 0x40-0xFE hinzugefügt werden.
+%TODO: Korrektur
+\begin{enumerate}
+    \item App (0)
+    \item Data (1)
+    \item Eine beliebige Zahl zwischen 0 und 254
+\end{enumerate}
 
-Der Bootloader ignoriert alle anderen Partitionstypen als App (0) und Daten (1).
+Die Typen 0x00-0x3F sind für esp-idf-Kernfunktionen reserviert.
+
+Wenn eine Anwendung Daten speichern muss, muss ein benutzerdefinierter Partitionstyp im Bereich 0x40-0xFE hinzugefügt werden.
+
+Der Bootloader ignoriert alle anderen Partitionstypen als App (0) und Data (1).
 
 \subsubsection{SubType}
-Das 8-Bit-SubType-Feld ist spezifisch für einen bestimmten Partitionstyp. Esp-idf gibt derzeit nur die Bedeutung des Subtypfelds für die Partitionstypen \textit{App} und \textit{Daten} an (Stand 09.03.2020).
+Das 8-Bit-SubType-Feld ist spezifisch für einen bestimmten Partitionstyp. Esp-idf gibt derzeit nur die Bedeutung des Subtypfelds für die Partitionstypen \textit{App} und \textit{Data} an (Stand 09.03.2020).
 
 Wenn der Typ \textit{App} ist, kann das Subtypfeld als
 \begin{itemize}
@@ -185,11 +197,11 @@ angegeben werden.
     \item \textit{Factory (0)} ist die Standard-App-Partition. Der Bootloader führt die Factory-App aus, es sei denn, er sieht eine Partition vom Typ data / ota. In diesem Fall liest er diese Partition, um zu bestimmen, welches OTA-Image gestartet werden soll.
     \begin{itemize}
         \item Weiters sei vermekt, dass OTA niemals die \textit{factory} Partition aktualisiert.
-        \item Wenn Sie die Flash-Nutzung in einem OTA-Projekt beibehalten möchten, können Sie die Factory-Partition entfernen und stattdessen \textit{ota\_0} verwenden.
+        \item Wenn die Flash-Nutzung in einem OTA-Projekt beibehalten werden soll, kann die Factory-Partition entfernt und stattdessen \textit{ota\_0} verwendet werden.
     \end{itemize}
     \item \textit{ota\_0 (0x10)\dots ota\_15 (0x1F)} sind die OTA-App-Slots. Sie verwenden dann die \textit{ota\_data} Partition, um zu konfigurieren, welchen App-Slot der Bootloader starten soll.
     \item Bei der Verwendung von OTA sollte eine Anwendung über mindestens zwei OTA-Applikationslots verfügen (\textit{ota\_0} und \textit{ota\_1}).
-    \item \textit{test (0x20)} ist ein reservierter Subtyp für werkseitige Testverfahren. Es wird als Fallback-Boot-Partition verwendet, wenn keine andere gültige App-Partition gefunden wird. Es ist auch möglich, den Bootloader so zu konfigurieren, dass er bei jedem Start einen general-purpose input/output(\textmd{GPIO}) Pin liest, und diese Partition zu starten, wenn der GPIO "low" gehalten wird.
+    \item \textit{test (0x20)} ist ein reservierter Subtyp für werkseitige Testverfahren. Es wird als Fallback-Boot-Partition verwendet, wenn keine andere gültige App-Partition gefunden wird. Es ist auch möglich, den Bootloader so zu konfigurieren, dass er bei jedem Start einen general-purpose input/output(\textmd{GPIO}) Pin liest, und diese Partition zu starten, wenn der GPIO \glqq low\grqq{} gehalten wird.
     \pagebreak
     \item Wenn der Typ \textit{data} ist, kann das Subtypfeld mit folgenden Werten befüllt werden:
     \begin{itemize}
@@ -201,13 +213,13 @@ angegeben werden.
     \item \textit{ota (0)} ist die OTA-Datenpartition, in der Informationen zur aktuell ausgewählten OTA-Anwendung gespeichert werden. Diese Partition sollte mindestens 0x2000 Bytes groß sein.
     \item \textit{phy (1)} dient zum Speichern von PHY-Initialisierungsdaten.
     In der Standardkonfiguration wird die Phy-Partition nicht verwendet und die PHY-Initialisierungsdaten werden in der App selbst kompiliert. Daher wird diese Partition aus Platzgründen meist aus der Partitionstabelle entfernt.
-    \item \textit{nvs (2)} steht für die Non-Volatile Storage-API (\textmd{NVS}).
+    \item \textit{nvs (2)} steht für die Non-Volatile Storage-API (\textbf{NVS}).
     \begin{itemize}
-        \item \textmd{NVS} wird zum Speichern von PHY-Kalibrierungsdaten pro Gerät verwendet (anders als Initialisierungsdaten).
-        \item \textmd{NVS} wird unter anderem zum Speichern von WiFi-Daten verwendet, wenn die Initialisierungsfunktion esp\_wifi\_set\_storage (WIFI\_STORAGE\_FLASH) verwendet wird.
-        \item Die \textmd{NVS}-API kann auch für andere Anwendungsdaten verwendet werden.
-        \item Es wird dringend empfohlen, eine \textmd{NVS}-Partition von mindestens 0x3000 Byte aufzunehmen, da sonst einige unerwartete Fehler auftreten können.
-        \item Wenn die \textmd{NVS}-API zum Speichern vieler Daten verwenden wird, wird empfohlen diese von den standardmäßig 0x6000 konfigurierten Bytes zu erhöhen.
+        \item \textbf{NVS} wird zum Speichern von PHY-Kalibrierungsdaten pro Gerät verwendet (anders als Initialisierungsdaten).
+        \item \textbf{NVS} wird unter anderem zum Speichern von WiFi-Daten verwendet, wenn die Initialisierungsfunktion esp\_wifi\_set\_storage (WIFI\_STORAGE\_FLASH) verwendet wird.
+        \item Die \textbf{NVS}-API kann auch für andere Anwendungsdaten verwendet werden.
+        \item Es wird dringend empfohlen, eine \textbf{NVS}-Partition von mindestens 0x3000 Byte aufzunehmen, da sonst einige unerwartete Fehler auftreten können.
+        \item Wenn die \textbf{NVS}-API zum Speichern vieler Daten verwendet wird, wird empfohlen, diese über den standardmäßig 0x6000 konfigurierten Bytes zu erhöhen.
     \end{itemize}
     \item \textit{nvs\_keys (4)} ist die \textmd{NVS}-Key-Partition.
     \begin{itemize}
@@ -217,18 +229,20 @@ angegeben werden.
 \end{itemize}
 
 \subsection{Offset}
-Partitionen mit leeren Offsets beginnen nach der vorherigen Partition oder nach der Partitionstabelle bei der ersten Partition.
+Partitionen mit leeren Offsets beginnen automatisch nach der vorherigen Partition. 
 
-App-Partitionen müssen an Offsets sein, die auf 0x10000 (64 KB) ausgerichtet sind. Wenn das Offset-Feld leer gelassen wird, richtet gen\_esp32part.py die Partition automatisch aus. Wenn ein nicht ausgerichtetes Offset für eine App-Partition angegeben wird, wird ein Fehler generiert.
+App-Partitionen müssen an Offsets sein, die auf 0x10000 (64 KB) ausgerichtet sind.
+
+Wenn ein nicht ausgerichtetes Offset für eine App-Partition angegeben wird, wird ein Fehler zurückgegeben.
 
 Größen und Offsets können als Dezimalzahlen, Hexadezimalzahlen mit dem Präfix 0x oder Größenmultiplikatoren K oder M (1024 und 1024 * 1024 Byte) angegeben werden.
 
-Wenn Sie möchten, dass die Partitionen in der Partitionstabelle mit einem Startoffset (CONFIG\_PARTITION\_TABLE\_OFFSET) der Tabelle selbst funktionieren, lassen Sie das Feld Offset (in der CSV-Datei) für alle Partitionen leer.
+Das Default-Offset für die erste Partition kann mithilfe der \textit{CONFIG\_PARTITION\_TABLE\_OFFSET} Konfigurationsvariable gesetzt werden. Diese wird nur respektiert, wenn die erste Partition kein Offset definiert.
 
 \subsubsection{Flags}
 Derzeit wird nur ein Flag unterstützt: encrypted. Wenn dieses Feld auf encrypted eingestellt ist, wird diese Partition verschlüsselt, wenn die Flash-Verschlüsselung aktiviert ist.
 
-Partitionen vom App-Typ werden immer verschlüsselt unabhängig ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
+Partitionen vom App-Typ werden immer verschlüsselt unabhängig, ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
 
 \subsubsection{OTA Partition Tables}
 \begin{figure}[H]
@@ -243,9 +257,9 @@ Der Partition Table des OTA Clients ist in Abbildung (\ref{abb:ota_partition_tab
 Insgesamt stehen allen Partitionen \textbf{4MB} zur Verfügung, da dies der gesamte Flash-Speicher des NodeMCU ESP32 (\ref{sec:nodemcu_esp32}) ist. Dieser enthält folgende Partitionen:
 \begin{itemize}
     \item Der \textbf{nvs}-Partition stehen \textbf{16KB} zur Verfügung, hier werden die notwendigen Config Daten gespeichert.
-    \item Um OTA Updates durchführen zu können ist auch eine \textbf{otadata} Partition notwendig, der in deisem Fall \textbf{8KB} zur verfügung stehen. Hier wird gespeichert welche der beiden ota Partitionen gestartet werden muss.
-    \item \textbf{ota\_0} und \textbf{ota\_1} sind, mit jeweils \textbf{1MB}, die beiden ota Partitionen. Hier wird die Firmware gespeichert, welche der Mikrocontroller dann ausführt.
-    \item \textbf{nvs\_key} erhält \textbf{4KB} Speicher. Da das NVS Filesystem aus Key-Value Paaren besteht wird zur Value (\textbf{nvs}) auch ein Key gebraucht (\textbf{nvs\_key}).
+    \item Um OTA Updates durchführen zu können, ist auch eine \textbf{otadata} Partition notwendig, welcher in diesem Fall \textbf{8KB} zur Verfügung stehen. Hier wird gespeichert welche der beiden ota Partitionen gestartet werden muss.
+    \item \textbf{ota\_0} und \textbf{ota\_1} sind mit jeweils \textbf{1MB} die beiden ota Partitionen. Hier wird die Firmware gespeichert, welche der Mikrocontroller dann ausführt.
+    \item \textbf{nvs\_key} erhält \textbf{4KB} Speicher. Da das NVS Filesystem aus Key-Value Paaren besteht, wird zusätzlich zur Value (\textbf{nvs}) auch ein Key gebraucht (\textbf{nvs\_key}).
 \end{itemize}
 
 Auf eine \textbf{factory} Partition wurde verzichtet, um Speicher für die ota Partitionen zu sparen. Außerdem wird, wenn keine \textbf{factory} Partition existiert, die \textbf{ota} Partition mit dem niedrigsten Index gestartet. Hier ist das \textbf{ota\_0}.
@@ -285,22 +299,22 @@ Herkömmliche Wi-Fi-Netzwerke haben den Nachteil eines begrenzten Versorgungsber
 
 Knoten sind gegenseitig für die Weiterleitung der Übertragungen verantwortlich. Dies ermöglicht es einem \textbf{ESP-MESH}-Netzwerk, einen viel größeren Versorgungsbereich zu haben, da Knoten immer noch mit verbunden sein können, ohne sich in Reichweite des zentralen Knotens befinden zu müssen. Ebenso ist \textbf{ESP-MESH} weniger anfällig für Überlastung, da die Anzahl der im Netzwerk zulässigen Knoten nicht mehr durch einen einzelnen zentralen Knoten begrenzt ist.
 
-Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folgende Begriffe zu verstehen:
+Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können, ist es notwendig folgende Begriffe zu verstehen:
 \begin{itemize}
     \item \textbf{Node (Knoten)}
     
-    Jedes Gerät, das Teil eines ESP-MESH-Netzwerks ist
+    Jedes Gerät, das Teil eines ESP-MESH-Netzwerks ist.
     \item \textbf{Root Node}
     
-    Der \textbf{Root Node} ist der oberste Knoten eines Netzwerk
+    Der \textbf{Root Node} ist der oberste Knoten eines Netzwerk.
 
     \item \textbf{Child Node}
     
-    Ein \textbf{Child Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textbf{unter} einem anderem Knoten befindet
+    Ein \textbf{Child Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stufe \textbf{unter} einem anderen Knoten befindet.
 
     \item \textbf{Parent Node}
     
-    Ein \textbf{Parent Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stuffe \textbf{über} einem anderem Knoten befindet.
+    Ein \textbf{Parent Node} ist ein Knoten, der sich auf der hierarchischen Ebene mindestens eine Stufe \textbf{über} einem anderen Knoten befindet.
 
     \item \textbf{Intermediate Parent Node}
     
@@ -308,23 +322,23 @@ Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folg
 
     \item \textbf{Descendant Node}
     
-    Ein \textbf{Descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist
+    Ein \textbf{Descendant Node} ist jeder Knoten, der durch wiederholtes Weitergehen von Eltern zu Kind erreichbar ist.
 
     \item \textbf{Sibling Node}
     
-    Ist ein Knoten der sich mit einem anderen Knoten den gleichen \textbf{Parent Node} teilt.
+    Ein \textbf{Sibling Node} ist ein Knoten der sich mit einem anderen Knoten den selben \textbf{Parent Node} teilt.
 
     \item \textbf{Leaf Node}
     
-    Ein \textbf{Leaf Node} ist ein \textbf{Node} welchem es nicht erlaubt ist \textbf{Child Nodes} zu besitzen.
+    Ein \textbf{Leaf Node} ist ein \textbf{Node}, welchem es nicht erlaubt ist, \textbf{Child Nodes} zu besitzen.
 
     \item \textbf{Idle Node}
     
-    Ein \textbf{Idle Node} ist ein Knoten, welcher sich noch nicht mit dem Netzwerk verbunden hat. Er wird jedoch versuchen eine \textbf{Connection} mit einem \textbf{Parent Node} herzustellen.
+    Ein \textbf{Idle Node} ist ein Knoten, welcher sich noch nicht mit dem Netzwerk verbunden hat. Er wird jedoch versuchen, eine \textbf{Connection} mit einem \textbf{Parent Node} herzustellen.
 
     \item \textbf{Connection}
     
-    Unter einer \textbf{Connection} versteht man eine herkömliche Wi-Fi Verbindung
+    Unter einer \textbf{Connection} versteht man eine herkömmliche Wi-Fi Verbindung.
 
     \pagebreak
     \item \textbf{Upstream Connection}
@@ -333,7 +347,7 @@ Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folg
 
     \item \textbf{Downstream Connection}
     
-    Darunter wird eine \textbf{Connection} von einem \textbf{Parent Node} zu einem \textbf{Child Node} verstanden. Es ist das Gegeteil zu einer \textbf{Upstream Connection}.
+    Darunter wird eine \textbf{Connection} von einem \textbf{Parent Node} zu einem \textbf{Child Node} verstanden. Es ist das Gegenteil zu einer \textbf{Upstream Connection}.
 
     \item \textbf{Wireless Hop}
     
@@ -348,7 +362,7 @@ Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können ist es notwendig folg
     Eine \textbf{MAC Addresse} ist eine Adresse, welche eine Netzwerkkarte eindeutig bestimmen kann.
 \end{itemize}
 
-In Folgender Abbildung ist ein \textbf{ESP-MESH} Netzwerk, mit gekennzeichneten Node Typen dargestellt.
+In folgender Abbildung ist ein \textbf{ESP-MESH} Netzwerk, mit gekennzeichneten Node Typen dargestellt.
 
 \begin{figure}[H] \begin{center}
     \includegraphics[scale=0.5]{diagrams/mesh-node-types.png}
@@ -357,11 +371,11 @@ In Folgender Abbildung ist ein \textbf{ESP-MESH} Netzwerk, mit gekennzeichneten 
 \end{figure}
 
 \subsubsection{Connection eines Idle Nodes}
-Wenn ein \textbf{Idle Node} nur einen möglichen \textbf{Parent Node} in Reichweite erkennt, so verbindet er sich zu diesem. Tritt der Fall ein, dass mehrere Möglichkeiten für einen \textbf{Parent Node} existieren, so hängt die Wahl des \textbf{Paren Nodes} von volgenden Faktoren ab:
+Wenn ein \textbf{Idle Node} nur einen möglichen \textbf{Parent Node} in Reichweite erkennt, so verbindet er sich zu diesem. Tritt der Fall ein, dass mehrere Möglichkeiten für einen \textbf{Parent Node} existieren, so hängt die Wahl des \textbf{Parent Nodes} von folgenden Faktoren ab:
 
 \begin{itemize}
-    \item Auf der wievielten Ebene sitzt der \textbf{Parent Node}
-    \item Die Anzahl der \textbf{Child Nodes} eines \textbf{Parent Nodes}
+    \item auf der wievielten Ebene sitzt der \textbf{Parent Node}
+    \item die Anzahl der \textbf{Child Nodes} eines \textbf{Parent Nodes}
 \end{itemize}
 
 Der \textbf{Idle Node} bevorzugt jedes Mal den \textbf{Parent Node} auf der niedrigsten Ebene, so wird die Anzahl der verschiedenen Ebenen im \textbf{ESP-MESH} Netzwerk möglichst niedrig gehalten.
@@ -375,7 +389,7 @@ Wenn sich mehrere mögliche \textbf{Parent Nodes} auf der gleichen Ebene befinde
 \end{figure}
 
 \subsubsection{Node Versagen}
-Wenn ein Knoten versagt können Zwei Situationen entstehen:
+Wenn ein Knoten versagt, können zwei Situationen entstehen:
 \begin{itemize}
     \item Der Knoten ist ein \textbf{Root Node}:
     
@@ -385,7 +399,7 @@ Wenn ein Knoten versagt können Zwei Situationen entstehen:
         \end{center}    
     \end{figure}
 
-    Wenn der \textbf{Root Node} versagt, wird dies von seinen \textbf{Child Nodes} sofort erkannt. Die \textbf{Child Nodes} werden zuerst mehrmals versuchen sich erneut mit den ehemaligen \textbf{Root Node} zu verbinden, wenn dies fehlschlägt wird es zwischen den \textbf{Child Nodes} eine neue \textbf{Root Noode} Wahl geben. Mittels der Received Signal Strength Indicator (RSSI) ermittelt nun jeder \textbf{Child Node} die Signalstärke des Routers und der \textbf{Child Node} mit der stärksten Verbindung wird der neue \textbf{Root Node} zu dem sich die \textbf{Child Nodes} verbinden.
+    Wenn der \textbf{Root Node} versagt, wird dies von seinen \textbf{Child Nodes} sofort erkannt. Die \textbf{Child Nodes} werden zuerst mehrmals versuchen, sich erneut mit dem ehemaligen \textbf{Root Node} zu verbinden, wenn dies fehlschlägt, wird es zwischen den \textbf{Child Nodes} eine neue \textbf{Root Noode} Wahl geben. Mittels dem Received Signal Strength Indicator (RSSI) ermittelt nun jeder \textbf{Child Node} die Signalstärke des Routers und der \textbf{Child Node} mit der stärksten Verbindung wird der neue \textbf{Root Node}, zu dem sich die \textbf{Child Nodes} verbinden.
 
     \item Der Knoten ist ein \textbf{Intermediate Parent Node}:
     
@@ -395,9 +409,9 @@ Wenn ein Knoten versagt können Zwei Situationen entstehen:
         \end{center}    
     \end{figure}
 
-    Wenn ein \textbf{Intermediate Parent Node} versagt, versuchen dessen \textbf{Child Nodes} sich mehrmals neu zu verbinden. Nach mehrfachen fehlgeschlagen Versuchen werden die \textbf{Child Nodes} beginnen nach neuen potentiellen \textbf{Parent Nodes} zu suchen. Dies geschieht nach dem gleichen Prinzip wie beim \textbf{Root Node Versagen}.
+    Wenn ein \textbf{Intermediate Parent Node} versagt, versuchen dessen \textbf{Child Nodes} sich mehrmals neu zu verbinden. Nach mehrfachen fehlgeschlagen Versuchen werden die \textbf{Child Nodes} beginnen, nach neuen potentiellen \textbf{Parent Nodes} zu suchen. Dies geschieht nach dem gleichen Prinzip wie beim \textbf{Root Node Versagen}.
 
-    Jeder \textbf{Child Node} wird selbständig einen neuen \textbf{Parent Node} aussuchen. Findet ein Knoten keinen neuen \textbf{Parent Node} so wird dieser Knoten ein \textbf{Idle Node}.
+    Jeder \textbf{Child Node} wird selbständig einen neuen \textbf{Parent Node} aussuchen. Findet ein Knoten keinen neuen \textbf{Parent Node}, so wird dieser Knoten ein \textbf{Idle Node}.
 \end{itemize}
 
 \pagebreak
@@ -415,16 +429,16 @@ Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung
 
 Sie verwendet die Graphen Library \textit{cytoscapejs} für die Darstellung der Knoten. Weitere Informationen sind dem Kapitel \ref{sec:cytoscape} zu entnehmen. 
 
-Die Benutzung in der Praxis ist in dem Kapitel \ref{sec:example-mesh-visualizer} näher beschrieben.
+Die Benutzung in der Praxis ist im Kapitel \ref{sec:example-mesh-visualizer} näher beschrieben.
 
 \subsection{Cytoscape}\label{sec:cytoscape}
 
-Cytoscapejs ist eine in JS geschriebene Open-Source-Library für Graphentheorie.
-Mit Cytoscape ist es möglich auf einfacher Art und Weise umfangreiche interaktive Diagramme anzuzeigen und bearbeiten. \cite{cytoscape_intro}
+Cytoscape ist eine in Javascript geschriebene Open-Source-Library für Graphentheorie.
+Mit Cytoscape ist es möglich, auf einfacher Art und Weise umfangreiche interaktive Diagramme anzuzeigen und bearbeiten. \cite{cytoscape_intro}
 
 Cytoscape wird in dieser Arbeit zur Visualisiserung des Mesh-Netzwerks verwendet.
 
-Die Distrubtion dieser Library verlauft über die Website von \textit{Node Packager Manager (NPM)}, welcher der zentrale Ort für alle veröffentlichten Nodejs packages ist.
+Die Distribution dieser Library verläuft über die Website von \textit{Node Packager Manager (NPM)} \cite{npm}, welcher der zentrale Ort für alle veröffentlichten Javascript packages ist.
 
 Für die Visualisierung des Mesh-Netzwerks existieren mehrere Möglichkeiten.
 
@@ -436,11 +450,9 @@ Für die Entwicklung der Website kamen folgende Algorithmen in Frage:
     \item Spread (Kapitel \ref{sec:cytoscape-spread})
 \end{itemize}
 
-Die Entscheidung fiel letztendlich auf Dagre.
-
 Letztendlich wurde auf den Dagre Algorithmus zurückgegriffen.
 
-Weitere Informationen über wie jeder Algorithmus funktioniert und warum \textit{Dagre} gewählt wurde, sind in den jeweiligen Kapiteln zu finden.
+Weitere Informationen daüber wie jeder Algorithmus funktioniert und warum \textit{Dagre} gewählt wurde, sind in den jeweiligen Kapiteln zu finden.
 
 \subsubsection{Dagre}\label{sec:cytoscape-dagre}
 
@@ -455,7 +467,7 @@ Weitere Informationen über wie jeder Algorithmus funktioniert und warum \textit
 Dagre ist ein Algorithmus zur Ordnung von Knoten in einem Diagramm. Das resultierende Diagramm ist ein baumförmiges Netzwerk.
 Ein Beispiel zu diesem Diagramm ist in Abbildung \ref{abb:cytoscape-dagre_example} dargestellt.
 
-Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Algorithmus der Kandidaten ist. Ein Mesh-Netzwerk ist baumförmig Aufgebaut, deswegen ist es auch wichtig, dass die Knoten in einer baumförmigen Art dargestellt werden.
+Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Algorithmus der Kandidaten ist. Ein Mesh-Netzwerk ist baumförmig aufgebaut, deswegen ist es auch wichtig, dass die Knoten in einer baumförmigen Art dargestellt werden.
 
 \subsubsection{Euler}\label{sec:cytoscape-euler}
 
@@ -468,7 +480,7 @@ Der Mesh Visualizer benutzt diesen Algorithmus, da er der einzige baumartige Alg
 \end{figure}
 
 Euler ist ein Algorithmus, welcher ein physikbasiertes Diagramm erstellt.
-Dieser Algorithmus ist leider nicht geignet für die Visualisierung des Mesh-Netzwerks, da der Status quo einen Memory Leak hat und ein Warten auf die Behebung dieses Problems nicht realistisch war.
+Dieser Algorithmus war leider nicht für die Visualisierung des Mesh-Netzwerks geignet, da der Status quo einen Memory Leak hatte und ein Warten auf die Behebung dieses Problems nicht realistisch war.
 
 \subsubsection{Spread}\label{sec:cytoscape-spread}
 
@@ -480,14 +492,14 @@ Dieser Algorithmus ist leider nicht geignet für die Visualisierung des Mesh-Net
     \end{center}    
 \end{figure}
 
-Der Spread Algorithmus ist wie Euler (Kapitel \ref{sec:cytoscape-euler}) physikbasiert. Dazu kommt auch noch, dass dieser versucht die Knoten so weit wie möglich auseinander zu halten. Letztendlich wurde aus visuellen Gründen dieser Kandidat nicht gewählt.
+Der Spread Algorithmus ist wie Euler (Kapitel \ref{sec:cytoscape-euler}) physikbasiert. Dazu kommt auch noch, dass dieser versucht, die Knoten so weit wie möglich auseinander zu halten. Letztendlich wurde aus visuellen Gründen dieser Kandidat nicht gewählt.
 
 \section{Libraries}\label{sec:libraries}
 
 \subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
 
 \subsubsection{freertos}\label{sec:esp-idf-libraries-freertos}
-Diese Library ist notwendig um, auf einem ESP, Code parallel laufe lassen zu können.
+Diese Library ist notwendig, um auf einem ESP Code parallel laufen lassen zu können.
 
 Mit folgender Funktion wird ein Task angelegt:
 \begin{verbatim}
@@ -500,33 +512,34 @@ Mit folgender Funktion wird ein Task angelegt:
             TaskHandle_t * const pvCreatedTask)
 \end{verbatim}
 
-Wie zu sehen werden der Funktion folgende Parameter übergeben:
+Wie zu sehen ist, werden der Funktion folgende Parameter übergeben:
 \begin{itemize}
     \item \textbf{pvTaskCode}
 
-    Hier wird der Zeiger der Funktion eingetragen, die im Task laufen soll. Damit die Funktion nie einen Retrunwert liefert muss dieser Parameter implementiert sein.
+    Hier wird die Addresse der Funktion eingetragen, welche im Task laufen soll. 
+    
     \item \textbf{pcName}
     
-    Dieser Parameter ist der beschreibende Name des Tasks. Er wird verwendet um debugging zu erleichtern
+    Dieser Parameter ist der beschreibende Name des Tasks. Er wird verwendet, um debugging zu erleichtern.
 
     \item \textbf{usStackDepth}
     
-    Diese Variable deffiniert die Größe des Task-Stacks. Die Zahl, die hier übergeben wird entspricht der Anzahl der Variablen, die der Task zugleich halten kann, nicht die Anzahl der Bytes.
+    Diese Variable definiert die Größe des Task-Stacks. Die Zahl, die hier übergeben wird, entspricht der Anzahl der Variablen, die der Task zugleich halten kann, nicht der Anzahl der Bytes.
     \item \textbf{pvParameters}
     
-    Dies ist der Pointer einer Variable, die an den Task übergeben wird.
+    Dies ist der Pointer einer Variablen, die an den Task übergeben wird.
     \item  \textbf{uxPriority}
     
     \textbf{uxPriority} stellt die Priorität des Tasks dar. Systeme mit MPU-Unterstützung können optional Tasks in einem privilegierten (System-) Modus erstellen, indem das Bit \textit{portPRIVILEGE\_BIT} des Prioritätsparameters gesetzt wird.
     \item \textbf{pvCreatedTask}
     
-    \textbf{pvCreatedTask} wird verwendet, um ein \textit{handle} zurückzugeben, mit dem auf den erstellten Task verwiesen werden kann. Um den Task beispielsweise zu löschen.
+    \textbf{pvCreatedTask} wird verwendet, um ein \textit{handle} zurückzugeben, mit dem auf den erstellten Task verwiesen werden kann, um den Task beispielsweise zu löschen.
 \end{itemize}
 \cite{xTaskCreate_definition}
 
 \subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
 
-In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert. Wie in der folgenden Abbildung zu sehen ist.
+In der \textbf{Dht22} Library sind insgesamt sechs öffentliche Funktionen definiert, wie in der folgenden Abbildung zu sehen ist:
 
 \begin{figure}[H]
     \begin{center}
@@ -541,25 +554,25 @@ In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert
 
     Dieser Funktion wird der Index des ESP Pins, mit dem data Pin verbunden ist mitgegeben. Dieser Index wird anschließend intern vermerkt, damit der ESP weiß auf welchem Pin er die Sensordaten des DHT22 erhalten wird.
     
-    Diese Funktion sollte aufgerufen werden bevor mit dem DHT22 versucht wird Daten zu messen, da dies sonst fehlschlagen wird.
+    Diese Funktion sollte aufgerufen werden, bevor mit dem DHT22 versucht wird, Daten zu messen, da dies sonst fehlschlagen wird.
     \item \textbf{int dht22\_read()}:
 
-    Um diese Funktion aufzurufen ist kein Parameter notwendig.
+    Um diese Funktion aufzurufen, ist kein Parameter notwendig.
 
-    Sie dient dazu die Luftfeuchtigkeit und Tempereatur zu messen und schreibt diese in interne Variablen auf die Benutzer keinen Zugriff haben.
+    Sie dient dazu, die Luftfeuchtigkeit und Tempereatur zu messen und schreibt diese in interne Variablen, auf die Benutzer keinen Zugriff haben.
 
     Der Rückgabewert der \textbf{dht22\_read} Funktion ist ein Fehlercode. Dieser Fehlercode gibt Auskunft über den Verlauf der Funktion.
     \item \textbf{void dht22\_handle\_error(int response)}:
 
     Als Parameter nimmt die \textbf{dht22\_handle\_error} Funktion Fehlercodes entgegen.
 
-    Das Ziel dieser Funktion ist es den Fehlercode zu umschreiben und auf die Console zu loggen.
+    Das Ziel dieser Funktion ist es, den Fehlercode zu umschreiben und auf die Console zu loggen.
     \item \textbf{float dht22\_get\_humidity()}:
 
-    Diese Funktion gibt, den Wert, der internen Luftfeuchtigkeits Variable, in welche \textbf{dht22\_read()} die Luftfeuchtigkeits Daten des Sensors schreibt, in der Gleitkommadarstellung zurück.
+    Diese Funktion gibt den Wert der internen Luftfeuchtigkeits-Variablen, in welche \textbf{dht22\_read()} die Luftfeuchtigkeits-Daten des Sensors schreibt, in Gleitkommadarstellung zurück.
     \item \textbf{float dht22\_get\_temperature()}:
 
-    Diese Funktion gibt, den Wert, der internen Temperatur Variable, in welche \textbf{dht22\_read()} die Temperatur Daten des Sensors schreibt, in der Gleitkommadarstellung zurück.
+    Diese Funktion gibt den Wert der internen Temperatur Variablen, in welche \linebreak \textbf{dht22\_read()} die Temperatur-Daten des Sensors schreibt, in Gleitkommadarstellung zurück.
 \end{itemize}
 \cite{dht22-lib}
 
@@ -567,7 +580,7 @@ In der \textbf{Dht22} Library sind insgesamt 6 öffentliche Funktionen definiert
 
 Im Laufe dieser Arbeit sind mehrere wiederverwendbare Libraries entstanden.
 
-Das Application Programming Interface (API) dieser Libraries und wie man sie benutzt wird in diesem Kapitel erklärt.
+Das Application Programming Interface (API) dieser Libraries und wie man diese benutzt wird in diesem Kapitel erklärt.
 
 \subsubsection{MQTT}\label{sec:own-libraries-mqtt}
 
@@ -600,9 +613,9 @@ In der obigen Abbildung (\ref{abb:mqtt_msg_t}) ist die selbe Struktur im Source 
 
 Hier ist zu sehen, dass die Längen der jeweiligen Buffers mithilfe einer \textit{preprocessor directive} definiert wurden. 
 
-Eine \textit{preprocessor directive} ist, in der Programmiersprache C, ein Weg wie man Makros definieren kann. 
+Eine \textit{preprocessor directive} ist in der Programmiersprache C ein Weg, wie man Makros definieren kann. 
 
-Makrodefinitionen sind keine Variablen und können nicht wie Variablen von Ihrem Programmcode geändert werden. Im Allgemeinen wird diese Syntax verwendet, wenn Konstanten erstellt werden sollen, die Zahlen, Zeichenfolgen oder Ausdrücke darstellen.
+Makrodefinitionen sind keine Variablen und können nicht wie Variablen von ihrem Programmcode geändert werden. Im Allgemeinen wird diese Syntax verwendet, wenn Konstanten erstellt werden sollen, die Zahlen, Zeichenfolgen oder Ausdrücke darstellen.
 
 Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche in der nachstehenden Abbildung (\ref{abb:mqtt_functions}) zu sehen sind.
 
@@ -623,11 +636,9 @@ Diese Library stellt insgesamt 2 öffentliche Funktionen zur Verfügung, welche 
 
     \item \textbf{void mqtt\_start()}:
     
-    Nachdem Aufrufen dieser Funktion wird versucht eine Verbindung mit dem definierten MQTT Broker herzustellen.
+    Nach dem Aufrufen dieser Funktion wird versucht, eine Verbindung mit dem definierten MQTT Broker herzustellen.
 
 \end{itemize}
-
-Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun.
 
 \subsubsection{Hypertext Transfer Protocol (HTTP)}\label{sec:own-libraries-http}
 
@@ -639,7 +650,7 @@ Die Namen der Funktionen sich an sich schon ausreichend um zu wissen was sie tun
     \end{center}    
 \end{figure}
 
-Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche in  Abbildung \ref{abb:http_functions} zu sehen sind.
+Die HTTP Library definiert und implementiert drei verschiedene Funktionen, welche in  Abbildung \ref{abb:http_functions} zu sehen sind.
 
 \begin{itemize}
     \item \textbf{esp\_err\_t http\_request(esp\_http\_client\_method\_t method, const char* url)}:
@@ -678,11 +689,11 @@ Die HTTP Library definiert und implementiert 3 verschiedene Funktionen, welche i
 
     \item \textbf{char* http\_get\_response\_body()}:
     
-    Diese Funktion gibt die Addresse des Body von dem letzten HTTP Request zurück.
+    Diese Funktion gibt die Addresse des Body des letzten HTTP Request zurück.
 
     \item \textbf{int http\_get\_response\_body\_size()}:
     
-    Diese Funktion gibt die Länge des Body von dem letzten HTTP Request zurück.
+    Diese Funktion gibt die Länge des Body des letzten HTTP Request zurück.
 \end{itemize}
 
 \subsubsection{Mesh}\label{sec:own-libraries-mesh}
@@ -704,7 +715,7 @@ Es werden folgende Metadaten gespeichert:
 \begin{itemize}
     \item wenn \textbf{is\_broadcasted} gesetzt ist, dann verteilt ein Knoten den neuen Command an alle Unter-Knoten. 
     \item ist \textbf{send\_to\_self} gesetzt, wird der versendete Command auch an sich selber verschickt.
-    \item das \textbf{from} Feld gibt an, von welchem Knoten dieser Command entstanden ist.
+    \item das \textbf{from} Feld gibt an, welcher Knoten diesen Command konstruiert ist.
 \end{itemize}
 
 Es werden die Funktion, welche in folgender Abbildung (\ref{abb:mesh_functions}) zu sehen sind, zur Verfügung gestellt.
@@ -717,18 +728,18 @@ Es werden die Funktion, welche in folgender Abbildung (\ref{abb:mesh_functions})
     \end{center}
 \end{figure}
 
-In der obigen Abbildung sind verschiedene Funktionstypen definiert, welche das jeweilige Interface eines Callbacks definiert.
+In der obigen Abbildung sind verschiedene Funktionstypen dargestellt, welche das jeweilige Interface eines Callbacks beschreiben.
 
 Es werden folgende Typen definiert:
 
 \begin{itemize}
     \item \textbf{void mesh\_cmd\_cb(mesh\_cmd\_t* cmd)}:
 
-    Dieser Callback wird aufgerufen wenn der Knoten, auf dem dieses Programm läuft, einen neuen Command erhält. Ihm wird die Address dieses Commands übergeben.
+    Dieser Callback wird aufgerufen, wenn der Knoten, auf dem dieses Programm läuft, einen neuen Command erhält. Ihm wird die Address dieses Commands übergeben.
 
     \item \textbf{void mesh\_connected\_cb(bool is\_root)}:
     
-    Wenn sicher der Knoten, auf welchem dieses Programm läuft, mit dem Mesh-Netzwerk verbindet, wird diese Funktion aufgerufen. Sie bekommt als Argument mit, ob dieser Knoten der Root Knoten ist.
+    Wenn sich der Knoten, auf welchem dieses Programm läuft, mit dem Mesh-Netzwerk verbindet, wird diese Funktion aufgerufen. Sie bekommt als Argument mit, ob dieser Knoten der Root Knoten ist.
 \end{itemize}
 
 \begin{itemize}
@@ -738,23 +749,23 @@ Es werden folgende Typen definiert:
 
     \item \textbf{void mesh\_queue\_cmd(mesh\_cmd\_t *cmd)}:
 
-    Die \textit{mesh\_queue\_cmd} Funktion nimmt die Adresse eines Mesh Commands als einiziges Argument, welcher an die Warteschlange angehängt wird. 
+    Die \textit{mesh\_queue\_cmd} Funktion nimmt die Adresse eines Mesh Commands als einiziges Argument an, welches an die Warteschlange angehängt wird. 
 
     \item \textbf{void mesh\_on\_cmd(mesh\_cmd\_cb)}:
     
     Mithilfe dieser Funktion kann die Funktion geändert werden, welche aufgerufen wird, wenn dieser Knoten einen neuen Command erhält.
 
-    Sie bekommt eine Funktion vom Typen \textit{mesh\_cmd\_cb}, welcher am Anfang von diesem Kapitel beschrieben wurde, als Argument.
+    Sie bekommt eine Funktion vom Typen \textit{mesh\_cmd\_cb}, welche am Anfang dieses Kapitels beschrieben wurde, als Argument.
 
     \item \textbf{void mesh\_on\_connected(mesh\_connected\_cb)}:
     
-    Diese Funktion setzt die globale Referenz auf eine Funktion, welche aufgerufen wird wenn dieser Knoten sich mit einen Mesh-Netzwerk verbindet.
+    Diese Funktion setzt die globale Referenz auf eine Funktion, welche aufgerufen wird, wenn dieser Knoten sich mit einen Mesh-Netzwerk verbindet.
     
-    Sie bekommt eine Funktion vom Typen \textit{mesh\_connected\_cb}, welcher am Anfang von diesem Kapitel beschrieben wurde, als Argument.
+    Sie bekommt eine Funktion vom Typen \textit{mesh\_connected\_cb}, welche am Anfang dieses Kapitels beschrieben wurde, als Argument.
 
     \item \textbf{void mesh\_set\_cmd\_payload(mesh\_cmd\_t *cmd, uint8\_t *payload)}:
     
-    Dies ist eine Hilfsfunktion, welche den inhalt des Payload Buffers des übergebenen Commands auf den übergebenen Payload setzt.
+    Dies ist eine Hilfsfunktion, welche den Inhalt des Payload Buffers des übergebenen Commands auf den übergebenen Payload setzt.
 
     \item \textbf{void mesh\_init()}:
     
@@ -777,8 +788,8 @@ Es werden folgende Typen definiert:
 In diesem kleinen Beispiel gibt es insgesamt 2 Mikrocontroller. 
 
 \begin{itemize}
-    \item Ein \textbf{Mikrocontroller} welcher mit einem DHT22 verbunden ist und regelmäßig die Sensordaten weiterschickt.
-    \item Ein \textbf{Root Mikrocontroller} der nur für das weiterleiten der Nachrichten zuständig ist.
+    \item Ein \textbf{Mikrocontroller}, welcher mit einem DHT22 verbunden ist und regelmäßig die Sensordaten weiterschickt.
+    \item Ein \textbf{Root Mikrocontroller}, welcher für das Weiterleiten der Nachrichten zuständig ist und mit einem MQTT-Broker (\textbf{Mosquitto}) verbunden ist.
 \end{itemize}
 
 Der Root Mikrocontroller ist mit einem MQTT Broker (\textbf{Mosquitto}) verbunden.
@@ -796,21 +807,21 @@ Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} 
 \vspace*{50px}
 
 Die Abbildung \ref{abb:dht22_sequence_diagram} zeigt den Verlauf einer Iteration dieses Beispieles.
-Der \textbf{dhtmc} (Der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) ließt die aktuellen Werte des DHT22, welche er dann in dem Mesh-Netzwerk mittels einem MQTT Command (\ref{sec:own-libraries-mqtt}) verschickt.
+Der \textbf{dhtmc} (der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) liest die aktuellen Werte des DHT22, welche er dann im Mesh-Netzwerk mittels einem MQTT Command (\ref{sec:own-libraries-mqtt}) verschickt.
 
-Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt schickt er die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
+Wenn der \textbf{Root Mikrocontroller} diesen neuen MQTT Command bekommt, schickt dieser die MQTT Nachricht an den angegebenen \textbf{MQTT Server} weiter.
 
-Es wird davon ausgegangen, dass eine Installation von Nodejs mit einer Version von mindestens \textit{10} vorhanden ist.
+\subsection{Nodejs Setup}
 
-Die Installation wird in Kapitel \ref{sec:nodejs} beschrieben.
+% TODO: Wie installiert man Node js
 
 \subsection{ESP-IDF Setup}
 
-Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem vorraus. Es wird nicht garantiert, dass dies unter Alternativen wie zum Beispiel dem \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktioniert. 
+Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem voraus. Es wird nicht garantiert, dass dies unter Alternativen wie zum Beispiel dem \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktioniert. 
 
 \subsubsection{Dependencies}
 
-Zu aller erst müssen die Dependencies von ESP-IDF installiert werden. Dafür gibt es den folgenden shell command.
+Zuallererst müssen die Dependencies von ESP-IDF installiert werden. Dafür gibt es den folgenden shell command.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -831,8 +842,8 @@ Damit man die ESP-IDF Libraries benutzen kann, muss man diese zuerst herunterlad
 \end{verbatim}
 \vspace*{10px}
 
-Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis des aktuell eingeloggten Benutzer und wechselt in diesen. 
-Anschließend wird das offizielle Repository von ESP-IDF rekursiv gecloned.
+Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis des aktuell eingeloggten Benutzers und wechselt in diesen. 
+Anschließend wird das offizielle Repository von ESP-IDF heruntergeladen.
 
 Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries installieren. Dies erfolgt durch folgende Bash Befehle.
 
