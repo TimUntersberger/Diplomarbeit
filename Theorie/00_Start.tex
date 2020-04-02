@@ -39,14 +39,15 @@ Leonding, \duedateen \\[5em]
 
 	Die Verwendung eines Mesh-Netzwerkes ermöglicht die einfache einbindung von zusätzlichen Sensoren und Aktoren, außerdem wird das Schulnetzwerk nicht beansprucht. 
 
-	Im Rahmen dieser Arbeit wurde zunächst die Mesh-Infrastruktur erstellt (hardwarmäßige Konfiguration und softwaremäßiges Einbinden von Nodes in das Mesh-Netzwerk), weiters wurde als fachliche Anwendung ein IoT-Netzwerk implementiert, welches die Kommunikation zwischen den einzelnen Komponenten mittels eines Message Brokes ermöglicht. Die Visualisierung, als dritte Komponente, kann den aktuellen Zustand des IoT-Netzwerkes dargestellen. Dabei werden folgende Fragen beantwortet: Welche Komponenten (Nodes) sind online, welche Messages (zB Temperaturwerte) werden übermittelt, usw.
+	Im Rahmen dieser Arbeit wurde zunächst die Mesh-Infrastruktur erstellt (hardwarmäßige Konfiguration und softwaremäßiges Einbinden von Nodes in das Mesh-Netzwerk), weiters wurde als fachliche Anwendung ein IoT-Netzwerk implementiert, welches die Kommunikation zwischen den einzelnen Komponenten mittels eines Message Brokers ermöglicht. Die Visualisierung, als dritte Komponente, kann den aktuellen Zustand des IoT-Netzwerkes dargestellen. Dabei werden folgende Fragen beantwortet: Welche Komponenten (Nodes) sind online, welche Messages (zB Temperaturwerte) werden übermittelt, usw.
 
 	Zusätzlich wurde für die ESP32-Nodes ein Over-The-Air - Update (OTA) implementiert.
 
+	%TODO Bild ändern
 	\begin{figure}[H]
         \begin{center}
-            \includegraphics[scale=0.31]{images/meshnetwork-esp32.png}
-            \caption{Mikrocontroller in einem Meshnetzwerk (Quelle: eigene Darstellung)}
+            \includegraphics[scale=0.31]{images/structure.png}
+            \caption{Struktur (Quelle: eigene Darstellung)}
         \end{center}
     \end{figure}
 \end{abstract}
@@ -59,10 +60,13 @@ Leonding, \duedateen \\[5em]
 	A mesh network should therefore make it possible to connect the sensors and actuators distributed throughout the HTL-Leonding building.
 
 	The use of a mesh network enables simple integration of additional sensors and actuators, and the school network is not used.
+
+	As part of this work, the mesh infrastructure was initially created (hardware configuration and software integration of nodes into the mesh network), and an IoT network was implemented as an application, which enables communication between the individual components using a message broker. The visualization, as a third component, can represent the current state of the IoT network and answer following questions : Which components (nodes) are online, which messages (e.g. temperature values) are transmitted, etc.
+
 	\begin{figure}[H]
         \begin{center}
-            \includegraphics[scale=0.31]{images/meshnetwork-esp32.png}
-            \caption{microcontroller in a meshnetwork (source: own source)}
+            \includegraphics[scale=0.31]{images/structure.png}
+            \caption{Structure (source: own source)}
         \end{center}
     \end{figure}
 \end{abstract}
