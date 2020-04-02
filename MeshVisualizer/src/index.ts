@@ -63,9 +63,6 @@ function unhighlightPath(from: String, to: String) {
   }
 }
 
-// setTimeout(() => highlightPath("d", "a"), 1000);
-// setTimeout(() => unhighlightPath("d", "a"), 3000);
-
 function onNodeAdd(nodeInfo: any) {
   const parentNode = cy.getElementById(nodeInfo.parent);
 
@@ -133,6 +130,9 @@ function createMqttClient(url: string) {
 
     if (topic === "/node/add") onNodeAdd(payload);
     else if (topic === "/node/remove") onNodeRemove(payload);
+    else {
+      console.log(payload);
+    }
   });
 
   return mqttClient;
