@@ -227,7 +227,7 @@ angegeben werden.
     \end{itemize}
 \end{itemize}
 
-\subsection{Offset}
+\subsubsection{Offset}
 Partitionen mit leeren Offsets beginnen automatisch nach der vorherigen Partition. 
 
 App-Partitionen müssen an Offsets sein, die auf 0x10000 (64 KB) ausgerichtet sind.
@@ -243,7 +243,7 @@ Derzeit wird nur ein Flag unterstützt: encrypted. Wenn dieses Feld auf encrypte
 
 Partitionen vom App-Typ werden immer verschlüsselt unabhängig, ob die Flag gesetzt ist oder nicht.\cite{espressif_partition_tables}
 
-\subsubsection{OTA Partition Tables}
+\subsection{OTA Partition Table}
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=0.7]{diagrams/ota_partition_table.png}
@@ -1388,7 +1388,7 @@ Die Dateierweiterung .bin wird am häufigsten mit komprimierten Binärdateien ve
 
 In einigen Fällen werden die BIN-Dateien im einfachen Binärformat gespeichert und können mit einem Texteditor geöffnet werden. Es gibt jedoch einige BIN-Dateien, die von bestimmten Computeranwendungen erstellt werden und mit der Software geöffnet werden müssen, mit der sie erstellt wurden, oder mit einer kompatiblen Softwareanwendung.\cite{file.org_bin}
 
-\subsection{Hintergrund}
+\subsubsection{Hintergrund}
 Grundsätzlich sind Binärdateien als solche daran erkennbar, dass der Dateiinhalt, mit einem üblichen Texteditor angezeigt, keine oder überwiegend keine lesbaren Zeichen enthält. Der Versuch, eine Binärdatei als Textdatei zu interpretieren (beispielsweise durch Öffnen mit einem Texteditor), ergibt dann unleserlichen bzw. unsinnigen Text. Für die meisten der heute verwendeten 8-Bit-Zeichensätze gilt: nicht lesbare Steuerzeichen umfassen Zeichen mit ASCII-Werten von 0 bis 31, lesbare Zeichen die mit Werten von 32 bis 126. Die Lesbarkeit von Zeichen mit Werten ab 127 ist abhängig vom verwendeten Zeichensatz. Textdateien können auch gewisse Steuerzeichen enthalten, ohne dass sie deshalb als Binärdatei gelten; dazu gehören Steuerzeichen für Zeilenvorschub, Wagenrücklauf, Seitenumbruch (Seitenvorschub) und Tabulatorzeichen.
 
 Weil Binärdateien alle möglichen Bit-Kombinationen nutzen, bieten sie eine höhere Informationsdichte als Textdateien. Deshalb benötigen sie meist weniger Speicherplatz auf Massenspeichern und lassen sich schneller laden und speichern. Ferner lassen sich darin verschiedene Objekttypen (beispielsweise Text mit Bildern) relativ einfach ablegen.
@@ -1406,7 +1406,7 @@ ELF ist die Abkürzung für Executable and Linkable Format und definiert die Str
 Ein häufiges Missverständnis ist, dass ELF-Dateien nur für Binärdateien oder ausführbare Dateien bestimmt sind. Es ist jedoch möglich, sie für Teilstücke (Objektcode) verwendet zu können. Ein weiteres Beispiel sind gemeinsam genutzte Bibliotheken oder sogar Core-Dumps (Core- oder a.out-Dateien). Die ELF-Spezifikation wird auch unter Linux für den Kernel selbst und die Linux-Kernelmodule verwendet.
 
 
-\subsection{Struktur}
+\subsubsection{Struktur}
 Aufgrund des erweiterbaren Designs von ELF-Dateien unterscheidet sich die Struktur je nach Datei. Eine ELF-Datei besteht aus:
 
 \begin{itemize} 

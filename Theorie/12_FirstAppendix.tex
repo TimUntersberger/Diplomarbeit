@@ -1,11 +1,209 @@
-\chapter{Additional Information} \label{cha:additional-information}
-If needed the appendix is the place where additional information concerning your thesis goes. Examples could be:
+\chapter{Arbeitsaufteilung}
+
+\section*{Tim Untersberger}
+
 \begin{itemize}
-	\item Source Code
-	\item Test Protocols
-	\item Project Proposal
-	\item Project Plan
-	\item Individual Goals
-	\item \ldots
+	\item Zusammenfassung
+	\item Autoren der Diplomarbeit
+	\begin{itemize}
+		\item Tim Untersberger
+	\end{itemize}
+	\item Danksagung
+	\item Verwendete Technologien
+	\begin{itemize}
+		\item Message Queuing Telemetry Transport (MQTT)
+		\begin{itemize}
+			\item QoS
+		\end{itemize}
+		\item Docker
+		\begin{itemize}
+			\item Docker vs. Virtuelle Maschinen
+			\item Begriffe
+		\end{itemize}
+		\item Docker Compose
+		\begin{itemize}
+			\item Docker Compose Beispiel
+			\begin{itemize}
+				\item Postgres
+				\item PgAdmin4
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	\item Ausgewählte Aspekte
+	\begin{itemize}
+		\item Mesh Visualizer
+		\begin{itemize}
+			\item Cytoscape
+			\begin{itemize}
+				\item Dagre
+				\item Euler
+				\item Spread
+			\end{itemize}
+		\end{itemize} 
+		\item Libraries
+		\begin{itemize}
+			\item Eigene Libraries
+			\begin{itemize}
+				\item MQTT
+				\item Hypertext Transfer Protocol (HTTP)
+				\item Mesh
+			\end{itemize}
+		\end{itemize}
+		\item Erläuterung der Verwendung des Mesh-Netzwerkes
+		\begin{itemize}
+			\item Übersicht
+			\item Nodejs Setup
+			\item ESP-IDF Setup
+			\begin{itemize}
+				\item Dependencies
+				\item Libraries
+				\item Umgebungsvariablen
+				\item WSL
+			\end{itemize}
+			\item Source Code
+			\item Mosquitto
+			\item Mesh Visualizer
+			\item Partition Table
+			\item Config
+			\begin{itemize}
+				\item Example Configuration
+				\item Serial flasher config
+				\item Partition Table
+			\end{itemize}
+			\item Flashen
+			\item Ergebnis
+			\begin{itemize}
+				\item Mesh Visualizer
+				\item Mqtt Fx
+			\end{itemize}
+			\item Code
+			\begin{itemize}
+				\item Struktur
+				\item Setup
+				\item Wifi Setup
+				\item IP Event Handler
+				\item Command Callback
+				\item DHT22 Task
+			\end{itemize} 
+		\end{itemize} 
+	\end{itemize}
+	\item Resümee
+	\begin{itemize}
+		\item Tim Untersberger
+	\end{itemize}
 \end{itemize}
-Again this has to be aligned with the supervisor.
+
+\section*{Stefan Waldl}
+
+\begin{itemize}
+	\item Zusammenfassung
+	\item Autoren der Diplomarbeit
+	\begin{itemize}
+		\item Stefan Waldl
+	\end{itemize}
+	\item Danksagung
+	\item Ausgangssituation und Zielsetzung
+	\begin{itemize}
+		\item Ausgangssituation
+		\item Beschreibung des Problembereichs
+		\item Aufgabenstellung
+		\item Zielbestimmung
+	\end{itemize}
+	\item Verwendete Technologien
+	\item ESP-IDF Toolchain
+	\begin{itemize}
+		\item KConfig.projbuild
+		\item Kompilieren
+		\item Flashen
+		\begin{itemize}
+			\item IDF Monitor
+		\end{itemize}
+		\item Platform IO
+		\item Utility lib Köck
+	\end{itemize}
+	\item Ausgewählte Aspekte
+	\begin{itemize}
+		\item Verwendete Hardware
+		\begin{itemize}
+			\item DHT22
+			\begin{itemize}
+				\item OTP Memory
+			\end{itemize}
+			\item NodeMCU ESP32
+			\begin{itemize}
+				\item ESP-WROOM-32
+			\end{itemize}
+		\end{itemize}
+		\item Over The Air Update (OTA)
+		\begin{itemize}
+			\item Problemstellung
+			\item Wie OTA funktioniert
+			\begin{itemize}
+				\item Übersicht
+			\end{itemize}
+			\item Partition Table
+			\begin{itemize}
+				\item Übersicht
+				\item Custom Partition Tables
+				\item Name Feld
+				\item Type Feld
+				\item SubType
+				\item Flags
+			\end{itemize}
+			\item OTA Partition Table
+			\item ESP-MESH
+			\begin{itemize}
+				\item Wi-Fi vs Mesh
+			\end{itemize}
+		\end{itemize}
+		\item Libraries
+		\begin{itemize}
+			\item ESP-IDF Libraries
+			\begin{itemize}
+				\item freertos
+				\item Dht22
+			\end{itemize}
+		\end{itemize}
+		\item Erläuterung der Verwendung des Mesh-Netzwerkes
+		\begin{itemize}
+			\item Hardware
+			\begin{itemize}
+				\item DHT22 mit ESP32 verbinden
+				\item ESP32 mit Computer verbinden
+			\end{itemize} 
+		\end{itemize}
+		\item ELF vs. Bin
+		\begin{itemize}
+			\item Bin
+			\begin{itemize}
+				\item Hintergrund
+			\end{itemize}
+			\item ELF
+			\begin{itemize}
+				\item Struktur
+			\end{itemize}
+			\item ELF-Header
+			\begin{itemize}
+				\item Class
+				\item Data
+				\item Version
+				\item OS / ABI
+				\item ABI-Version
+				\item Machine
+				\item Type
+			\end{itemize}
+			\item File Data
+			\begin{itemize}
+				\item Programm-Header
+				\item GNUEHFRAME
+				\item GNUSTACK
+			\end{itemize}
+			\item Static vs. Dynamic binaries
+			\item Fazit
+		\end{itemize}
+	\end{itemize}
+	\item Resümee
+	\begin{itemize}
+		\item Stefan Waldl
+	\end{itemize}
+\end{itemize}
