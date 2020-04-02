@@ -65,7 +65,15 @@ In der nachstehenden Aufzählung werden die drei verschiedenen Arten von QoS nä
 \section{ESP-IDF Toolchain}\label{sec:esp-idf-toolchain}
 %TODO: Erklären was ESP-IDF bedeutet und allgemeines dazu
 
-Um die Toolchain verwenden zu können, muss man sich in einem ESP-IDF Projektverzeichnis befinden. Hier ist es möglich, mit folgendem Befehl den ESP zu konfigurieren:
+Das Espressif IoT-Development-Framework (ESP-IDF) ist das offizielle Framework für die ESP32 Chips. \cite{esp-idf-github}
+
+Für die Entwicklung von Programmen für den ESP32 wurde eine eigene Toolchain namens ESP-IDF entwickelt.
+
+Die Verwendung dieser Toolchain funktioniert nur in einem ESP-IDF konformen Projekt.
+
+Ein Hello-World Template für ein ESP-IDF Projekt befindet sich im offiziellen Repository von ESP-IDF \cite{esp-idf-github-template}.
+
+Hier ist es möglich, mit folgendem Befehl den ESP zu konfigurieren:
 
 \begin{verbatim}
     idf.py menuconfig
