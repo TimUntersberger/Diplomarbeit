@@ -19,21 +19,20 @@ Die oben gennannten Symptome sind in einer Umgebung wie der Schule unbedingt zu 
 Um zusätzlich eine Regelung der Heizung vornehmen zu können sind weitere Informationen der einzelnen Klassenräume, wie die Temperatur, notwendig. Weiters wird es rund um die Uhr ermöglicht,  geöffnete Fenster zu lokalisieren und mit dieser Information Schäden an der Schule zu verhindern.
 
 \section{Aufgabenstellung}
-Um Sensoren in der Schlule platzieren zu können, ist es erforderlich, zuerst eine Mesh-Infrastruktur für die Auswertung der Sensoren zu gestalten.
+Um Sensoren in der Schule platzieren zu können, ist es erforderlich, zuerst eine Mesh-Infrastruktur für die Auswertung der Sensoren zu gestalten.
 
 Eine Einbindung eines MQTT-Netzwerkes, welches direkt auf dem Mesh-Netzwerk aufsitzt ist ebenso notwendig. Dieses Mesh-Netzwerk ermöglicht den verschiedenen Knoten, welche mit den Sensoren und Aktoren verbunden sind, untereinander zu komunizieren und Informationen auszutauschen.
 
 Um den Überblick über solch ein Netzwerk nicht zu verlieren ist es ebenso wünschenswert eine Visualisierungs-Komponente zu gestallten, welche es ermöglicht den aktuellen Zustandes des Mesh-Netzwerkes zu inspizieren und den Benutzer nachvollziehen lässt wann Nachrichten versendet werden.
 
-%todo
-drei Ebenen
-nodes senden Nachrichten
-ota
-systemarchitektur
-dann einzelne Komponente
+Zusätzlich dazu soll ein System entwickelt werden welches es ESPs ermöglicht OTA Updates durchzuführen.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.7]{diagrams/deployment.png}
+    \caption{Systemarchitektur (Quelle: Eigene Darstellung)}
+    \label{abb:deployment}
+\end{figure}
 
 \section{Zielbestimmung}
-Unterricht findet in einer Lernumgebung statt
-Schüler lernen
-
-Die Knoten eines Mesh-Netzwerks können gegenseitig Nachrichten versenden und reagieren automatisch auf ausfallende Knoten.
+Das Ziel dieses System ist es, den Schülern eine stress- und sorgenfreie Lernumgebung zu ermöglichen.

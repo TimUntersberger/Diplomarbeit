@@ -1,0 +1,16 @@
+@startuml
+node "Host Machine" as droplet {
+	rectangle "Mosquitto" as mqtt
+	rectangle "Mesh Visualizer" as visual
+}
+cloud "Mesh Netzwerk" {
+	node "Root Mikrocontroller" as root
+	node "Mikrocontroller" as node {
+		node "DHT22" as dht
+	}
+}
+
+node -- root : TCP
+root -- mqtt : MQTT
+visual -- mqtt : MQTT
+@enduml
