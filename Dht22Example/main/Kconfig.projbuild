@@ -77,4 +77,3 @@ menu "Example Configuration"
         help
             Mqtt broker url.
 endmenu
-
