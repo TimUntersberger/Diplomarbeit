@@ -33,15 +33,16 @@ Leonding, \duedateen \\[5em]
 \ifthenelse{\isundefined{\fourthauthor}}{}{\kern-1ex, \fourthauthor} \\[5em]
 
 \begin{abstract}
-	Die Konzentration der Schüler während des Unterrichts ist wichtig. Doch sehr oft kommt es vor, dass in einem Klassenraum Sauerstoffmangel herrscht. Deswegen wurde von der HTBLA-Leonding ein Mesh-Netzwerk aus Mikrocontrollern in Auftrag gegeben. Dieses Mesh-Netzwerk ermöglicht  sämtlichen Sensoren und Aktoren, welche in der Schule untergebracht sind, Nachrichten untereinander zu versenden.
+	An einer Schule sind Klassenräume der wichtigste Ort der Leistunserbringung, die Bedingungen in diesen Klassenräumen sollten für den Lernerfolg optimal sein, in der Realität gibt es oft Mängel (zB sauerstoffarme Luft), die leicht beseitigt werden könnten. Es ist daher Vorteilhaft die Bedingungen in den einzelnen Klassenräumen erfassen zu können, um einerseits Masnahmen zu ergreifen (öffnen der Fenster), andererseits auch um auswertbare Informationen für den Heizbetrieb(Temperatur) zu erhalten.
 
-	Die Vorteile eines Mesh-Netzwerkes gegenüber einem normalen Wi-Fi Netzwerk sind, dass:
-	\begin{itemize}
-		\item jeder Mikrocontroller einen eigenen Access Point öffnet und somit das Mesh-Netzwerk an größere Reichweite gelangt.
-		\item ein Mesh-Netzwerk auf ausfallende Knoten selbständig reagieren kann und die Netzwerkstruktur automatisch anpasst.
-		\item Mesh-Netzwerke leicht skalierbar sind, da um die Reichweite des Netzwerkes anzupassen, nur Mikrocontroller hinzugefügt oder entfernt werden müssen.
-		\item der Benutzer sich nicht darum kümmern muss, mit welchem Knoten er sich verbindet. Aus der Sicht des Benutzers sehen die verschiedenen Accesspoints der Mikrocontroller wie ein großes Wi-Fi Netzwerk aus.
-	\end{itemize}
+	Ein Mesh-Netzwerk soll es daher ermöglichen die im gesamten Gebäude der HTL-Leonding verteilten Sensoren und Aktoren zu vernetzen.
+
+	Die Verwendung eines Mesh-Netzwerkes ermöglicht die einfache einbindung von zusätzlichen Sensoren und Aktoren, außerdem wird das Schulnetzwerk nicht beansprucht. 
+
+	Im Rahmen dieser Arbeit wurde zunächst die Mesh-Infrastruktur erstellt (hardwarmäßige Konfiguration und softwaremäßiges Einbinden von Nodes in das Mesh-Netzwerk), weiters wurde als fachliche Anwendung ein IoT-Netzwerk implementiert, welches die Kommunikation zwischen den einzelnen Komponenten mittels eines Message Brokes ermöglicht. Die Visualisierung, als dritte Komponente, kann den aktuellen Zustand des IoT-Netzwerkes dargestellen. Dabei werden folgende Fragen beantwortet: Welche Komponenten (Nodes) sind online, welche Messages (zB Temperaturwerte) werden übermittelt, usw.
+
+	Zusätzlich wurde für die ESP32-Nodes ein Over-The-Air - Update (OTA) implementiert.
+
 	\begin{figure}[H]
         \begin{center}
             \includegraphics[scale=0.31]{images/meshnetwork-esp32.png}
@@ -53,15 +54,11 @@ Leonding, \duedateen \\[5em]
 \begin{otherlanguage}{english}
 \begin{abstract}
 	
-	The concentration of the students during class is very important. But often it happens that there is a lack of oxygen in a classroom. That is why the HTBLA-Leonding commissioned a mesh network of microcontrollers to be designed. This mesh network acts as an infrastructure for all sensors and actuators in the school and enables them to send messages to one another.
+	At a school, classrooms are the most important place for the performance of pupils, the conditions in these classrooms should be optimal for learning success, in reality there are often shortcomings (e.g. low-oxygen air) that could easily be remedied. It is therefore advantageous to be able to record the conditions in the individual classrooms in order to take measures (open the window) on the one hand, and to obtain evaluable information for the heating mode (temperature) on the other.
 
-	The advantages of a mesh network over a normal Wi-Fi network are the following:
-	\begin{itemize}
-		\item each microcontroller opens its own access point thus making the mesh network reache a greater range
-		\item a mesh network can react independently to failing nodes and automatically adjusts the network structure
-		\item Mesh networks are easily scalable, to adjust the range of the network only microcontrollers have to be added or removed
-		\item the user does not have to worry about which node to connect to. From the user's point of view, the various access points of the microcontrollers look like a large Wi-Fi network.
-	\end{itemize}
+	A mesh network should therefore make it possible to connect the sensors and actuators distributed throughout the HTL-Leonding building.
+
+	The use of a mesh network enables simple integration of additional sensors and actuators, and the school network is not used.
 	\begin{figure}[H]
         \begin{center}
             \includegraphics[scale=0.31]{images/meshnetwork-esp32.png}
@@ -108,13 +105,13 @@ Englisch                         & Fließend
 \end{figure}
 \begin{table}[htb]
 \begin{tabular}{ll}
-Name:                            & Stefan Waldl          \\
-Geburtsdatum:                    & 26. März 2000                   \\
-E-Mail:                          & waldl.stefan@gmail.com          \\
+Name:                            & Stefan Waldl          		 \\
+Geburtsdatum:                    & 26. März 2000                 \\
+E-Mail:                          & waldl.stefan@gmail.com        \\
                                  &                               \\
 \textbf{Bildungsweg:}            &                               \\  
-2006 bis 2010                    & Volksschule 28          \\
-2010 bis 2015                    & BRG Ramsauerstraße    \\
+2006 bis 2010                    & Volksschule 28      		     \\
+2010 bis 2015                    & BRG Ramsauerstraße    	 	 \\
 seit 2015                        & HTL Leonding, Informatik      \\
                                  &                               \\
 \textbf{Berufliche Erfahrung:}   &                               \\
@@ -125,6 +122,7 @@ Sommer 2018                      & CBCX-Betting Technologies, Softwareentwickler
 Deutsch                          & Muttersprache                 \\
 Englisch                         & Fließend                     
 \end{tabular}
+\caption{Stefan Waldl}
 \end{table}
 \pagebreak
  
