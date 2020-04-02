@@ -867,7 +867,7 @@ Die \textit{IDF\_PATH} Variable gibt den Pfad des Repositories von ESP-IDF an.
 
 Danach müssen noch weitere Umgebungsvariablen von ESP-IDF selbst gesetzt werden, dafür muss man den oben angeführten Befehl ausführen.
 
-Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es sinnvoll diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis zu schreiben.
+Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es sinnvoll, diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis einzutragen.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -876,7 +876,7 @@ Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wä
 \end{verbatim}
 \vspace*{10px}
 
-Es ist auch möglich eine eigene Funktion dafür zu definieren, wenn man die Toolchain nur bei bedarf benutzen möchte.
+Es ist auch möglich, eine eigene Funktion dafür zu definieren, wenn man die Toolchain nur bei Bedarf benutzen möchte.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -887,15 +887,15 @@ Es ist auch möglich eine eigene Funktion dafür zu definieren, wenn man die Too
 \end{verbatim}
 \vspace*{10px}
 
-Anschließend muss der Terminal neugestartet werden, um die \textbf{.bashrc} Datei ausführen zu können.
+Anschließend muss der Terminal neu gestartet werden, um die \textbf{.bashrc} Datei ausführen zu können.
 
 \subsubsection{WSL}\label{sec:wsl}
 
-WSL unterstützt bis zum Stand vom \textbf{29.03.2020} das Linux USB Interface nicht. Dies bedeutet, dass für eine fehlerfreie Nutzung der ESP-IDF-Toolchain nicht garantiert wird.
+WSL unterstützt bis zum Stand vom 29.03.2020 das Linux USB Interface nicht. Dies bedeutet, dass für eine fehlerfreie Nutzung der ESP-IDF-Toolchain nicht garantiert wird.
 
 \subsection{Source Code}\label{sec:example-source-code}
 
-Der Source Code der für dieses Beispiel benötigt wird, lebt in dem folgenden Repository.
+Der Source Code der für dieses Beispiel benötigt wird, lebt im folgenden Repository.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -903,7 +903,7 @@ Der Source Code der für dieses Beispiel benötigt wird, lebt in dem folgenden R
 \end{verbatim}
 \vspace*{10px}
 
-Für die erfolgreiche Absolvierung des Beispieles ist es notwendig das Repository zu clonen.
+Für die erfolgreiche Absolvierung des Beispieles ist es notwendig, das Repository zu clonen.
 
 \vspace*{10px}
 \begin{verbatim}
@@ -911,7 +911,7 @@ Für die erfolgreiche Absolvierung des Beispieles ist es notwendig das Repositor
 \end{verbatim}
 \vspace*{10px}
 
-Nachdem der Command fertig ist, befinden sich mehrere Unterordner in dem neu erstellten Ordner namens \textit{Diplomarbeit}. Die einzigen relevanten Ordner für das Beispiel sind \textbf{Dht22Example} und \textbf{MeshVisualizer}.
+Nachdem der Befehl fertig ausgeführt ist, befinden sich mehrere Unterordner in dem neu erstellten Ordner namens \textit{Diplomarbeit}. Die einzigen relevanten Ordner für das Beispiel sind \textbf{Dht22Example} und \textbf{MeshVisualizer}.
 
 Nach Bedarf können die anderen gelöscht werden.
 
@@ -919,7 +919,7 @@ Die zwei Dateien, welche in Kapitel \ref{sec:mosquitto} beschrieben werden, befi
 
 Genauere Anweisungen zu \textbf{MeshVisualizer} befinden sich in dem Kapitel \ref{sec:example-mesh-visualizer}.
 
-Die Struktur und wie der Code von \textbf{Dht22Example} benutzt werden kann, wird in dem Kapitel \ref{sec:code} beschrieben.
+Die Struktur und wie der Code von \textbf{Dht22Example} benutzt werden kann, wird im Kapitel \ref{sec:code} beschrieben.
 
 \subsection{Mosquitto}\label{sec:mosquitto}
 
@@ -934,6 +934,7 @@ Die Struktur und wie der Code von \textbf{Dht22Example} benutzt werden kann, wir
 \vspace*{10px}
 
 Die \textbf{mosquitto.conf} Datei konfiguriert den Mosquitto Broker so, dass er auf 2 Ports zu hört.
+%todo fix sentence
 
 \begin{enumerate}
     \item 1883
@@ -960,11 +961,11 @@ Der Port 1883 ist wie üblich eine MQTT-Schnittstelle.
 
 Diese \textbf{docker-compose.yml} Datei verwendet die Version 3 von docker-compose. Insgesamt wird nur ein einziger Service benötigt für dieses Beispiel. Der Name des Services ist \textit{mosquitto} und benützt das offizielle Image von eclipse namens \textit{eclipse-mosquitto}.
 
-Wie schon bei der \textbf{mosquitto.conf} Datei erwähnt, benötigt Mosquitto 2 offene Ports. Diese werden hier mit den selben äußeren Ports verbunden.
+Wie schon bei der \textbf{mosquitto.conf} Datei erwähnt, benötigt Mosquitto zwei offene Ports. Diese werden hier mit den selben äußeren Ports verbunden.
 
-Die Konfigurationsdatei wird mittels eines Volumen in den Container injected.
+Die Konfigurationsdatei wird mittels eines Volumens in den Container injected.
 
-In der folgenden Abbildung (\ref{abb:example_mosquitto_start}) ist zu sehen wie man den Mosquitto nun startet.
+In der folgenden Abbildung (\ref{abb:example_mosquitto_start}) ist zu sehen, wie man den Mosquitto nun startet.
 
 \begin{figure}[H]
     \begin{center}
@@ -976,9 +977,9 @@ In der folgenden Abbildung (\ref{abb:example_mosquitto_start}) ist zu sehen wie 
 
 \subsection{Mesh Visualizer}\label{sec:example-mesh-visualizer}
 
-Nach der erfolgreichen Absolvierung der in Kapitel \ref{sec:example-source-code} beschriebenen Anweisungen befindet sich nun der Unterordner namens \textbf{MeshVisualizer} in dem Ordner Diplomarbeit.
+Nach der erfolgreichen Absolvierung der in Kapitel \ref{sec:example-source-code} beschriebenen Anweisungen befindet sich nun der Unterordner namens \textbf{MeshVisualizer} im Ordner Diplomarbeit.
 
-Bevor der \textbf{MeshVisualizer} gestartet werden kann, muss das Arbeitzverzeichnis auf den Pfad des \textbf{MeshVisualizer} Ordners gesetzt werden.
+Bevor der \textbf{MeshVisualizer} gestartet werden kann, muss das Arbeitsverzeichnis auf den Pfad des \textbf{MeshVisualizer} Ordners gesetzt werden.
 
 Anschließend ist es notwendig, die Dependencies des Projekts zu installieren.
 
@@ -1003,7 +1004,7 @@ In der nachstehenden Abbildung (\ref{abb:example_mesh_visualizer_installation_ou
     \end{center}
 \end{figure}
 
-Das starten des Visualizers geschieht wie in der nachstehenden Abbildung (\ref{abb:example_mesh_visualizer_start}).
+Das Starten des Visualizers geschieht wie in der nachstehenden Abbildung (\ref{abb:example_mesh_visualizer_start}).
 
 \begin{figure}[H]
     \begin{center}
@@ -1026,16 +1027,16 @@ Nachdem der Server auf dem Port \textit{1234} läuft, ist nun die Website, welch
 Auf der Website ist momentan nur ein Eingabefeld zusammen mit einem Knopf direkt daneben zu sehen.
 
 Durch das Eingabefeld wird die URL des Mosquittos gesetzt. 
-Die Definierung des verwendeten Protokolls darf nicht auser Acht gelassen werden.\newline
+Die Definition des verwendeten Protokolls darf nicht außer Acht gelassen werden.\newline
 
-Da Javascript im Browser nicht in der Lage ist mit dem MQTT Protokoll zu kommunizieren, muss man sich mit dem vorher definierten Websocket Port (1884) des Brokers verbinden.
+Da Javascript im Browser nicht in der Lage ist, mit dem MQTT Protokoll zu kommunizieren, muss man sich mit dem vorher definierten Websocket Port (1884) des Brokers verbinden.
 
 Beispiel
 \begin{verbatim}
     ws://localhost:1884
 \end{verbatim}
 
-Mit dem Drücken des \textit{connect} Knopfs, wird versucht eine Verbindung mit dem Broker herzustellen.
+Mit dem Drücken des \textit{connect} Knopfes wird versucht, eine Verbindung mit dem Broker herzustellen.
 
 Die Benutzung der Website wird in Kapitel \ref{sec:example-result} genauer erläutert.
 
@@ -1057,11 +1058,11 @@ Mehr Informationen zu \textit{Partition Tables} sind in Kapitel \ref{sec:ota-par
 
 \subsection{Config}
 
-Die Konfiguration eines ESP-IDF Projekts, wird im Normfall mittels der menuconfig gelöst, wie in Kapitel \ref{sec:esp-idf-toolchain} erwähnt.
+Die Konfiguration eines ESP-IDF Projekts wird im Normalfall mittels der menuconfig gelöst, wie in Kapitel \ref{sec:esp-idf-toolchain} erwähnt wurde.
 
 \pagebreak
 
-Nachdem öffnen der menuconfig sind die folgenden Optionen abgebildet.
+Nach dem Öffnen der menuconfig sind die folgenden Optionen abgebildet.
 
 \begin{figure}[H]
     \begin{center}
@@ -1071,7 +1072,7 @@ Nachdem öffnen der menuconfig sind die folgenden Optionen abgebildet.
     \end{center}
 \end{figure}
 
-Die folgenden Optionen werden im Laufe dieses Kapitels berührt:
+Die folgenden Optionen werden im Laufe dieses Kapitels erklärt:
 
 \begin{enumerate}
     \item Example Configuration (Kapitel \ref{sec:example-example-config})
@@ -1103,10 +1104,10 @@ Folgende Werte müssen angepasst werden:
     \item \textbf{Router password} \newline
         Das Passwort des WLAN Routers, womit sich der Mikrocontroller verbinden soll.
     \item \textbf{Mesh AP Password} \newline
-        Das Mesh-Netzwerk interne Passwort. Das Passwort muss mindestens 8 Zeichen lang sein und mindestens eine Zahl beinhalten.
+        Das Mesh-Netzwerk interne Passwort. Das Passwort muss mindestens acht Zeichen lang sein und mindestens eine Zahl beinhalten.
     \item \textbf{MQTT broker url} \newline
         Die URL des MQTT Brokers. Hier ist es wichtig, dass nicht localhost eingegeben wird, da dieses Programm auf dem esp läuft (dies ist am Anfang der Arbeit passiert).\newline
-        Das Schema muss der URL in dem Beispiel unten in Abbildung \ref{abb:example_config_example_config} folgen.
+        Das Schema muss der URL im Beispiel unten in Abbildung \ref{abb:example_config_example_config} folgen.
 \end{itemize}
 
 \pagebreak
@@ -1123,7 +1124,7 @@ In der \textbf{Serial flasher config} Option wird der Serial Flasher konfigurier
     \end{center}
 \end{figure}
 
-Hier muss nur die \textbf{Flash size} angepasst werden. Die Größe hängt von dem jeweiligen Modell des ESPs ab.
+Hier muss nur die \textbf{Flash size} angepasst werden. Die Größe hängt vom jeweiligen Modell des ESPs ab.
 
 \subsubsection{Partition Table}\label{sec:example-partition-table}
 
@@ -1150,9 +1151,9 @@ In dieser Konfiguration muss der Typ des \textbf{Partition Table} Felds auf \tex
     \end{center}
 \end{figure}
 
-Um die zwei in Abbildung \ref{abb:esp32-dht22} dargestellten Module miteinander zu verbinden sind drei weiblich zu weiblich Dupont-Kabel notwendig.
+Um die zwei in Abbildung \ref{abb:esp32-dht22} dargestellten Module miteinander zu verbinden, sind drei weiblich zu weiblich Dupont-Kabel notwendig.
 
-Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen für den GND Pin immer ein schwarzes und für den 3.3V Pin immer ein rotes Kabel zu verwenden, da ansonsten die Übersicht verloren geht. 
+Dabei ist die Farbe der Kabel egal, es wird jedoch empfohlen, für den GND Pin immer ein schwarzes und für den 3.3V Pin immer ein rotes Kabel zu verwenden, da ansonsten die Übersicht verloren geht. 
 
 Nun werden folgende Pins miteinander verbuden:
 \begin{itemize}
@@ -1163,9 +1164,9 @@ Nun werden folgende Pins miteinander verbuden:
 \pagebreak
 
 \subsubsection{ESP32 mit Computer verbinden}
-Um den ESP mit dem Computer zu verbinden wird ein gewöhnliches USB zu Micro-USB Kabel verwendet.
+Um den ESP mit dem Computer zu verbinden, wird ein gewöhnliches USB zu Micro-USB Kabel verwendet.
 
-Das Micro-USB-Ende des Kabels wird in den seriellen Ausgang des Mikrocontrollers gesteckt und das USB-Ende des Kabels in einen beliebigen USB-Port des gewünschten Computers
+Das Micro-USB-Ende des Kabels wird in den seriellen Ausgang des Mikrocontrollers gesteckt und das USB-Ende des Kabels in einen beliebigen USB-Port des gewünschten Computer.
 
 \subsection{Flashen}
 
@@ -1185,13 +1186,13 @@ Das Hochladen bzw. Flashen eines Programms verläuft wie in Kapitel \ref{sec:esp
     \end{center}
 \end{figure}
 
-In Abbildung \ref{abb:example_result_mesh_visualizer} sieht man wie sich die Mesh Visualizer Website verändert hat.
+In Abbildung \ref{abb:example_result_mesh_visualizer} sieht man, wie sich die Mesh Visualizer Website verändert hat.
 
 In dieser Abbildung sind zwei Knoten mit jeweils einer MAC Addresse zu sehen.
 
 Die MAC Addressen stehen für den jeweiligen ESP, der zu diesem Netzwerk verbunden ist.
 
-Die Knoten sind in einer baumartigen Struktur abgebildet. Der Knoten an der Spitz des Diagramms ist der \textbf{Root Knoten}
+Die Knoten sind in einer baumartigen Struktur abgebildet. Der Knoten an der Spitz des Diagramms ist der \textbf{Root Knoten}.
 
 \subsubsection{Mqtt Fx}
 
@@ -1206,7 +1207,7 @@ Wie in der nachstehenden Abbildung zu sehen ist, wird regelmäßig die aktuelle 
 
 \end{figure}
 
-Der MQTT Client, welcher in Abbildung \ref{abb:example_result_mqtt} zu sehen ist, wurde entwickelt von hivemq und dient zur Kommunizierung mit einem 
+Der MQTT Client, welcher in Abbildung \ref{abb:example_result_mqtt} zu sehen ist, wurde von hivemq entwickelt und dient zur Kommunizierung mit einem MQTT-Broker.
 
 \subsection{Code}\label{sec:code}
 \subsubsection{Struktur}
@@ -1219,11 +1220,11 @@ Der MQTT Client, welcher in Abbildung \ref{abb:example_result_mqtt} zu sehen ist
     \end{center}
 \end{figure}
 
-Die Übersicht in Abbildung \ref{abb:example_code_structure_overview} zeigt einen kleine Ausschnitt der Struktur.
+Die Übersicht in Abbildung \ref{abb:example_code_structure_overview} zeigt einen kleinen Ausschnitt der Struktur.
 
 Der Stammordner beinhaltet die Konfigurations Dateien sowie den \textbf{main} Ordner, welcher den Source Code beinhaltet.
 
-Die \textbf{.editorconfig} Datei ist dazu da, die Formatierung des Source Codes in alle Texteditoren uniform zu halten.
+Die \textbf{.editorconfig} Datei ist dazu da, die Formatierung des Source Codes in allen Text-Editoren uniform zu halten.
 
 In der \textbf{partitions.csv} Datei befindet sich die Beschreibung des in Kapitel \ref{sec:example-partition-table} erwähnten Partition Tables.
 
@@ -1237,7 +1238,7 @@ Die nachstehende Abbildung zeigt die Struktur des \textbf{main} Ordners.
     \end{center}
 \end{figure}
 
-Dieser beihnhaltet nicht nur den Source Code sondern auch die \textit{menuconfig} Datei, welche in Kapitel \ref{sec:esp-idf-toolchain} genauer beschrieben ist.
+Dieser beinhaltet nicht nur den Source Code sondern auch die \textit{menuconfig} Datei, welche in Kapitel \ref{sec:esp-idf-toolchain} genauer beschrieben ist.
 
 Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstanden sind (wie zum Beispiel \textit{mqtt.h}), befinden sich im Kapitel \ref{sec:own-libraries}.
 
@@ -1251,7 +1252,7 @@ Informationen über die einzelnen Libraries, die im Laufe dieser Arbeit enstande
     \end{center}
 \end{figure}
 
-Die in Abbildung \ref{abb:example_code_setup} dargestellte Funktion \textit{app\_main} is für die Initialisierung des Programms zuständig.
+Die in Abbildung \ref{abb:example_code_setup} dargestellte Funktion \textit{app\_main} ist für die Initialisierung des Programms zuständig.
 
 Sie initialisiert folgende Komponenten:
 
@@ -1269,7 +1270,7 @@ Anschließend startet sie das Mesh-Netzwerk.
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.]{images/example_code_setup_wifi.png}
+        \includegraphics[scale=0.7]{images/example_code_setup_wifi.png}
         \caption{Example Code Setup Wifi (Quelle: eigene Darstellung)}
         \label{abb:example_code_setup_wifi}
     \end{center}
@@ -1278,7 +1279,7 @@ Anschließend startet sie das Mesh-Netzwerk.
 In Abbildung \ref{abb:example_code_setup_wifi} ist eine Funktion namens \textit{wifi\_init} zu sehen. Diese ist für die Initialisierung des Wifis zuständig.
 
 Die Funktion verwendet die default Werte von ESP-IDF für die Initialisierung des Wifis.
-Es wird nicht nur das wifi gestartet sondern auch ein \textit{Callback} für das \textit{IP\_EVENT\_STA\_GOT\_IP} Event registriert.
+Es wird nicht nur das wifi gestartet sondern auch ein \textit{Callback} für das \linebreak \textit{IP\_EVENT\_STA\_GOT\_IP} Event registriert.
 
 Der \textit{Callback} wird in Kapitel \ref{sec:example-code-event-handler} beschrieben.
 
@@ -1292,15 +1293,15 @@ Der \textit{Callback} wird in Kapitel \ref{sec:example-code-event-handler} besch
     \end{center}
 \end{figure}
 
-Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_code_event_handler} zu sehen ist, startet den MQTT-Client nachdem sie die globale Variable \textit{is\_connected\_to\_router} setzt.
+Die Funktion \textit{ip\_event\_handler}, welche in Abbildung \ref{abb:example_code_event_handler} zu sehen ist, startet den MQTT-Client, nachdem sie die globale Variable \textit{is\_connected\_to\_router} setzt.
 
-\textit{is\_connected\_to\_router} steht für den aktuellen Status des Wifis. Normalerweise ist diese immer auf \textit{false} gesetzt, da nur der \textit{Root Mikrocontroller} eine Verbindung mit dem externen Netz besitzen soll.
+\textit{is\_connected\_to\_router} steht für den aktuellen Status des Wifis. Normalerweise ist dieser immer auf \textit{false} gesetzt, da nur der \textit{Root Mikrocontroller} eine Verbindung mit dem externen Netz aufbauen kann.
 
 \subsubsection{Command Callback}
 
 Der \textit{Command Callback} wird aufgerufen, wenn ein neuer \textit{Command} an diesen Knoten verschickt wird.
 
-Was ein \textit{Command} ist und wie er funktioniert ist in Kapitel \ref{sec:own-libraries-mesh} beschrieben.
+Was ein \textit{Command} ist und wie er funktioniert, ist in Kapitel \ref{sec:own-libraries-mesh} beschrieben.
 
 Der Callback reagiert nur auf neue Commands, wenn der aktuelle Knoten der \textit{Root Knoten} ist.
 
@@ -1312,7 +1313,7 @@ Das Beispiel Programm reagiert auf folgende Command Typen:
     \item \textbf{REMOVE NODE}
 \end{itemize}
 
-\textbf{ADD\_NODE} und \textbf{REMOVE\_NODE} sind Commands die automatisch von der Mesh Library verschickt werden.
+\textbf{ADD\_NODE} und \textbf{REMOVE\_NODE} sind Commands, die automatisch von der Mesh Library verschickt werden.
 
 Das Programm reagiert auf diese beiden Commands und schickt sie dann über MQTT im JSON Format weiter.
 
@@ -1340,9 +1341,9 @@ Erreicht ein MQTT Command den Root Knoten, so versendet dieser mithilfe der MQTT
 
 \textit{DHT\_task} ist eine Funktion, welche als Task (Kapitel \ref{sec:esp-idf-libraries-freertos}) gestartet wird. 
 
-Sie ist für das regelmäßige Einlesen der aktuellen DHT22 Werte und das Verschicken dieser an den spezifizierter MQTT Broker zuständig.
+Sie ist für das regelmäßige Einlesen der aktuellen DHT22 Werte und das Verschicken dieser an den spezifizierten MQTT Broker zuständig.
 
-Ungefähr alle 3 Sekunden läuft dieser Task die, in Abbildung \ref{abb:dht22_sequence_diagram} zu sehende, Sequenz durch.
+Ungefähr alle drei Sekunden läuft dieser Task die in Abbildung \ref{abb:dht22_sequence_diagram} zu sehende Sequenz durch.
 
 \begin{figure}[H]
     \begin{center}
@@ -1354,7 +1355,7 @@ Ungefähr alle 3 Sekunden läuft dieser Task die, in Abbildung \ref{abb:dht22_se
 
 Am Anfang einer Iteration werden die aktuellen Werte des DHT22 Sensors gelesen. Funktioniert etwas beim Einlesen der Werte nicht, so wird dies mithilfe der \textit{dht22\_handle\_error} Funktion behandelt und die aktuelle Iteration übersprungen.
 
-Wenn das einlesen erfolgreich ist, holt sich das Programm die gespeicherte Feuchtigkeit und Temperatur (Kapitel \ref{sec:own-libraries-dht22}) und gibt diese aus.
+Wenn das Einlesen erfolgreich ist, holt sich das Programm die gespeicherte Feuchtigkeit und Temperatur (Kapitel \ref{sec:esp-idf-libraries-dht22}) und gibt diese aus.
 
 \begin{figure}[H]
     \begin{center}
@@ -1387,9 +1388,8 @@ Zu beachten ist, dass man unter einer Binärdatei bzw. unter Binärformat nicht 
 Das Folgende ist eine Zusammenfassung der wichtigsten Aspekte und Eckpunkte der Website \cite{elf_linux_audit}
 
 ELF ist die Abkürzung für Executable and Linkable Format und definiert die Struktur für Binärdateien, Bibliotheken und Core-Dateien. Die formale Spezifikation ermöglicht es dem Betriebssystem, die zugrunde liegenden Maschinenanweisungen korrekt zu interpretieren. ELF-Dateien sind normalerweise die Ausgabe eines Compilers oder Linkers und haben ein Binärformat.
-\newline
-\newline
-Ein häufiges Missverständnis ist, dass ELF-Dateien nur für Binärdateien oder ausführbare Dateien bestimmt sind. Es ist jedoch möglich sie für Teilstücke (Objektcode) verwendet zu können. Ein weiteres Beispiel sind gemeinsam genutzte Bibliotheken oder sogar Core-Dumps (Core- oder a.out-Dateien). Die ELF-Spezifikation wird auch unter Linux für den Kernel selbst und die Linux-Kernelmodule verwendet.
+
+Ein häufiges Missverständnis ist, dass ELF-Dateien nur für Binärdateien oder ausführbare Dateien bestimmt sind. Es ist jedoch möglich, sie für Teilstücke (Objektcode) verwendet zu können. Ein weiteres Beispiel sind gemeinsam genutzte Bibliotheken oder sogar Core-Dumps (Core- oder a.out-Dateien). Die ELF-Spezifikation wird auch unter Linux für den Kernel selbst und die Linux-Kernelmodule verwendet.
 
 
 \subsection{Struktur}
@@ -1406,22 +1406,23 @@ Mit dem Befehl readelf können wir uns die Struktur einer Datei ansehen und sie 
     \begin{center}
         \includegraphics[scale=0.5]{images/elf-header-linux-binary.png}
         \caption{Details einer Elf-binary \cite{details_of_Elf_binary}}
+        \label{abb:details-elf}
     \end{center}
 \end{figure}
- 
+
 \subsection{ELF-Header}
-Wie in diesem Screenshot zu sehen ist, beginnt der ELF-Header mit etwas Magic. Diese ELF-Header-Magic liefert Informationen über die Datei. Die ersten 4 hexadezimalen Teile definieren, dass dies eine ELF-Datei ist (45 = E, 4c = L, 46 = F), der der Wert 7f vorangestellt ist.
+Wie in Abbildung \ref{abb:details-elf} zu sehen ist, beginnt der ELF-Header mit etwas Magic. Diese ELF-Header-Magic liefert Informationen über die Datei. Die ersten 4 hexadezimalen Teile definieren, dass dies eine ELF-Datei ist (45 = E, 4c = L, 46 = F), der der Wert 7f vorangestellt ist.
  
 Dieser ELF-Header ist obligatorisch. Es stellt sicher, dass Daten während der Verknüpfung oder Ausführung korrekt interpretiert werden. Um die innere Funktionsweise einer ELF-Datei besser zu verstehen, ist es hilfreich zu wissen, dass diese Header-Informationen verwendet werden.
  
 \subsubsection{Class}
-Nach der ELF-Typdeklaration ist ein Class-feld definiert. Dieser Wert bestimmt die Architektur für die Datei. Es kann sich um eine 32-Bit- (= 01) oder 64-Bit- (= 02) Architektur handeln. Magic zeigt eine 02, die vom Befehl readelf als ELF64-Datei übersetzt wird. Mit anderen Worten, eine ELF-Datei, die die 64-Bit-Architektur verwendet.
+Nach der ELF-Typdeklaration ist ein Class-feld definiert. Dieser Wert bestimmt die Architektur für die Datei. Es kann sich um eine 32-Bit- (= 01) oder 64-Bit- (= 02) Architektur handeln. Magic zeigt eine 02, die vom Befehl readelf als ELF64-Datei übersetzt wird, mit anderen Worten, eine ELF-Datei, die die 64-Bit-Architektur verwendet.
 
 \subsubsection{Data}
-Der nächste Teil ist das Data-feld. Es kennt zwei Optionen: 01 für LSB (Least Significant Bit), auch als Little-Endian bekannt. Dann gibt es den Wert 02 für MSB (Most Significant Bit, Big-Endian). Dieser spezielle Wert hilft dabei, die verbleibenden Objekte in der Datei korrekt zu interpretieren. Dies ist wichtig, da verschiedene Prozessortypen unterschiedlich mit den eingehenden Anweisungen und Datenstrukturen umgehen. In diesem Fall wird LSB verwendet, was für Prozessoren vom Typ AMD64 üblich ist.
+Der nächste Teil ist das Data-Feld. Es kennt zwei Optionen: 01 für LSB (Least Significant Bit), auch als Little-Endian bekannt. Dann gibt es den Wert 02 für MSB (Most Significant Bit, Big-Endian). Dieser spezielle Wert hilft dabei, die verbleibenden Objekte in der Datei korrekt zu interpretieren. Dies ist wichtig, da verschiedene Prozessortypen unterschiedlich mit den eingehenden Anweisungen und Datenstrukturen umgehen. In diesem Fall wird LSB verwendet, was für Prozessoren vom Typ AMD64 üblich ist.
 
 \subsubsection{Version}
-Als nächstes folgt eine weitere "01" in der Magic, die die Versionsnummer ist. Derzeit gibt es nur einen Versionstyp: Derzeit ist dies der Wert "01". Also nichts Interessantes zu merken.
+Als nächstes folgt eine weitere {\grqq}01{\grqq} in der Magic, die die Versionsnummer ist. Derzeit gibt es nur einen Versionstyp: dies ist momentan der Wert "01".
 
 \subsubsection{OS / ABI}
 Jedes Betriebssystem hat eine große Überlappung in gemeinsamen Funktionen. Darüber hinaus hat jedes von ihnen spezifische oder zumindest geringfügige Unterschiede. Die Definition des richtigen Sets erfolgt über eine Application Binary Interface (ABI). Auf diese Weise wissen sowohl das Betriebssystem als auch die Anwendungen, was zu erwarten ist, und die Funktionen werden korrekt weitergeleitet. Diese beiden Felder beschreiben, für was ABI verwendet wird und die zugehörige Version. In diesem Fall ist der Wert 00, was bedeutet, dass keine bestimmte Erweiterung verwendet wird. Die Ausgabe zeigt dies als System V.
@@ -1439,7 +1440,7 @@ Das Typfeld gibt an, wozu die Datei dient. Es gibt einige gängige Dateitypen.
 \item CORE (Wert 4)
 \item DYN (Shared Object File) für Bibliotheken (Wert 3)
 \item EXEC (ausführbare Datei) für Binärdateien (Wert 2)
-\item REL (verschiebbare Datei), bevor sie in eine ausführbare Datei gelinked wird (Wert 1)
+\item REL (verschiebbare Datei), bevor sie in eine ausführbare Datei gelinkt wird (Wert 1)
 \end{itemize}
 
 \subsection{File Data}
@@ -1451,10 +1452,10 @@ Neben dem ELF-Header bestehen ELF-Dateien aus drei Teilen.
 \item Data
 \end{itemize}
 
-Außerdem ist es gut zu wissen, dass ELF zwei sich ergänzende „Ansichten“ hat. Eine Benutzeroberfläche muss für den Linker verwendet werden, um die Ausführung zu ermöglichen (segments). Die andere zum Kategorisieren von Anweisungen und Daten (sections). Je nach Ziel werden also die zugehörigen Headertypen verwendet.
+Außerdem ist es gut zu wissen, dass ELF zwei sich ergänzende „Ansichten“ hat. Eine Benutzeroberfläche muss für den Linker verwendet werden, um die Ausführung zu ermöglichen (segments), die andere zum Kategorisieren von Anweisungen und Daten (sections). Je nach Ziel werden also die zugehörigen Headertypen verwendet.
 
 \subsubsection{Programm-Header}
-Eine ELF-Datei besteht aus null oder mehr Segmenten und beschreibt, wie ein process/memory image für die Laufzeitausführung erstellt wird. Wenn der Kernel diese Segmente sieht, verwendet er sie, um sie mithilfe des Systemaufrufs mmap (2) dem virtuellen Adressraum zuzuordnen. Mit anderen Worten, es konvertiert vordefinierte Anweisungen in ein Speicherbild. Wenn Ihre ELF-Datei eine normale Binärdatei ist, sind diese Programmheader erforderlich. Andernfalls wird es einfach nicht ausgeführt. Diese Header mit der zugrunde liegenden Datenstruktur werden verwendet, um einen Prozess zu bilden. Dieser Vorgang ist für shared libraries ähnlich.
+Eine ELF-Datei besteht aus null oder mehr Segmenten und beschreibt, wie ein process/memory image für die Laufzeitausführung erstellt wird. Wenn der Kernel diese Segmente sieht, verwendet er sie, um sie mithilfe des Systemaufrufs mmap (2) dem virtuellen Adressraum zuzuordnen. Mit anderen Worten, es konvertiert vordefinierte Anweisungen in ein Speicherbild. Wenn eine ELF-Datei eine normale Binärdatei ist, sind diese Programmheader erforderlich. Andernfalls wird es einfach nicht ausgeführt. Diese Header mit der zugrunde liegenden Datenstruktur werden verwendet, um einen Prozess zu bilden. Dieser Vorgang ist für shared libraries ähnlich.
 
 \begin{figure}[H]
     \begin{center}
@@ -1467,7 +1468,7 @@ Eine ELF-Datei besteht aus null oder mehr Segmenten und beschreibt, wie ein proc
 Dies ist eine sorted queue, die vom GNU C-Compiler (gcc) verwendet wird. Es speichert Ausnahmebehandlungsroutinen. Wenn also etwas schief geht, kann es diesen Bereich verwenden, um richtig damit umzugehen.
 
 \subsubsection{GNU\_STACK}
-Dieser Header wird zum Speichern von stack-Informationen verwendet. Der stack ist ein Puffer oder eine Arbeitsstelle, an der Elemente wie lokale Variablen gespeichert werden. Dies geschieht bei LIFO (Last In, First Out). Beim Starten einer Prozessfunktion wird ein Baustein reserviert. Wenn die Funktion beendet ist, wird sie wieder als frei markiert. Der interessante Teil ist nun, dass ein Stack nicht ausführbar sein sollte, da dies zu Sicherheitslücken führen kann. Durch Manipulation des Speichers könnte man auf diesen ausführbaren stack verweisen und beabsichtigte Anweisungen ausführen.
+Dieser Header wird zum Speichern von stack-Informationen verwendet. Der stack ist ein Puffer oder eine Arbeitsstelle, an der Elemente wie lokale Variablen gespeichert werden. Dies geschieht bei LIFO (Last In, First Out). Beim Starten einer Prozessfunktion wird ein Baustein reserviert. Wenn die Funktion beendet ist, wird sie wieder als frei markiert. Der interessante Teil ist nun, dass ein Stack nicht ausführbar sein sollte, da dies zu Sicherheitslücken führen kann. Durch Manipulation des Speichers könnte man auf diesen ausführbaren Stack verweisen und beabsichtigte Anweisungen ausführen.
 
 Wenn das Segment GNU\_STACK nicht verfügbar ist, wird normalerweise ein executable stack verwendet.
 Die Tools scanelf und execstack sind zwei Beispiele, um die stack-Details anzuzeigen.
