@@ -80,11 +80,11 @@ Das ESP-WROOM-32 ist ein generisches MCU Modul mit integriertem Wi-Fi, Bluetooth
 
 \subsection*{Problemstellung}\label{sec:problem}
 Mikrocontroller befinden sich in einem laufendem System meist an ungünstigen Orten, an die man nur mit hohem Aufwand gelangt.
-Bis jetzt musste man den Computer physisch mit einem Kabel mit dem Mikrocontroller verbinden um neue Firmware auf den Kontroller zu spielen.
+Bis jetzt musste man den Computer physisch mit einem Kabel mit dem Mikrocontroller verbinden um neue Firmware auf den Controller zu spielen.
 OTA ermöglicht es, den Mikrocontroller über das Netzwerk mit neuer Firmware zu versorgen. Dabei muss der selektierte Microcomputer lediglich mit einem Wlan-Router verbunden sein und ein physisches Kabel wird überflüssig.
 
 \subsection*{Wie OTA funktioniert}
-Bei dem OTA-Vorgang wird zuallererst die Config-Datei des jeweiligen Mikrocontrollers ausgelesen. In dieser Datei steht, welche Firmware der OTA Client herunterladen soll. Nun sendet der Mikrocontroller eine Anfrage mit dem in der Config-Datei eingetragen Namen der Firmware. Diese Anfrage dient dazu, den Timestamp an dem die Firmware das letzte Mal am Server geändert worden ist, herauszufinden.\newline
+Bei dem OTA-Vorgang wird zuallererst die Config-Datei des jeweiligen Mikrocontrollers ausgelesen. In dieser Datei steht, welche Firmware der OTA Client herunterladen soll. Nun sendet der Mikrocontroller eine Anfrage mit dem in der Config-Datei eingetragen Namen der Firmware. Diese Anfrage dient dazu, den Zeitpunkt (Timestamp) herauszufinden, an dem die Firmware das letzte Mal am Server geändert wurde.\newline
 Darauf antwortet der Server mit dem Timestamp.\newline
 Nun überprüft der Mikrocontroller den Timestamp der letzten Änderung des Servers mit dem Timestamp der letzten Änderung der Firmware, die gerade installiert ist.\newline
 
