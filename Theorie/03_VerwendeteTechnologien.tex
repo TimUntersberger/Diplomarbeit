@@ -194,6 +194,7 @@ Die Struktur eines docker-compose files ist im Normalfall immer gleich. Am Anfan
     \item Postgres
     \item PgAdmin4
 \end{enumerate}
+\pagebreak
 
 In Abbildung \ref{abb:docker-compose-example} wird ein Netzwerk explizit erstellt. Es ist auch möglich, das Netwerk implizit zu erstellen, indem man den networks Bereich von ganz unten entfernt.
 
@@ -274,7 +275,6 @@ Sind die von Espressif zur Verfügung gestellten Menüs nicht genug, so ist es m
 
 Nachstehender Ausschnitt einer \textbf{KConfig.projbuild} Datei bietet einen Überblick über die Struktur dieser Datei.
 
-\pagebreak
 \textbf{KConfig.projbuild}
 \begin{verbatim}
     menu "Example Configuration"
@@ -306,6 +306,8 @@ Nachstehender Ausschnitt einer \textbf{KConfig.projbuild} Datei bietet einen Üb
 Der Name einer zusätzlichen Konfigurationsoption wird mithilfe des \textit{name} Schlüsselwortes definiert, dieses nimmt eine beliebige Zeichenkette entgegen.
 
 Diese Zeichenkette stellt den Namen der Option dar.
+
+\pagebreak
 
 In einer Menuconfig kann zwischen folgenden Eingabetypen entschieden werden:
 
@@ -351,6 +353,8 @@ Ist das Programm bereits auf dem ESP, kann es mit folgendem Befehl auf dem IDF M
     idf.py monitor
 \end{verbatim}
 
+\pagebreak
+
 Mit dem nachstehenden Befehl kann das Programm gebuildet, geflasht und upgeloadet werden. Dies erspart den Aufwand, jeden Befehl einzeln einzugeben.
 
 \begin{verbatim}
@@ -364,13 +368,14 @@ PlatformIO ist ein fortschrittliches und äußerst vielseitiges Ökosystem für 
 
 PlatformIO ist in reinem Python geschrieben und hängt nicht von zusätzlichen Bibliotheken / Tools eines Betriebssystems ab. So kann man mit PlatformIO auf Windows, Macintosh und Linux arbeiten.
 
+\pagebreak
 
 \section{Utility lib Köck}\label{sec:utility-lib-koeck}
 Dies ist Professor Köcks Library Sammlung, welche er persönlich verfasste. Sämtliche Technologien, welche durch die Libraries untersützt werden, sind in folgender Abbildung zu sehen.
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.9]{images/utility_lib_köck_own.PNG}
+        \includegraphics[scale=1]{images/utility_lib_köck_own.PNG}
         \caption{Technologien Utility lib (Quelle: eigene Darstellung)}
     \end{center}
 \end{figure}

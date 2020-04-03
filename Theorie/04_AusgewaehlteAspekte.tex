@@ -132,6 +132,8 @@ Die Partitionstabelle ist bei OTA mitunter eines der wichtigsten Themen.
 Konfiguriert man diese Tabelle nicht richtig, so würde das Programm nicht einmal starten. 
 Um OTA zu ermöglichen, ist es notwendig, in der Partitionstabelle mindestens eine ausreichend große OTA-Partition zu vergeben.
 
+\pagebreak
+
 \subsubsection{Übersicht}
 Der Flash eines einzelnen ESP32 kann mehrere Apps sowie viele verschiedene Arten von Daten (Kalibrierungsdaten, Dateisysteme, Parameterspeicherung usw.) enthalten. Aus diesem Grund wird eine Partitionstabelle im Flash auf (Standardoffset) 0x8000 geflasht.
 
@@ -200,8 +202,8 @@ angegeben werden.
     \end{itemize}
     \item \textit{ota\_0 (0x10)\dots ota\_15 (0x1F)} sind die OTA-App-Slots. Sie verwenden dann die \textit{ota\_data} Partition, um zu konfigurieren, welchen App-Slot der Bootloader starten soll.
     \item Bei der Verwendung von OTA sollte eine Anwendung über mindestens zwei OTA-Applikationslots verfügen (\textit{ota\_0} und \textit{ota\_1}).
-    \item \textit{test (0x20)} ist ein reservierter Subtyp für werkseitige Testverfahren. Es wird als Fallback-Boot-Partition verwendet, wenn keine andere gültige App-Partition gefunden wird. Es ist auch möglich, den Bootloader so zu konfigurieren, dass er bei jedem Start einen general-purpose input/output(\textmd{GPIO}) Pin liest, und diese Partition zu starten, wenn der GPIO \glqq low\grqq{} gehalten wird.
     \pagebreak
+    \item \textit{test (0x20)} ist ein reservierter Subtyp für werkseitige Testverfahren. Es wird als Fallback-Boot-Partition verwendet, wenn keine andere gültige App-Partition gefunden wird. Es ist auch möglich, den Bootloader so zu konfigurieren, dass er bei jedem Start einen general-purpose input/output(\textmd{GPIO}) Pin liest, und diese Partition zu starten, wenn der GPIO \glqq low\grqq{} gehalten wird.
     \item Wenn der Typ \textit{data} ist, kann das Subtypfeld mit folgenden Werten befüllt werden:
     \begin{itemize}
         \item \textit{ota (0)}
@@ -246,11 +248,12 @@ Partitionen vom App-Typ werden immer verschlüsselt unabhängig, ob die Flag ges
 \subsection{OTA Partition Table}
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=0.7]{diagrams/ota_partition_table.png}
+        \includegraphics[scale=0.55]{diagrams/ota_partition_table.png}
         \caption{OTA Partition Table (Quelle: eigene Darstellung)}
         \label{abb:ota_partition_table}
     \end{center}    
 \end{figure}
+
 Der Partition Table des OTA Clients ist in Abbildung (\ref{abb:ota_partition_table}) zu sehen.
 
 Insgesamt stehen allen Partitionen \textbf{4MB} zur Verfügung, da dies der gesamte Flash-Speicher des NodeMCU ESP32 (\ref{sec:nodemcu_esp32}) ist. Dieser enthält folgende Partitionen:
@@ -297,6 +300,8 @@ Herkömmliche Wi-Fi-Netzwerke haben den Nachteil eines begrenzten Versorgungsber
 \textbf{ESP-MESH} unterscheidet sich von herkömmlichen Wi-Fi-Netzwerken darin, dass Knoten keine Verbindung zu einem zentralen Knoten herstellen müssen. Stattdessen dürfen Knoten eine Verbindung zu benachbarten Knoten herstellen.
 
 Knoten sind gegenseitig für die Weiterleitung der Übertragungen verantwortlich. Dies ermöglicht es einem \textbf{ESP-MESH}-Netzwerk, einen viel größeren Versorgungsbereich zu haben, da Knoten immer noch mit verbunden sein können, ohne sich in Reichweite des zentralen Knotens befinden zu müssen. Ebenso ist \textbf{ESP-MESH} weniger anfällig für Überlastung, da die Anzahl der im Netzwerk zulässigen Knoten nicht mehr durch einen einzelnen zentralen Knoten begrenzt ist.
+
+\pagebreak
 
 Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können, ist es notwendig folgende Begriffe zu verstehen:
 \begin{itemize}
@@ -364,7 +369,7 @@ Um mit einem \textbf{ESP-MESH} Netzwerk umgehen zu können, ist es notwendig fol
 In folgender Abbildung ist ein \textbf{ESP-MESH} Netzwerk, mit gekennzeichneten Node Typen dargestellt.
 
 \begin{figure}[H] \begin{center}
-    \includegraphics[scale=0.5]{diagrams/mesh-node-types.png}
+    \includegraphics[scale=0.4]{diagrams/mesh-node-types.png}
     \caption{Node Typen \cite{esp-mesh}}
     \end{center}    
 \end{figure}
@@ -387,6 +392,8 @@ Wenn sich mehrere mögliche \textbf{Parent Nodes} auf der gleichen Ebene befinde
     \end{center}    
 \end{figure}
 
+\pagebreak
+
 \subsubsection{Node Versagen}
 Wenn ein Knoten versagt, können zwei Situationen entstehen:
 \begin{itemize}
@@ -408,12 +415,12 @@ Wenn ein Knoten versagt, können zwei Situationen entstehen:
         \end{center}    
     \end{figure}
 
+    \pagebreak
+
     Wenn ein \textbf{Intermediate Parent Node} versagt, versuchen dessen \textbf{Child Nodes} sich mehrmals neu zu verbinden. Nach mehrfachen fehlgeschlagen Versuchen werden die \textbf{Child Nodes} beginnen, nach neuen potentiellen \textbf{Parent Nodes} zu suchen. Dies geschieht nach dem gleichen Prinzip wie beim \textbf{Root Node Versagen}.
 
     Jeder \textbf{Child Node} wird selbständig einen neuen \textbf{Parent Node} aussuchen. Findet ein Knoten keinen neuen \textbf{Parent Node}, so wird dieser Knoten ein \textbf{Idle Node}.
 \end{itemize}
-
-\pagebreak
 
 \section{Mesh Visualizer}\label{sec:mesh-visualizer}
 
@@ -429,6 +436,8 @@ Die in der nachstehenden Abbildung dargestellte Website dient zur Visualisierung
 Sie verwendet die Graphen Library \textit{cytoscapejs} für die Darstellung der Knoten. Weitere Informationen sind dem Kapitel \ref{sec:cytoscape} zu entnehmen. 
 
 Die Benutzung in der Praxis ist im Kapitel \ref{sec:example-mesh-visualizer} näher beschrieben.
+
+\pagebreak
 
 \subsection{Cytoscape}\label{sec:cytoscape}
 
@@ -493,6 +502,8 @@ Dieser Algorithmus war leider nicht für die Visualisierung des Mesh-Netzwerks g
 
 Der Spread Algorithmus ist wie Euler (Kapitel \ref{sec:cytoscape-euler}) physikbasiert. Dazu kommt auch noch, dass dieser versucht, die Knoten so weit wie möglich auseinander zu halten. Letztendlich wurde aus visuellen Gründen dieser Kandidat nicht gewählt.
 
+\pagebreak
+
 \section{Libraries}\label{sec:libraries}
 
 \subsection{ESP-IDF Libraries}\label{sec:esp-idf-libraries}
@@ -538,7 +549,7 @@ Wie zu sehen ist, werden der Funktion folgende Parameter übergeben:
 
 \subsubsection{Dht22}\label{sec:esp-idf-libraries-dht22}
 
-In der \textbf{Dht22} Library sind insgesamt sechs öffentliche Funktionen definiert, wie in der folgenden Abbildung zu sehen ist:
+In der \textbf{Dht22} Library \cite{dht22-lib} sind insgesamt sechs öffentliche Funktionen definiert, wie in der folgenden Abbildung zu sehen ist:
 
 \begin{figure}[H]
     \begin{center}
@@ -573,7 +584,6 @@ In der \textbf{Dht22} Library sind insgesamt sechs öffentliche Funktionen defin
 
     Diese Funktion gibt den Wert der internen Temperatur Variablen, in welche \linebreak \textbf{dht22\_read()} die Temperatur-Daten des Sensors schreibt, in Gleitkommadarstellung zurück.
 \end{itemize}
-\cite{dht22-lib}
 
 \subsection{Eigene Libraries}\label{sec:own-libraries}
 
@@ -775,7 +785,6 @@ Es werden folgende Typen definiert:
 
 \subsection{Übersicht}
 
-\vspace*{50px}
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_deployment.png}
@@ -784,7 +793,9 @@ Es werden folgende Typen definiert:
     \end{center}    
 \end{figure}
 
-In diesem kleinen Beispiel gibt es insgesamt 2 Mikrocontroller. 
+\pagebreak
+
+In diesem kleinen Beispiel gibt es insgesamt 2 Mikrocontroller: 
 
 \begin{itemize}
     \item Ein \textbf{Mikrocontroller}, welcher mit einem DHT22 verbunden ist und regelmäßig die Sensordaten weiterschickt.
@@ -795,7 +806,6 @@ Der Root Mikrocontroller ist mit einem MQTT Broker (\textbf{Mosquitto}) verbunde
 
 Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} (Bsp.: Digital Ocean Droplet).
 
-\vspace*{50px}
 \begin{figure}[H]
     \begin{center}
         \includegraphics[scale=.5]{diagrams/mqtt_dht22_example_sequence.png}
@@ -803,7 +813,6 @@ Der \textbf{Mosquitto} Server läuft auf einer beliebigen \textbf{Host Machine} 
         \label{abb:dht22_sequence_diagram}
     \end{center}
 \end{figure}
-\vspace*{50px}
 
 Die Abbildung \ref{abb:dht22_sequence_diagram} zeigt den Verlauf einer Iteration dieses Beispieles.
 Der \textbf{dhtmc} (der \textbf{Mikrocontroller} des Deployment Diagramms in Abbildung \ref{abb:dht22_deployment_diagram}) liest die aktuellen Werte des DHT22, welche er dann im Mesh-Netzwerk mittels einem MQTT Command (\ref{sec:own-libraries-mqtt}) verschickt.
@@ -816,6 +825,8 @@ Der offiziellen Website von NPM \cite{nodejs-install} ist der Installationsvorga
 
 Für den \textbf{Mesh Visualizer} (Kapitel \ref{sec:mesh-visualizer}) und \textbf{OTA Server} (Kapitel \ref{sec:ota}) wird eine Installation von Nodejs 10 benötigt.
 
+\pagebreak
+
 \subsection{ESP-IDF Setup}
 
 Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem voraus. Es wird nicht garantiert, dass dies unter Alternativen wie zum Beispiel dem \textbf{Windows Subsystem for Linux (WSL) \ref{sec:wsl}} funktioniert. 
@@ -824,36 +835,30 @@ Die folgenden Anweisungen setzen ein Ubuntu-Betriebssystem voraus. Es wird nicht
 
 Zuallererst müssen die Dependencies von ESP-IDF installiert werden. Dafür gibt es den folgenden shell command.
 
-\vspace*{10px}
 \begin{verbatim}
     sudo apt-get install git wget flex bison gperf python python-pip 
     python-setuptools cmake ninja-build ccache libffi-dev libssl-dev
 \end{verbatim}
-\vspace*{10px}
 
 \subsubsection{Libraries}\label{sec:libraries}
 
 Damit man die ESP-IDF Libraries benutzen kann, muss man diese zuerst herunterladen.
 
-\vspace*{10px}
 \begin{verbatim}
     mkdir $HOME/esp &&
     cd $HOME/esp &&
     git clone --recursive https://github.com/espressif/esp-idf.git
 \end{verbatim}
-\vspace*{10px}
 
 Mit den obigen Befehlen erstellt man zuerst einen neuen Ordner im Homeverzeichnis des aktuell eingeloggten Benutzers und wechselt in diesen. 
 Anschließend wird das offizielle Repository von ESP-IDF heruntergeladen.
 
 Nachdem das Repository erfolgreich gecloned wurde, muss man die Libraries installieren. Dies erfolgt durch folgende Bash Befehle.
 
-\vspace*{10px}
 \begin{verbatim}
     cd $HOME/esp/esp-idf &&
     ./install.sh
 \end{verbatim}
-\vspace*{10px}
 
 Mit diesen Befehlen wird das Arbeitsverzeichnis auf das vorher installierte Repository gesetzt und die \textbf{install.sh} Datei von ESP-IDF ausgeführt.
 
@@ -863,41 +868,33 @@ Dies kann einige Minuten dauern.
 
 Damit die Toolchain nun verwendet werden kann, müssen noch ein paar Umgebungsvariablen definiert werden. 
 
-\vspace*{10px}
 \begin{verbatim}
     export IDF_PATH=$HOME/esp/esp-idf
 \end{verbatim}
-\vspace*{10px}
 
 Die \textit{IDF\_PATH} Variable gibt den Pfad des Repositories von ESP-IDF an.
 
-\vspace*{10px}
 \begin{verbatim}
     . $HOME/esp/esp-idf/export.sh
 \end{verbatim}
-\vspace*{10px}
 
 Danach müssen noch weitere Umgebungsvariablen von ESP-IDF selbst gesetzt werden, dafür muss man den oben angeführten Befehl ausführen.
 
 Diese Variablen werden nur für die aktuelle Shell-Session gesetzt, deswegen wäre es sinnvoll, diese Befehle in die \textbf{.bashrc} Datei im Homeverzeichnis einzutragen.
 
-\vspace*{10px}
 \begin{verbatim}
     export IDF_PATH=$HOME/esp/esp-idf
     . $HOME/esp/esp-idf/export.sh
 \end{verbatim}
-\vspace*{10px}
 
 Es ist auch möglich, eine eigene Funktion dafür zu definieren, wenn man die Toolchain nur bei Bedarf benutzen möchte.
 
-\vspace*{10px}
 \begin{verbatim}
     function loadEspIdf() {
         export IDF_PATH=$HOME/esp/esp-idf
         . $HOME/esp/esp-idf/export.sh
     }
 \end{verbatim}
-\vspace*{10px}
 
 Anschließend muss der Terminal neu gestartet werden, um die \textbf{.bashrc} Datei ausführen zu können.
 
@@ -909,19 +906,15 @@ WSL unterstützt bis zum Stand vom 29.03.2020 das Linux USB Interface nicht. Die
 
 Der Source Code der für dieses Beispiel benötigt wird, lebt im folgenden Repository.
 
-\vspace*{10px}
 \begin{verbatim}
     https://github.com/TimUntersberger/Diplomarbeit
 \end{verbatim}
-\vspace*{10px}
 
 Für die erfolgreiche Absolvierung des Beispieles ist es notwendig, das Repository zu clonen.
 
-\vspace*{10px}
 \begin{verbatim}
     git clone https://github.com/TimUntersberger/Diplomarbeit
 \end{verbatim}
-\vspace*{10px}
 
 Nachdem der Befehl fertig ausgeführt ist, befinden sich mehrere Unterordner in dem neu erstellten Ordner namens \textit{Diplomarbeit}. Die einzigen relevanten Ordner für das Beispiel sind \textbf{Dht22Example} und \textbf{MeshVisualizer}.
 
@@ -933,6 +926,8 @@ Genauere Anweisungen zu \textbf{MeshVisualizer} befinden sich in dem Kapitel \re
 
 Die Struktur und wie der Code von \textbf{Dht22Example} benutzt werden kann, wird im Kapitel \ref{sec:code} beschrieben.
 
+\pagebreak
+
 \subsection{Mosquitto}\label{sec:mosquitto}
 
 \textbf{mosquitto.conf}
@@ -943,7 +938,6 @@ Die Struktur und wie der Code von \textbf{Dht22Example} benutzt werden kann, wir
     listener 1884
     protocol websockets
 \end{verbatim}
-\vspace*{10px}
 
 Die \textbf{mosquitto.conf} Datei konfiguriert den Mosquitto Broker so, dass dieser auf zwei Ports Daten erwartet.
 
@@ -968,7 +962,6 @@ Der Port 1883 ist wie üblich eine MQTT-Schnittstelle.
         volumes:
             - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
 \end{verbatim}
-\vspace*{10px}
 
 Diese \textbf{docker-compose.yml} Datei verwendet die Version 3 von docker-compose. Insgesamt wird nur ein einziger Service benötigt für dieses Beispiel. Der Name des Services ist \textit{mosquitto} und benützt das offizielle Image von eclipse namens \textit{eclipse-mosquitto}.
 
@@ -1029,7 +1022,7 @@ Nachdem der Server auf dem Port \textit{1234} läuft, ist nun die Website, welch
 
 \begin{figure}[H]
     \begin{center}
-        \includegraphics[scale=.3]{images/example_mesh_visualizer_website.png}
+        \includegraphics[scale=0.5]{images/example_mesh_visualizer_website.png}
         \caption{Example Mesh Visualizer Website (Quelle: eigene Darstellung)}
         \label{abb:example_mesh_visualizer_website}
     \end{center}
@@ -1465,6 +1458,8 @@ Neben dem ELF-Header bestehen ELF-Dateien aus drei Teilen.
 \item Section Headers oder Sections (28)
 \item Data
 \end{itemize}
+
+\pagebreak
 
 Außerdem ist es gut zu wissen, dass ELF zwei sich ergänzende „Ansichten“ hat. Eine Benutzeroberfläche muss für den Linker verwendet werden, um die Ausführung zu ermöglichen (segments), die andere zum Kategorisieren von Anweisungen und Daten (sections). Je nach Ziel werden also die zugehörigen Headertypen verwendet.
 
