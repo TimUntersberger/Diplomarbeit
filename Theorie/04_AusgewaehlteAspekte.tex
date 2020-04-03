@@ -1407,6 +1407,8 @@ Aufgrund des erweiterbaren Designs von ELF-Dateien unterscheidet sich die Strukt
 \item Dateidaten
 \end{itemize}
 
+\pagebreak
+
 Mit dem Befehl readelf können wir uns die Struktur einer Datei ansehen und sie sieht ungefähr so aus:
 
 \begin{figure}[H]
@@ -1424,6 +1426,8 @@ Dieser ELF-Header ist obligatorisch. Es stellt sicher, dass Daten während der V
  
 \subsubsection{Class}
 Nach der ELF-Typdeklaration ist ein Class-feld definiert. Dieser Wert bestimmt die Architektur für die Datei. Es kann sich um eine 32-Bit- (= 01) oder 64-Bit- (= 02) Architektur handeln. Magic zeigt eine 02, die vom Befehl readelf als ELF64-Datei übersetzt wird, mit anderen Worten, eine ELF-Datei, die die 64-Bit-Architektur verwendet.
+
+\pagebreak
 
 \subsubsection{Data}
 Der nächste Teil ist das Data-Feld. Es kennt zwei Optionen: 01 für LSB (Least Significant Bit), auch als Little-Endian bekannt. Dann gibt es den Wert 02 für MSB (Most Significant Bit, Big-Endian). Dieser spezielle Wert hilft dabei, die verbleibenden Objekte in der Datei korrekt zu interpretieren. Dies ist wichtig, da verschiedene Prozessortypen unterschiedlich mit den eingehenden Anweisungen und Datenstrukturen umgehen. In diesem Fall wird LSB verwendet, was für Prozessoren vom Typ AMD64 üblich ist.
@@ -1458,8 +1462,6 @@ Neben dem ELF-Header bestehen ELF-Dateien aus drei Teilen.
 \item Section Headers oder Sections (28)
 \item Data
 \end{itemize}
-
-\pagebreak
 
 Außerdem ist es gut zu wissen, dass ELF zwei sich ergänzende „Ansichten“ hat. Eine Benutzeroberfläche muss für den Linker verwendet werden, um die Ausführung zu ermöglichen (segments), die andere zum Kategorisieren von Anweisungen und Daten (sections). Je nach Ziel werden also die zugehörigen Headertypen verwendet.
 
