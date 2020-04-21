@@ -27,6 +27,8 @@ static esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
         break;
     case MQTT_EVENT_BEFORE_CONNECT:
         break;
+    case MQTT_EVENT_ANY:
+        break;
     }
     return ESP_OK;
 }
@@ -51,7 +53,7 @@ void mqtt_publish_msg(mqtt_msg_t *msg)
     }
     mqtt_payload_t payload = {0};
 
-    memcpy(payload.values, msg->payload, MQTT_MESSAGE_PAYLOAD_SIZE);
+    memcpy(payload.value, msg->payload, MQTT_MESSAGE_PAYLOAD_SIZE);
     memcpy(payload.from, msg->from, 6);
 
     ESP_LOGI(TAG, "Publishing a message with topic '%s'", msg->topic);
