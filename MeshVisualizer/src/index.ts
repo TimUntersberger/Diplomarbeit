@@ -1,45 +1,80 @@
 import cytoscape from "cytoscape";
 import dagre from "cytoscape-dagre";
+import popper from "cytoscape-popper";
 import mqtt, { MqttClient } from "mqtt";
 
 cytoscape.use(dagre);
+cytoscape.use(popper);
 
 const layout = {
   name: "dagre",
   animate: true,
   padding: 100,
   spacingFactor: 2,
-  nodeSep: 120
+  nodeSep: 120,
 };
 
 const cy = cytoscape({
   container: document.getElementById("app"),
-  style: [
-    {
-      selector: "node",
-      style: {
-        label: "data(id)",
-        "background-color": "#45ba53"
-      }
-    },
-    {
-      selector: ".highlighted",
-      style: {
-        "line-color": "red"
-      }
-    }
-  ],
-  layout
+  layout,
 });
 
+// cy.on("mouseover", "node", function (event) {
+//   const node = event.target;
+//   if (node.position().y > 0) {
+//     const popper = node.popper({
+//       content: () => {
+//         let div = document.createElement("div");
+
+//         div.style.fontSize = "40px";
+
+//         div.innerHTML = "30 C";
+
+//         document.body.appendChild(div);
+
+//         return div;
+//       },
+//     });
+//     node.one("mouseout", () => {
+//       popper.destroy();
+//     });
+//   }
+// });
+
+let destroy;
+setInterval(() => {
+  if (destroy) destroy();
+  destroy = displayPopup(2, Date.now().toString());
+}, 2000);
+
+function displayPopup(id: string | number, text: string) {
+  const node = cy.getElementById(id);
+  const popper = node.popper({
+    content: () => {
+      let div = document.createElement("div");
+
+      div.style.fontSize = "40px";
+
+      div.innerHTML = text;
+
+      document.body.appendChild(div);
+
+      return div;
+    },
+  });
+  const destroy = () => popper.destroy();
+
+  return destroy;
+}
+
 function getEdgesInPath(from: String, to: String) {
-  const edges = cy.edges().map(ele => ele.data());
-  let edge = edges.find(e => e.target === from);
+  const edges = cy.edges().map((ele) => ele.data());
+  let edge = edges.find((e) => e.target === from);
 
   const result = [edge];
 
   while (edge.source !== to) {
-    edge = edges.find(e => e.target === edge.source);
+    edge = edges.find((e) => e.target === edge.source);
 
     result.push(edge);
   }
@@ -71,42 +106,42 @@ function onNodeAdd(nodeInfo: any) {
       {
         data: {
           group: "nodes",
-          id: nodeInfo.parent
+          id: nodeInfo.parent,
         },
-        grabbable: false
+        grabbable: false,
       },
       {
         data: {
           group: "nodes",
-          id: nodeInfo.mac
+          id: nodeInfo.mac,
         },
-        grabbable: false
+        grabbable: false,
       },
       {
         data: {
           group: "edges",
           id: `${nodeInfo.parent},${nodeInfo.mac}`,
           source: nodeInfo.parent,
-          target: nodeInfo.mac
-        }
-      }
+          target: nodeInfo.mac,
+        },
+      },
     ]);
   } else {
     cy.add([
       {
         data: {
           group: "nodes",
-          id: nodeInfo.mac
-        }
+          id: nodeInfo.mac,
+        },
       },
       {
         data: {
           group: "edges",
           id: `${nodeInfo.parent},${nodeInfo.mac}`,
           source: nodeInfo.parent,
-          target: nodeInfo.mac
-        }
-      }
+          target: nodeInfo.mac,
+        },
+      },
     ]);
   }
   cy.layout(layout).run();
@@ -140,7 +175,7 @@ function createMqttClient(url: string) {
 
 let mqttClient: MqttClient;
 
-document.getElementById("connectBtn").addEventListener("click", _ => {
+document.getElementById("connectBtn").addEventListener("click", (_) => {
   if (mqttClient) {
     mqttClient.end();
     cy.remove(cy.nodes());
